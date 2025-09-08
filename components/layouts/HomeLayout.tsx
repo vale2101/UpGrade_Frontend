@@ -13,7 +13,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       <footer className="bg-black text-gray-300 py-6 mt-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-4">
           <p className="text-sm">
-            © {new Date().getFullYear()} CleverCel. Todos los derechos reservados.
+            © {new Date().getFullYear()} UpGrade. Todos los derechos reservados.
           </p>
           <nav className="flex gap-4 text-sm">
             <a href="/politicas" className="hover:text-[#57ad63]">Políticas</a>

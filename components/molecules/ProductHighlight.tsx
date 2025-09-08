@@ -23,10 +23,10 @@ export default function ProductHighlight({ title, subtitle, price, cuotas }: Pro
         <p className="text-sm">{cuotas}</p>
       </div>
 
-      {/* Badge Clevercel */}
+      {/* Badge UpGrade */}
       <div className="mt-4">
         <span className="bg-[#57ad63] text-white px-3 py-1 rounded-full text-sm font-semibold">
-          Enamórate de un CLEVERCEL
+          Enamórate de un UPGRADE
         </span>
       </div>
     </div>

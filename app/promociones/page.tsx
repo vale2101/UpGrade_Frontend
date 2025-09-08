@@ -10,7 +10,7 @@ export default function PromotionsPage() {
     {
       id: "1",
       name: "Samsung Galaxy A05S",
-      image: "/api/placeholder/300/300",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       currentPrice: "$299.900",
       installments: 6,
       monthlyAmount: "$49.983",
@@ -19,7 +19,7 @@ export default function PromotionsPage() {
     {
       id: "2", 
       name: "Samsung Galaxy A13 (2022)",
-      image: "/api/placeholder/300/300",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       currentPrice: "$299.900",
       originalPrice: "$349.900",
       discount: "14%",
@@ -30,7 +30,7 @@ export default function PromotionsPage() {
     {
       id: "3",
       name: "iPad Mini 4 4ta Gen",
-      image: "/api/placeholder/300/300", 
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", 
       currentPrice: "$424.900",
       originalPrice: "$539.900",
       discount: "21%",
@@ -41,7 +41,7 @@ export default function PromotionsPage() {
     {
       id: "4",
       name: "Vivo Y22s",
-      image: "/api/placeholder/300/300",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       currentPrice: "$429.900", 
       originalPrice: "$479.900",
       discount: "10%",
@@ -52,7 +52,7 @@ export default function PromotionsPage() {
     {
       id: "5",
       name: "iPhone 13 Pro",
-      image: "/api/placeholder/300/300",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       currentPrice: "$1.299.900",
       originalPrice: "$1.499.900", 
       discount: "13%",
@@ -63,7 +63,7 @@ export default function PromotionsPage() {
     {
       id: "6",
       name: "Samsung Galaxy S22",
-      image: "/api/placeholder/300/300",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       currentPrice: "$899.900",
       originalPrice: "$1.099.900",
       discount: "18%", 
