@@ -1,6 +1,7 @@
 import Link from "next/link";
 import IconButton from "../atoms/IconButton";
-import { Mail, Search, User, ShoppingCart } from "lucide-react";
+import SearchBar from "./SearchBar";
+import { Mail, User, ShoppingCart } from "lucide-react";
 
 export default function ActionIcons() {
   return (
@@ -13,11 +14,7 @@ export default function ActionIcons() {
       </Link>
 
       {/* Search */}
-      <Link href="/buscar">
-        <IconButton>
-          <Search size={20} />
-        </IconButton>
-      </Link>
+      <SearchBar />
 
       {/* User */}
       <Link href="/login">

@@ -6,7 +6,7 @@ import ProductSection from "../organisms/ProductSection";
 const productosDemo = [
   {
     id: "1",
-    image: "/s24ultra.png",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "Samsung Galaxy S24 Ultra 5G",
     price: "Desde $3.599.900",
     oldPrice: "Antes $4.099.900",
@@ -16,7 +16,7 @@ const productosDemo = [
   },
   {
     id: "2",
-    image: "/zfold5.png",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "Samsung Galaxy Z Fold 5 (2024)",
     price: "Desde $3.599.900",
     oldPrice: "Antes $5.099.900",
@@ -26,7 +26,7 @@ const productosDemo = [
   },
   {
     id: "3",
-    image: "/s24plus.png",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "Samsung Galaxy S24 Plus 5G",
     price: "Desde $2.899.900",
     oldPrice: "Antes $3.599.900",
@@ -36,7 +36,7 @@ const productosDemo = [
   },
   {
     id: "4",
-    image: "/zfold4.png",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "Samsung Galaxy Z Fold 4 (2023)",
     price: "Desde $2.799.900",
     oldPrice: "Antes $4.299.900",
@@ -46,7 +46,7 @@ const productosDemo = [
   },
   {
     id: "5",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "iPhone 15 Pro Max",
     price: "Desde $4.299.900",
     oldPrice: "Antes $4.999.900",
@@ -56,7 +56,7 @@ const productosDemo = [
   },
   {
     id: "6",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "Samsung Galaxy A54 5G",
     price: "Desde $1.899.900",
     oldPrice: "Antes $2.299.900",
@@ -66,7 +66,7 @@ const productosDemo = [
   },
   {
     id: "7",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "iPad Air 5ta Gen",
     price: "Desde $2.499.900",
     oldPrice: "Antes $2.999.900",
@@ -76,7 +76,7 @@ const productosDemo = [
   },
   {
     id: "8",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     title: "MacBook Air M2",
     price: "Desde $3.999.900",
     oldPrice: "Antes $4.499.900",

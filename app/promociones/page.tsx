@@ -6,7 +6,9 @@ import FilterSidebar from "../../components/organisms/FilterSidebar";
 import ProductListing from "../../components/organisms/ProductListing";
 
 export default function PromotionsPage() {
-  const [products] = useState([
+  const [selectedCategory, setSelectedCategory] = useState("Samsung");
+  
+  const [allProducts] = useState([
     {
       id: "1",
       name: "Samsung Galaxy A05S",
@@ -14,7 +16,8 @@ export default function PromotionsPage() {
       currentPrice: "$299.900",
       installments: 6,
       monthlyAmount: "$49.983",
-      condition: "Como Nuevo" as const
+      condition: "Como Nuevo" as const,
+      category: "Samsung"
     },
     {
       id: "2", 
@@ -25,7 +28,8 @@ export default function PromotionsPage() {
       discount: "14%",
       installments: 6,
       monthlyAmount: "$49.983",
-      condition: "Outlet" as const
+      condition: "Outlet" as const,
+      category: "Samsung"
     },
     {
       id: "3",
@@ -36,7 +40,8 @@ export default function PromotionsPage() {
       discount: "21%",
       installments: 6,
       monthlyAmount: "$70.817",
-      condition: "Outlet" as const
+      condition: "Outlet" as const,
+      category: "iPad"
     },
     {
       id: "4",
@@ -47,7 +52,8 @@ export default function PromotionsPage() {
       discount: "10%",
       installments: 6,
       monthlyAmount: "$71.650",
-      condition: "Outlet" as const
+      condition: "Outlet" as const,
+      category: "Otras Marcas"
     },
     {
       id: "5",
@@ -58,7 +64,8 @@ export default function PromotionsPage() {
       discount: "13%",
       installments: 12,
       monthlyAmount: "$108.325",
-      condition: "Como Nuevo" as const
+      condition: "Como Nuevo" as const,
+      category: "iPhone"
     },
     {
       id: "6",
@@ -69,9 +76,39 @@ export default function PromotionsPage() {
       discount: "18%", 
       installments: 12,
       monthlyAmount: "$74.992",
-      condition: "Outlet" as const
+      condition: "Outlet" as const,
+      category: "Samsung"
+    },
+    {
+      id: "7",
+      name: "Apple Watch Series 8",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      currentPrice: "$799.900",
+      originalPrice: "$999.900",
+      discount: "20%",
+      installments: 6,
+      monthlyAmount: "$133.317",
+      condition: "Como Nuevo" as const,
+      category: "Apple Watch"
+    },
+    {
+      id: "8",
+      name: "iPhone 15 Pro Max",
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      currentPrice: "$1.599.900",
+      originalPrice: "$1.899.900",
+      discount: "16%",
+      installments: 12,
+      monthlyAmount: "$133.325",
+      condition: "Nuevo" as const,
+      category: "iPhone"
     }
   ]);
+
+  // Filtrar productos por categoría seleccionada
+  const filteredProducts = allProducts.filter(product => 
+    selectedCategory === "Todas" || product.category === selectedCategory
+  );
 
   const handleAddToCart = (productId: string) => {
     console.log(`Agregando producto ${productId} al carrito`);
@@ -85,26 +122,65 @@ export default function PromotionsPage() {
           {/* Barra de navegación de categorías */}
           <div className="bg-white rounded-lg shadow-md p-4 mb-6">
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors">
+              <button 
+                onClick={() => setSelectedCategory("Samsung")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "Samsung" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
                 Samsung
               </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
+              <button 
+                onClick={() => setSelectedCategory("iPhone")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "iPhone" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
                 iPhone
               </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
+              <button 
+                onClick={() => setSelectedCategory("Apple Watch")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "Apple Watch" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
                 Apple Watch
               </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
+              <button 
+                onClick={() => setSelectedCategory("iPad")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "iPad" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
                 iPad
               </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
+              <button 
+                onClick={() => setSelectedCategory("Otras Marcas")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "Otras Marcas" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
                 Otras Marcas
               </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
-                Sin IVA
-              </button>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
-                Saldos
+              <button 
+                onClick={() => setSelectedCategory("Todas")}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedCategory === "Todas" 
+                    ? "bg-black text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Todas
               </button>
             </div>
           </div>
@@ -113,7 +189,7 @@ export default function PromotionsPage() {
           <div className="flex gap-6">
             <FilterSidebar />
             <ProductListing 
-              products={products} 
+              products={filteredProducts} 
               onAddToCart={handleAddToCart}
             />
           </div>

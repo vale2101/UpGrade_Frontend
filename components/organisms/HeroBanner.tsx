@@ -6,7 +6,7 @@ export default function HeroBanner() {
     <section className="relative w-full h-[450px] bg-pink-700 flex items-center justify-center">
       {/* Fondo */}
       <Image
-        src="https://clevercel.co/JFrx5Wb/bg-banner.jpg"
+        src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
         alt="Banner background"
         fill
         className="object-cover opacity-60"
@@ -19,15 +19,6 @@ export default function HeroBanner() {
           PARA STALKEAR <br />
           <span className="text-yellow-400">SIN MIEDO NECESITAS EL</span>
         </div>
-
-        {/* Producto */}
-        <Image
-          src="https://clevercel.co/pZ5vN6L/s23.png"
-          alt="Samsung Galaxy S23 Plus"
-          width={250}
-          height={400}
-          className="drop-shadow-2xl"
-        />
 
         {/* Caja de precio */}
         <ProductHighlight

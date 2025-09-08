@@ -7,6 +7,10 @@ images: {
         protocol: "https",
         hostname: "clevercel.co",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };
