@@ -1,22 +1,34 @@
-import ProductCard from "../atoms/ProductCard";
+"use client";
 
-interface ProductGridProps {
-  products: {
-    image: string;
-    title: string;
-    price: string;
-    oldPrice?: string;
-    cuotas?: string;
-    tags?: string[];
-    discount?: string;
-  }[];
+import ProductCard from "./ProductCard";
+
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  currentPrice: string;
+  originalPrice?: string;
+  discount?: string;
+  installments: number;
+  monthlyAmount: string;
+  condition: "Nuevo" | "Como Nuevo" | "Outlet";
 }
 
-export default function ProductGrid({ products }: ProductGridProps) {
+interface ProductGridProps {
+  products: Product[];
+  onAddToCart?: (productId: string) => void;
+  className?: string;
+}
+
+export default function ProductGrid({ products, onAddToCart, className = "" }: ProductGridProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {products.map((product, idx) => (
-        <ProductCard key={idx} {...product} />
+    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${className}`}>
+      {products.map((product) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          onAddToCart={onAddToCart}
+        />
       ))}
     </div>
   );
