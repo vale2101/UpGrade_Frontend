@@ -3,11 +3,15 @@ import Image from "next/image";
 interface CategoryIconProps {
   src: string;
   label: string;
+  onClick?: () => void;
 }
 
-export default function CategoryIcon({ src, label }: CategoryIconProps) {
+export default function CategoryIcon({ src, label, onClick }: CategoryIconProps) {
   return (
-    <div className="flex flex-col items-center cursor-pointer hover:scale-105 transition">
+    <div 
+      className="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+      onClick={onClick}
+    >
       <div className="w-16 h-16 flex items-center justify-center">
         <Image
           src={src}

@@ -17,6 +17,7 @@ interface ProductSectionProps {
   showFilter?: boolean;
   showAll?: boolean;
   onToggleShowAll?: () => void;
+  onProductClick?: (productId: string) => void;
 }
 
 export default function ProductSection({
@@ -25,11 +26,12 @@ export default function ProductSection({
   showFilter = true,
   showAll = false,
   onToggleShowAll,
+  onProductClick,
 }: ProductSectionProps) {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       {/* Grid de productos */}
-      <ProductGrid products={products} />
+      <ProductGrid products={products} onProductClick={onProductClick} />
 
       {/* Botón Ver todos */}
       <div className="flex justify-center mt-10">

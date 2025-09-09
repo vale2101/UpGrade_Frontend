@@ -22,12 +22,24 @@ interface Product {
 interface ProductCardProps {
   product: Product;
   onAddToCart?: (productId: string) => void;
+  onProductClick?: (productId: string) => void;
   className?: string;
 }
 
-export default function ProductCard({ product, onAddToCart, className = "" }: ProductCardProps) {
+export default function ProductCard({ product, onAddToCart, onProductClick, className = "" }: ProductCardProps) {
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Evitar que se active cuando se hace clic en el botón de agregar al carrito
+    if ((e.target as HTMLElement).closest('[data-add-to-cart]')) {
+      return;
+    }
+    onProductClick?.(product.id);
+  };
+
   return (
-    <div className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 relative ${className}`}>
+    <div 
+      className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 relative cursor-pointer ${className}`}
+      onClick={handleCardClick}
+    >
       <AddToCartButton onClick={() => onAddToCart?.(product.id)} />
       
       <ProductImage 

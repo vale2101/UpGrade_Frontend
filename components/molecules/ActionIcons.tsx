@@ -1,13 +1,18 @@
+"use client";
 import Link from "next/link";
 import IconButton from "../atoms/IconButton";
 import SearchBar from "./SearchBar";
 import { Mail, User, ShoppingCart } from "lucide-react";
+import { useCart } from "../../contexts/CartContext";
 
 export default function ActionIcons() {
+  const { getTotalItems } = useCart();
+  const totalItems = getTotalItems();
+
   return (
     <div className="flex items-center gap-4">
       {/* Mail */}
-      <Link href="/contacto">
+      <Link href="/ayuda">
         <IconButton>
           <Mail size={20} />
         </IconButton>
@@ -30,9 +35,11 @@ export default function ActionIcons() {
             <ShoppingCart size={20} />
           </IconButton>
         </Link>
-        <span className="absolute -top-2 -right-2 bg-white text-black text-xs rounded-full px-1">
-          0
-        </span>
+        {totalItems > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+            {totalItems > 99 ? '99+' : totalItems}
+          </span>
+        )}
       </div>
     </div>
   );

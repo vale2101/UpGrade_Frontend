@@ -9,8 +9,8 @@ interface Product {
   currentPrice: string;
   originalPrice?: string;
   discount?: string;
-  installments: number;
-  monthlyAmount: string;
+  installments?: number;
+  monthlyAmount?: string;
   condition: "Nuevo" | "Como Nuevo" | "Outlet";
 }
 
