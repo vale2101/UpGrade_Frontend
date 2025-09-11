@@ -1,15 +1,31 @@
-"use client";
-import { useCategory } from "../../contexts/CategoryContext";
+import React from 'react';
+import CategoryButton from '../atoms/CategoryButton';
+import { getAllCategories } from '../../db/data';
 
-export default function CategoryTabs() {
-  const { selectedCategory } = useCategory();
+interface CategoryTabsProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+  className?: string;
+}
+
+export default function CategoryTabs({ 
+  selectedCategory, 
+  onCategoryChange,
+  className = ""
+}: CategoryTabsProps) {
+  const categories = getAllCategories();
 
   return (
-    <div className="w-full flex flex-col items-center py-8">
-      <h2 className="text-lg font-bold tracking-wide mb-6">PRODUCTOS</h2>
-      <p className="text-sm text-gray-600 mb-4">
-        Categoría: {selectedCategory}
-      </p>
+    <div className={`flex flex-wrap gap-4 justify-center ${className}`}>
+      {categories.map((category) => (
+        <CategoryButton
+          key={category.id}
+          isActive={selectedCategory === category.name}
+          onClick={() => onCategoryChange(category.name)}
+        >
+          {category.name}
+        </CategoryButton>
+      ))}
     </div>
   );
 }

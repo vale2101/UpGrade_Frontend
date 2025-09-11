@@ -4,25 +4,10 @@ import InfoCard from "../molecules/InfoCard";
 import FeatureGrid from "../molecules/FeatureGrid";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
+import { getAboutFeatures } from "../../db/data";
 
 export default function AboutSection() {
-  const features = [
-    {
-      title: "Experiencia",
-      description: "Más de 10 años en el mercado de reparación y venta de equipos tecnológicos.",
-      icon: "🔧"
-    },
-    {
-      title: "Calidad",
-      description: "Garantizamos la mejor calidad en todos nuestros servicios y productos.",
-      icon: "⭐"
-    },
-    {
-      title: "Confianza",
-      description: "Miles de clientes satisfechos respaldan nuestro trabajo.",
-      icon: "🤝"
-    }
-  ];
+  const features = getAboutFeatures();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

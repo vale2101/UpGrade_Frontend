@@ -2,13 +2,14 @@ import ProductGrid from "../molecules/ProductGrid";
 
 interface Product {
   id: string;
+  name: string;
   image: string;
-  title: string;
-  price: string;
-  oldPrice?: string;
-  cuotas: string;
-  tags: string[];
+  currentPrice: string;
+  originalPrice?: string;
   discount?: string;
+  installments: number;
+  monthlyAmount: string;
+  condition: "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo";
 }
 
 interface ProductSectionProps {
@@ -18,6 +19,7 @@ interface ProductSectionProps {
   showAll?: boolean;
   onToggleShowAll?: () => void;
   onProductClick?: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
 }
 
 export default function ProductSection({
@@ -27,11 +29,16 @@ export default function ProductSection({
   showAll = false,
   onToggleShowAll,
   onProductClick,
+  onAddToCart,
 }: ProductSectionProps) {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       {/* Grid de productos */}
-      <ProductGrid products={products} onProductClick={onProductClick} />
+      <ProductGrid 
+        products={products} 
+        onProductClick={onProductClick} 
+        onAddToCart={onAddToCart}
+      />
 
       {/* Botón Ver todos */}
       <div className="flex justify-center mt-10">

@@ -4,63 +4,11 @@ import FeatureCard from "../atoms/FeatureCard";
 import ContactForm from "../molecules/ContactForm";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
+import { getHelpServices, getContactInfo } from "../../db/data";
 
 export default function HelpSection() {
-  const helpServices = [
-    {
-      title: "Soporte Técnico",
-      description: "Asistencia técnica especializada para resolver cualquier problema con tus dispositivos.",
-      icon: "🔧"
-    },
-    {
-      title: "Consultoría",
-      description: "Te ayudamos a elegir la mejor opción tecnológica según tus necesidades.",
-      icon: "💡"
-    },
-    {
-      title: "Instalación",
-      description: "Servicio de instalación y configuración de software y hardware.",
-      icon: "⚙️"
-    },
-    {
-      title: "Capacitación",
-      description: "Te enseñamos a usar tus dispositivos de manera eficiente y segura.",
-      icon: "📚"
-    },
-    {
-      title: "Mantenimiento",
-      description: "Programas de mantenimiento preventivo para mantener tus equipos en óptimas condiciones.",
-      icon: "🔍"
-    },
-    {
-      title: "Recuperación de Datos",
-      description: "Recuperamos información perdida de discos duros, memorias y otros dispositivos.",
-      icon: "💾"
-    }
-  ];
-
-  const contactInfo = [
-    {
-      title: "Teléfono",
-      description: "+1 (555) 123-4567",
-      icon: "📞"
-    },
-    {
-      title: "Email",
-      description: "ayuda@upgrade.com",
-      icon: "📧"
-    },
-    {
-      title: "WhatsApp",
-      description: "+1 (555) 987-6543",
-      icon: "💬"
-    },
-    {
-      title: "Horarios",
-      description: "Lun-Vie: 8:00-18:00, Sáb: 9:00-15:00",
-      icon: "🕒"
-    }
-  ];
+  const helpServices = getHelpServices();
+  const contactInfo = getContactInfo();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

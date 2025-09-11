@@ -1,27 +1,23 @@
 "use client";
-import { useRouter } from "next/navigation";
 import CategoryIcon from "../atoms/CategoryIcon";
 import { useCategory } from "../../contexts/CategoryContext";
 
 const categories = [
-  { src: "https://clevercel.co/cdn/shop/files/menu-samsung.png", label: "Samsung", slug: "samsung" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-iphone.png", label: "iPhone", slug: "iphone" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-watch.png", label: "Apple Watch", slug: "apple-watch" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-ipad.png", label: "iPad", slug: "ipad" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-huawei.png", label: "Otras Marcas", slug: "otras-marcas" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-promociones.png", label: "Sin IVA", slug: "sin-iva" },
-  { src: "https://clevercel.co/cdn/shop/files/Icono_menu_full_saldos.png", label: "Saldos", slug: "saldos" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-samsung.png", label: "Samsung" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-iphone.png", label: "iPhone" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-watch.png", label: "Apple Watch" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-ipad.png", label: "iPad" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-huawei.png", label: "Otras Marcas" },
+  { src: "https://clevercel.co/cdn/shop/files/menu-promociones.png", label: "Sin IVA" },
+  { src: "https://clevercel.co/cdn/shop/files/Icono_menu_full_saldos.png", label: "Saldos" },
 ];
 
 export default function CategoryMenu() {
-  const router = useRouter();
   const { setSelectedCategory } = useCategory();
 
-  const handleCategoryClick = (category: string, slug: string) => {
-    // Actualizar la categoría seleccionada en el contexto
+  const handleCategoryClick = (category: string) => {
+    
     setSelectedCategory(category);
-    // Navegar a la página de la categoría
-    router.push(`/categoria/${slug}`);
   };
 
   return (
@@ -32,7 +28,7 @@ export default function CategoryMenu() {
             key={c.label} 
             src={c.src} 
             label={c.label}
-            onClick={() => handleCategoryClick(c.label, c.slug)}
+            onClick={() => handleCategoryClick(c.label)}
           />
         ))}
       </div>

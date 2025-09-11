@@ -1,32 +1,15 @@
 import { useMemo } from 'react';
 import { useFilter } from '../contexts/FilterContext';
-
-export interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet";
-  category: string;
-  capacity?: string;
-  color?: string;
-  brand?: string;
-  type?: string;
-  availability?: string;
-  installments?: number;
-  monthlyAmount?: string;
-}
+import { Product } from '../db/data';
 
 export function useProductFilter<T extends Product>(products: T[]): T[] {
   const { filters } = useFilter();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
-      // Filtro por disponibilidad
+      // Filtro por disponibilidad (usando condition como proxy)
       if (filters.disponibilidad.length > 0) {
-        const productAvailability = product.availability || 'En stock';
+        const productAvailability = product.condition === 'Nuevo' ? 'En stock' : 'Disponible';
         if (!filters.disponibilidad.includes(productAvailability)) {
           return false;
         }
@@ -34,7 +17,7 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
 
       // Filtro por tipo de producto
       if (filters.tipo.length > 0) {
-        const productType = product.type || getProductTypeFromName(product.name);
+        const productType = getProductTypeFromName(product.name);
         if (!filters.tipo.includes(productType)) {
           return false;
         }
@@ -42,7 +25,7 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
 
       // Filtro por marca
       if (filters.marca.length > 0) {
-        const productBrand = product.brand || getBrandFromName(product.name);
+        const productBrand = getBrandFromName(product.name);
         if (!filters.marca.includes(productBrand)) {
           return false;
         }

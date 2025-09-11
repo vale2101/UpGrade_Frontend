@@ -2,12 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
+import SearchSection from "./SearchSection";
+import { getSearchSections } from "../../db/data";
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
+  const searchSections = getSearchSections();
 
   const toggleSearchBar = () => {
     setIsOpen(!isOpen);
@@ -15,10 +18,8 @@ export default function SearchBar() {
 
   const handleSearch = (query: string) => {
     if (query.trim()) {
-      console.log("Buscando:", query);
       setSearchQuery(query);
-      // Implement actual search logic here
-      setIsOpen(false); // Close after search
+      setIsOpen(false); 
     }
   };
 
@@ -34,7 +35,7 @@ export default function SearchBar() {
     }
   }, [isOpen]);
 
-  // Close search bar when clicking outside
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchBarRef.current && !searchBarRef.current.contains(event.target as Node)) {
@@ -47,7 +48,7 @@ export default function SearchBar() {
     };
   }, []);
 
-  // Prevent body scroll when overlay is open
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -98,102 +99,14 @@ export default function SearchBar() {
 
               {/* Content */}
               <div className="flex-1 overflow-y-auto p-6">
-                {/* INICIO */}
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-4">INICIO</h3>
-                  <div className="space-y-2">
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Inicio
-                    </button>
-                  </div>
-                </div>
-
-                {/* PRODUCTOS */}
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-4">PRODUCTOS</h3>
-                  <div className="space-y-2">
-                    <button onClick={() => handleSearch("Samsung Galaxy S24")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Samsung Gama S24
-                    </button>
-                    <button onClick={() => handleSearch("Samsung Galaxy S23")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Samsung Gama S23
-                    </button>
-                    <button onClick={() => handleSearch("Samsung Galaxy S22")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Samsung Gama S22
-                    </button>
-                    <button onClick={() => handleSearch("Samsung Galaxy Z")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Samsung Galaxy Z
-                    </button>
-                    <button onClick={() => handleSearch("Samsung Galaxy A")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Samsung Galaxy A y M
-                    </button>
-                    <button onClick={() => handleSearch("Apple Watch")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Apple Watch
-                    </button>
-                    <button onClick={() => handleSearch("iPhone 15")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPhone Familia 15
-                    </button>
-                    <button onClick={() => handleSearch("iPhone 14")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPhone Familia 14
-                    </button>
-                    <button onClick={() => handleSearch("iPhone 13")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPhone Familia 13
-                    </button>
-                    <button onClick={() => handleSearch("iPhone 12")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPhone Familia 12
-                    </button>
-                    <button onClick={() => handleSearch("iPhone 11")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPhone Familia 11
-                    </button>
-                    <button onClick={() => handleSearch("Tablets Samsung")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Tablets Samsung
-                    </button>
-                    <button onClick={() => handleSearch("Otras marcas")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Otras marcas
-                    </button>
-                    <button onClick={() => handleSearch("Promociones")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Promociones
-                    </button>
-                    <button onClick={() => handleSearch("Sin IVA")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Sin IVA
-                    </button>
-                    <button onClick={() => handleSearch("iPad")} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      iPad
-                    </button>
-                  </div>
-                </div>
-
-                {/* BENEFICIO DE 30 DÍAS */}
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-4">BENEFICIO DE 30 DÍAS</h3>
-                  <div className="space-y-2">
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Garantía de 30 días
-                    </button>
-                  </div>
-                </div>
-
-                {/* QUIÉNES SOMOS */}
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-4">QUIÉNES SOMOS</h3>
-                  <div className="space-y-2">
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Categorías
-                    </button>
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Calidad
-                    </button>
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Garantía
-                    </button>
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Métodos de pago
-                    </button>
-                    <button className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900">
-                      Medio ambiente
-                    </button>
-                  </div>
-                </div>
+                {searchSections.map((section, index) => (
+                  <SearchSection
+                    key={index}
+                    title={section.title}
+                    items={section.items}
+                    onSearch={handleSearch}
+                  />
+                ))}
               </div>
             </div>
           </div>

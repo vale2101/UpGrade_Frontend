@@ -3,63 +3,11 @@ import SectionDescription from "../atoms/SectionDescription";
 import FeatureCard from "../atoms/FeatureCard";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
+import { getRepairServices, getRepairProcess } from "../../db/data";
 
 export default function RepairsSection() {
-  const repairServices = [
-    {
-      title: "Laptops",
-      description: "Reparación de pantallas, teclados, baterías, puertos USB y problemas de software.",
-      icon: "💻"
-    },
-    {
-      title: "Smartphones",
-      description: "Cambio de pantallas, baterías, módulos de cámara y reparación de software.",
-      icon: "📱"
-    },
-    {
-      title: "Tablets",
-      description: "Reparación de pantallas táctiles, conectores de carga y problemas de rendimiento.",
-      icon: "📱"
-    },
-    {
-      title: "PCs de Escritorio",
-      description: "Reparación de motherboards, fuentes de poder, discos duros y tarjetas gráficas.",
-      icon: "🖥️"
-    },
-    {
-      title: "Consolas de Videojuegos",
-      description: "Reparación de PlayStation, Xbox, Nintendo Switch y accesorios gaming.",
-      icon: "🎮"
-    },
-    {
-      title: "Impresoras",
-      description: "Mantenimiento, reparación de cabezales, alimentadores y problemas de conectividad.",
-      icon: "🖨️"
-    }
-  ];
-
-  const repairProcess = [
-    {
-      title: "Recibido",
-      description: "Tu dispositivo ha sido recibido y registrado en nuestro sistema.",
-      icon: "📥"
-    },
-    {
-      title: "Revisión",
-      description: "Nuestros técnicos están evaluando el problema y preparando el presupuesto.",
-      icon: "🔍"
-    },
-    {
-      title: "Reparación",
-      description: "Realizamos la reparación con piezas originales y técnicas especializadas.",
-      icon: "🔧"
-    },
-    {
-      title: "Reparado",
-      description: "Tu dispositivo está listo y ha pasado todas las pruebas de calidad.",
-      icon: "✅"
-    }
-  ];
+  const repairServices = getRepairServices();
+  const repairProcess = getRepairProcess();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

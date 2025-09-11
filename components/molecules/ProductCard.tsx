@@ -6,18 +6,7 @@ import ProductPrice from "../atoms/ProductPrice";
 import InstallmentPlan from "../atoms/InstallmentPlan";
 import ConditionBadge from "../atoms/ConditionBadge";
 import AddToCartButton from "../atoms/AddToCartButton";
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments: number;
-  monthlyAmount: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet";
-}
+import { Product } from "../../db/data";
 
 interface ProductCardProps {
   product: Product;
@@ -56,10 +45,12 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
         discount={product.discount}
       />
       
-      <InstallmentPlan
-        installments={product.installments}
-        monthlyAmount={product.monthlyAmount}
-      />
+      {product.installments && product.monthlyAmount && (
+        <InstallmentPlan
+          installments={product.installments}
+          monthlyAmount={product.monthlyAmount}
+        />
+      )}
       
       <div className="flex justify-center">
         <ConditionBadge condition={product.condition} />

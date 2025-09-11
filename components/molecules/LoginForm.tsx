@@ -8,13 +8,25 @@ export default function LoginForm() {
       <form className="space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
-          <InputField type="email" placeholder="Ingresa tu correo" />
+          <InputField 
+            type="email" 
+            placeholder="Ingresa tu correo" 
+            name="email"
+            required
+          />
         </div>
         <div>
           <label className="text-sm font-medium text-gray-700">Contraseña</label>
-          <InputField type="password" placeholder="Ingresa tu contraseña" />
+          <InputField 
+            type="password" 
+            placeholder="Ingresa tu contraseña" 
+            name="password"
+            required
+          />
         </div>
-        <Button label="Iniciar Sesión" />
+        <Button type="submit" fullWidth>
+          Iniciar Sesión
+        </Button>
       </form>
 
       {/* Enlaces adicionales */}

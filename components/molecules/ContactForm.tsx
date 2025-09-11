@@ -24,7 +24,7 @@ export default function ContactForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí puedes agregar la lógica para enviar el formulario
-    console.log("Datos del formulario:", formData);
+    // Aquí se procesarían los datos del formulario
     alert("¡Gracias por tu consulta! Te contactaremos pronto.");
     
     // Limpiar el formulario

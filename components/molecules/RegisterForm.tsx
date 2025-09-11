@@ -8,21 +8,43 @@ export default function RegisterForm() {
       <form className="space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Nombre completo</label>
-          <InputField type="text" placeholder="Ingresa tu nombre completo" />
+          <InputField 
+            type="text" 
+            placeholder="Ingresa tu nombre completo" 
+            name="fullName"
+            required
+          />
         </div>
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
-          <InputField type="email" placeholder="Ingresa tu correo" />
+          <InputField 
+            type="email" 
+            placeholder="Ingresa tu correo" 
+            name="email"
+            required
+          />
         </div>
         <div>
           <label className="text-sm font-medium text-gray-700">Contraseña</label>
-          <InputField type="password" placeholder="Ingresa tu contraseña" />
+          <InputField 
+            type="password" 
+            placeholder="Ingresa tu contraseña" 
+            name="password"
+            required
+          />
         </div>
         <div>
-          <label className="text-sm font-medium text-gray-700">Confirmar contraseña</label>
-          <InputField type="password" placeholder="Confirma tu contraseña" />
+          <label className="text-sm font-medium text-gray-700">Teléfono</label>
+          <InputField 
+            type="tel" 
+            placeholder="Ingresa tu número de teléfono" 
+            name="phone"
+            required
+          />
         </div>
-        <Button label="Registrarse" />
+        <Button type="submit" fullWidth>
+          Registrarse
+        </Button>
       </form>
 
       {/* Enlaces adicionales */}

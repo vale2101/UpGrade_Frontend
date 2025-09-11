@@ -1,5 +1,5 @@
 interface ConditionBadgeProps {
-  condition: "Nuevo" | "Como Nuevo" | "Outlet";
+  condition: "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo";
   className?: string;
 }
 
@@ -10,6 +10,8 @@ export default function ConditionBadge({ condition, className = "" }: ConditionB
         return "bg-blue-500 text-white";
       case "Como Nuevo":
         return "bg-pink-500 text-white";
+      case "Semi Nuevo":
+        return "bg-purple-500 text-white";
       case "Outlet":
         return "bg-green-500 text-white";
       default:

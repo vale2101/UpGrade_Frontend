@@ -4,234 +4,7 @@ import { useState } from "react";
 import HomeLayout from "../../../components/layouts/HomeLayout";
 import BackToHomeButton from "../../../components/atoms/BackToHomeButton";
 import { useCart } from "../../../contexts/CartContext";
-
-// Datos de productos (en un proyecto real vendrían de una API)
-const productos = {
-  "1": {
-    id: "1",
-    name: "Samsung Galaxy A05S",
-    brand: "SAMSUNG",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$299.900",
-    originalPrice: "$349.900",
-    discount: "14%",
-    installments: 6,
-    monthlyAmount: "$49.983",
-    condition: "Como Nuevo",
-    category: "Samsung",
-    capacity: ["64GB", "128GB"],
-    colors: ["Gray", "White", "Green"],
-    description: "El Samsung Galaxy A05S es un smartphone confiable con características esenciales y rendimiento sólido.",
-    features: [
-      "Pantalla HD+ de 6.7 pulgadas",
-      "Procesador MediaTek Helio G85",
-      "Cámara triple de 50MP",
-      "Batería de 5000mAh",
-      "Android 13"
-    ]
-  },
-  "2": {
-    id: "2",
-    name: "Samsung Galaxy A13 (2022)",
-    brand: "SAMSUNG",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$299.900",
-    originalPrice: "$349.900",
-    discount: "14%",
-    installments: 6,
-    monthlyAmount: "$49.983",
-    condition: "Outlet",
-    category: "Samsung",
-    capacity: ["64GB", "128GB"],
-    colors: ["Black", "White", "Blue"],
-    description: "El Samsung Galaxy A13 ofrece un excelente equilibrio entre rendimiento y precio.",
-    features: [
-      "Pantalla HD+ de 6.6 pulgadas",
-      "Procesador Exynos 850",
-      "Cámara cuádruple de 50MP",
-      "Batería de 5000mAh",
-      "Android 12"
-    ]
-  },
-  "3": {
-    id: "3",
-    name: "iPad Mini 4 4ta Gen",
-    brand: "APPLE",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$424.900",
-    originalPrice: "$539.900",
-    discount: "21%",
-    installments: 6,
-    monthlyAmount: "$70.817",
-    condition: "Outlet",
-    category: "iPad",
-    capacity: ["64GB", "128GB", "256GB"],
-    colors: ["Space Gray", "Silver", "Gold"],
-    description: "El iPad Mini 4ta Gen combina portabilidad y potencia en un diseño compacto.",
-    features: [
-      "Pantalla Liquid Retina de 8.3 pulgadas",
-      "Chip A15 Bionic",
-      "Cámara trasera de 12MP",
-      "Cámara frontal de 12MP",
-      "Touch ID"
-    ]
-  },
-  "4": {
-    id: "4",
-    name: "Vivo Y22s",
-    brand: "VIVO",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$429.900",
-    originalPrice: "$479.900",
-    discount: "10%",
-    installments: 6,
-    monthlyAmount: "$71.650",
-    condition: "Outlet",
-    category: "Otras Marcas",
-    capacity: ["128GB"],
-    colors: ["Black", "White", "Blue"],
-    description: "El Vivo Y22s ofrece características premium a un precio accesible.",
-    features: [
-      "Pantalla HD+ de 6.55 pulgadas",
-      "Procesador Snapdragon 680",
-      "Cámara dual de 50MP",
-      "Batería de 5000mAh",
-      "Android 12"
-    ]
-  },
-  "5": {
-    id: "5",
-    name: "iPhone 13 Pro",
-    brand: "APPLE",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$1.299.900",
-    originalPrice: "$1.499.900",
-    discount: "13%",
-    installments: 12,
-    monthlyAmount: "$108.325",
-    condition: "Como Nuevo",
-    category: "iPhone",
-    capacity: ["128GB", "256GB", "512GB", "1TB"],
-    colors: ["Graphite", "Gold", "Silver", "Sierra Blue"],
-    description: "El iPhone 13 Pro ofrece rendimiento profesional con el chip A15 Bionic.",
-    features: [
-      "Pantalla Super Retina XDR de 6.1 pulgadas",
-      "Chip A15 Bionic",
-      "Sistema de cámara Pro de 12MP",
-      "Batería de hasta 22 horas de video",
-      "Resistente al agua IP68"
-    ]
-  },
-  "6": {
-    id: "6",
-    name: "Samsung Galaxy S22",
-    brand: "SAMSUNG",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$899.900",
-    originalPrice: "$1.099.900",
-    discount: "18%",
-    installments: 12,
-    monthlyAmount: "$74.992",
-    condition: "Outlet",
-    category: "Samsung",
-    capacity: ["128GB", "256GB"],
-    colors: ["Phantom Black", "Phantom White", "Green", "Pink Gold"],
-    description: "El Samsung Galaxy S22 combina diseño elegante con rendimiento excepcional.",
-    features: [
-      "Pantalla Dynamic AMOLED 2X de 6.1 pulgadas",
-      "Procesador Snapdragon 8 Gen 1",
-      "Cámara triple de 50MP",
-      "Batería de 3700mAh",
-      "Resistente al agua IP68"
-    ]
-  },
-  "7": {
-    id: "7",
-    name: "Apple Watch Series 8",
-    brand: "APPLE",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$799.900",
-    originalPrice: "$999.900",
-    discount: "20%",
-    installments: 6,
-    monthlyAmount: "$133.317",
-    condition: "Como Nuevo",
-    category: "Apple Watch",
-    capacity: ["41mm", "45mm"],
-    colors: ["Midnight", "Starlight", "Silver", "Gold"],
-    description: "El Apple Watch Series 8 es el reloj inteligente más avanzado de Apple.",
-    features: [
-      "Pantalla Always-On Retina",
-      "Chip S8",
-      "Detección de caídas",
-      "Resistente al agua hasta 50 metros",
-      "Hasta 18 horas de batería"
-    ]
-  },
-  "8": {
-    id: "8",
-    name: "iPhone 15 Pro Max",
-    brand: "APPLE",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-    ],
-    currentPrice: "$1.599.900",
-    originalPrice: "$1.899.900",
-    discount: "16%",
-    installments: 12,
-    monthlyAmount: "$133.325",
-    condition: "Nuevo",
-    category: "iPhone",
-    capacity: ["256GB", "512GB", "1TB"],
-    colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
-    description: "El iPhone 15 Pro Max es el smartphone más avanzado de Apple con el chip A17 Pro.",
-    features: [
-      "Pantalla Super Retina XDR de 6.7 pulgadas",
-      "Chip A17 Pro",
-      "Sistema de cámara Pro de 48MP",
-      "Batería de hasta 29 horas de video",
-      "Resistente al agua IP68"
-    ]
-  }
-};
+import { getProductDetail } from "../../../db/data";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -244,7 +17,8 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  const product = productos[productId as keyof typeof productos];
+  // Obtener producto desde la base de datos centralizada
+  const product = getProductDetail(productId);
 
   if (!product) {
     return (
@@ -295,28 +69,30 @@ export default function ProductDetailPage() {
               <div className="space-y-4">
                 <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                   <img
-                    src={product.images[selectedImage]}
+                    src={product.images?.[selectedImage] || product.image}
                     alt={product.name}
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="flex space-x-2">
-                  {product.images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`w-16 h-16 rounded-lg overflow-hidden border-2 ${
-                        selectedImage === index ? 'border-black' : 'border-gray-200'
-                      }`}
-                    >
-                      <img
-                        src={image}
-                        alt={`${product.name} ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
+                {product.images && product.images.length > 1 && (
+                  <div className="flex space-x-2">
+                    {product.images.map((image, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImage(index)}
+                        className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
+                          selectedImage === index ? 'border-black' : 'border-gray-200 hover:border-gray-400'
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt={`${product.name} ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="flex items-center justify-center text-gray-500">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
@@ -422,59 +198,63 @@ export default function ProductDetailPage() {
                   </div>
 
                   {/* Capacidad */}
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">
-                      Capacidad: {selectedCapacity}
-                    </label>
-                    <div className="flex space-x-2">
-                      {product.capacity.map((cap) => (
-                        <button
-                          key={cap}
-                          onClick={() => setSelectedCapacity(cap)}
-                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                            selectedCapacity === cap
-                              ? 'bg-black text-white'
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                        >
-                          {cap}
-                        </button>
-                      ))}
+                  {product.capacity && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Capacidad: {selectedCapacity}
+                      </label>
+                      <div className="flex space-x-2">
+                        {(Array.isArray(product.capacity) ? product.capacity : [product.capacity]).map((cap) => (
+                          <button
+                            key={cap}
+                            onClick={() => setSelectedCapacity(cap)}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                              selectedCapacity === cap
+                                ? 'bg-black text-white'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                          >
+                            {cap}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Color */}
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">
-                      Color: {selectedColor}
-                    </label>
-                    <div className="flex space-x-2">
-                      {product.colors.map((color) => (
-                        <button
-                          key={color}
-                          onClick={() => setSelectedColor(color)}
-                          className={`w-8 h-8 rounded-full border-2 ${
-                            selectedColor === color
-                              ? 'border-black'
-                              : 'border-gray-300'
-                          }`}
-                          style={{
-                            backgroundColor: color === 'Gray' ? '#6B7280' :
-                                           color === 'White' ? '#FFFFFF' :
-                                           color === 'Green' ? '#10B981' :
-                                           color === 'Beige' ? '#F3E8FF' :
-                                           color === 'Purple' ? '#8B5CF6' :
-                                           color === 'Black' ? '#000000' :
-                                           color === 'Blue' ? '#3B82F6' :
-                                           color === 'Natural Titanium' ? '#D1D5DB' :
-                                           color === 'Blue Titanium' ? '#60A5FA' :
-                                           color === 'White Titanium' ? '#F9FAFB' :
-                                           color === 'Black Titanium' ? '#374151' : '#6B7280'
-                          }}
-                        />
-                      ))}
+                  {product.color && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Color: {selectedColor}
+                      </label>
+                      <div className="flex space-x-2">
+                        {(Array.isArray(product.color) ? product.color : [product.color]).map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => setSelectedColor(color)}
+                            className={`w-8 h-8 rounded-full border-2 transition-colors ${
+                              selectedColor === color
+                                ? 'border-black'
+                                : 'border-gray-300 hover:border-gray-400'
+                            }`}
+                            style={{
+                              backgroundColor: color === 'Gray' ? '#6B7280' :
+                                             color === 'White' ? '#FFFFFF' :
+                                             color === 'Green' ? '#10B981' :
+                                             color === 'Beige' ? '#F3E8FF' :
+                                             color === 'Purple' ? '#8B5CF6' :
+                                             color === 'Black' ? '#000000' :
+                                             color === 'Blue' ? '#3B82F6' :
+                                             color === 'Natural Titanium' ? '#D1D5DB' :
+                                             color === 'Blue Titanium' ? '#60A5FA' :
+                                             color === 'White Titanium' ? '#F9FAFB' :
+                                             color === 'Black Titanium' ? '#374151' : '#6B7280'
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Descripción */}
@@ -484,17 +264,19 @@ export default function ProductDetailPage() {
                 </div>
 
                 {/* Características */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Características principales</h3>
-                  <ul className="space-y-1">
-                    {product.features.map((feature, index) => (
-                      <li key={index} className="text-sm text-gray-600 flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {product.features && product.features.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Características principales</h3>
+                    <ul className="space-y-1">
+                      {product.features.map((feature, index) => (
+                        <li key={index} className="text-sm text-gray-600 flex items-start">
+                          <span className="text-green-500 mr-2">•</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -3,40 +3,10 @@ import SectionDescription from "../atoms/SectionDescription";
 import FeatureCard from "../atoms/FeatureCard";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
+import { getPaymentMethods } from "../../db/data";
 
 export default function PaymentMethodsSection() {
-  const paymentMethods = [
-    {
-      title: "Tarjeta de Crédito/Débito",
-      description: "Aceptamos todas las tarjetas principales: Visa, Mastercard, American Express",
-      icon: "💳"
-    },
-    {
-      title: "Transferencia Bancaria",
-      description: "Pago directo desde tu cuenta bancaria con descuento especial",
-      icon: "🏦"
-    },
-    {
-      title: "Efectivo",
-      description: "Pago en efectivo en nuestras tiendas físicas",
-      icon: "💰"
-    },
-    {
-      title: "PayPal",
-      description: "Pago seguro a través de PayPal",
-      icon: "🔒"
-    },
-    {
-      title: "Criptomonedas",
-      description: "Aceptamos Bitcoin y otras criptomonedas principales",
-      icon: "₿"
-    },
-    {
-      title: "Financiamiento",
-      description: "Planes de financiamiento sin intereses hasta 12 meses",
-      icon: "📅"
-    }
-  ];
+  const paymentMethods = getPaymentMethods();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
