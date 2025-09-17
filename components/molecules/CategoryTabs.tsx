@@ -16,7 +16,7 @@ export default function CategoryTabs({
   const categories = getAllCategories();
 
   return (
-    <div className={`flex flex-wrap gap-4 justify-center ${className}`}>
+    <div className={`flex flex-wrap gap-2 sm:gap-4 justify-center ${className}`}>
       {categories.map((category) => (
         <CategoryButton
           key={category.id}

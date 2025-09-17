@@ -22,7 +22,7 @@ export default function CategoryMenu() {
 
   return (
     <div className="bg-white shadow-sm w-full">
-      <div className="flex items-center justify-center gap-8 py-4">
+      <div className="flex items-center justify-start sm:justify-center gap-4 sm:gap-6 lg:gap-8 py-3 sm:py-4 overflow-x-auto scrollbar-hide px-4 sm:px-0">
         {categories.map((c) => (
           <CategoryIcon 
             key={c.label} 

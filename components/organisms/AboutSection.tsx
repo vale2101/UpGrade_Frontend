@@ -10,9 +10,9 @@ export default function AboutSection() {
   const features = getAboutFeatures();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <SectionTitle>¿Quiénes somos?</SectionTitle>
           <SectionDescription className="max-w-3xl mx-auto">
             Somos una empresa especializada en la reparación y venta de equipos tecnológicos, 
@@ -20,14 +20,14 @@ export default function AboutSection() {
           </SectionDescription>
         </div>
 
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <HeroImage 
             src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
             alt="Equipo de técnicos trabajando en reparaciones"
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
           <div>
             <InfoCard
               title="Nuestra Misión"

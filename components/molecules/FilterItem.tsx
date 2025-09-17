@@ -19,8 +19,8 @@ export default function FilterItem({
         onClick={onToggle}
         className="w-full flex justify-between items-center text-left hover:text-blue-600 transition-colors"
       >
-        <span className="font-medium text-gray-700">{label}</span>
-        <span className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
+        <span className="font-medium text-gray-700 text-sm sm:text-base">{label}</span>
+        <span className={`transform transition-transform text-sm ${isExpanded ? 'rotate-180' : ''}`}>
           ▼
         </span>
       </button>

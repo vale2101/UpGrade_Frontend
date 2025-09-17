@@ -26,7 +26,7 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
 
   return (
     <div 
-      className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 relative cursor-pointer ${className}`}
+      className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-3 sm:p-4 relative cursor-pointer ${className}`}
       onClick={handleCardClick}
     >
       <AddToCartButton onClick={() => onAddToCart?.(product.id)} />
@@ -34,7 +34,7 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
       <ProductImage 
         src={product.image} 
         alt={product.name}
-        className="mb-4"
+        className="mb-3 sm:mb-4"
       />
       
       <ProductTitle>{product.name}</ProductTitle>
@@ -52,7 +52,7 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
         />
       )}
       
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-3">
         <ConditionBadge condition={product.condition} />
       </div>
     </div>

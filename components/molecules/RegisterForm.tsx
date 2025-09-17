@@ -3,9 +3,9 @@ import Button from "../atoms/Button"
 
 export default function RegisterForm() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Formulario */}
-      <form className="space-y-6">
+      <form className="space-y-4 sm:space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Nombre completo</label>
           <InputField 
@@ -49,7 +49,7 @@ export default function RegisterForm() {
 
       {/* Enlaces adicionales */}
       <div className="text-center space-y-2">
-        <p className="text-sm text-gray-600">
+        <p className="text-xs sm:text-sm text-gray-600">
           ¿Ya tienes cuenta?{" "}
           <a href="/login" className="text-green-600 hover:text-green-800 font-medium">
             Inicia sesión aquí

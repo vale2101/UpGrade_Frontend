@@ -3,9 +3,9 @@ import Button from "../atoms/Button"
 
 export default function LoginForm() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Formulario */}
-      <form className="space-y-6">
+      <form className="space-y-4 sm:space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
           <InputField 
@@ -31,10 +31,10 @@ export default function LoginForm() {
 
       {/* Enlaces adicionales */}
       <div className="text-center space-y-2">
-        <a href="#" className="text-sm text-green-600 hover:text-green-800">
+        <a href="#" className="text-xs sm:text-sm text-green-600 hover:text-green-800">
           ¿Olvidaste tu contraseña?
         </a>
-        <p className="text-sm text-gray-600">
+        <p className="text-xs sm:text-sm text-gray-600">
           ¿No tienes cuenta?{" "}
           <a href="/register" className="text-green-600 hover:text-green-800 font-medium">
             Regístrate aquí

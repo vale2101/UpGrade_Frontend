@@ -10,7 +10,7 @@ export default function AddToCartButton({ onClick, className = "" }: AddToCartBu
     <button
       onClick={onClick}
       data-add-to-cart
-      className={`absolute top-2 right-2 w-8 h-8 bg-black hover:bg-gray-800 text-white rounded-full flex items-center justify-center transition-all z-10 ${className}`}
+      className={`absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 bg-black hover:bg-gray-800 text-white rounded-full flex items-center justify-center transition-all z-10 text-sm sm:text-base ${className}`}
     >
       +
     </button>

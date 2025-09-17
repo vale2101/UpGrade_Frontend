@@ -34,22 +34,22 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <HomeLayout>
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
           <div className="max-w-7xl mx-auto px-4">
             <BackToHomeButton />
             
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+            <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 text-center">
               <div className="max-w-md mx-auto">
-                <svg className="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
                 </svg>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h1>
                 <p className="text-gray-600 mb-6">
                   Agrega algunos productos para comenzar tu compra
                 </p>
                 <button
                   onClick={() => window.location.href = '/promociones'}
-                  className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+                  className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto"
                 >
                   Ver productos
                 </button>
@@ -63,23 +63,23 @@ export default function CartPage() {
 
   return (
     <HomeLayout>
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-4">
           <BackToHomeButton />
           
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Carrito de Compras</h1>
+          <div className="mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Carrito de Compras</h1>
             <p className="text-gray-600 mt-2">
               {items.length} producto{items.length !== 1 ? 's' : ''} en tu carrito
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
             {/* Lista de productos */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="p-6 border-b border-gray-200">
-                  <div className="flex justify-between items-center">
+                <div className="p-4 sm:p-6 border-b border-gray-200">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <h2 className="text-lg font-semibold text-gray-900">Productos</h2>
                     <button
                       onClick={clearCart}
@@ -92,11 +92,11 @@ export default function CartPage() {
                 
                 <div className="divide-y divide-gray-200">
                   {items.map((item) => (
-                    <div key={`${item.id}-${item.condition}-${item.capacity}-${item.color}`} className="p-6">
-                      <div className="flex items-center space-x-4">
+                    <div key={`${item.id}-${item.condition}-${item.capacity}-${item.color}`} className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         {/* Imagen del producto */}
-                        <div className="flex-shrink-0">
-                          <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                        <div className="flex-shrink-0 w-full sm:w-auto">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-lg overflow-hidden mx-auto sm:mx-0">
                             <Image
                               src={item.image}
                               alt={item.name}
@@ -108,11 +108,11 @@ export default function CartPage() {
                         </div>
 
                         {/* Información del producto */}
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-medium text-gray-900 truncate">
+                        <div className="flex-1 min-w-0 w-full sm:w-auto">
+                          <h3 className="text-base sm:text-lg font-medium text-gray-900 truncate text-center sm:text-left">
                             {item.name}
                           </h3>
-                          <div className="mt-1 space-y-1">
+                          <div className="mt-1 space-y-1 text-center sm:text-left">
                             <p className="text-sm text-gray-600">
                               Categoría: {item.condition}
                             </p>
@@ -126,7 +126,7 @@ export default function CartPage() {
                         </div>
 
                         {/* Precio y controles */}
-                        <div className="flex-shrink-0 text-right">
+                        <div className="flex-shrink-0 text-center sm:text-right w-full sm:w-auto">
                           <p className="text-lg font-semibold text-gray-900">
                             {item.price}
                           </p>
@@ -137,7 +137,7 @@ export default function CartPage() {
                           )}
                           
                           {/* Controles de cantidad */}
-                          <div className="mt-3 flex items-center space-x-2">
+                          <div className="mt-3 flex items-center justify-center sm:justify-end space-x-2">
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
@@ -171,8 +171,8 @@ export default function CartPage() {
             </div>
 
             {/* Resumen del pedido */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+            <div className="lg:col-span-1 order-first lg:order-last">
+              <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 sticky top-4">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Resumen del pedido
                 </h2>
@@ -198,7 +198,10 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <button className="w-full mt-6 bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium">
+                <button 
+                  onClick={handleProceedToPayment}
+                  className="w-full mt-6 bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                >
                   Proceder al pago
                 </button>
 

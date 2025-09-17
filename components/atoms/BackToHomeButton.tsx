@@ -4,11 +4,11 @@ export default function BackToHomeButton() {
   return (
     <Link 
       href="/"
-      className="fixed bottom-4 right-4 bg-gray-800 hover:bg-gray-900 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-50"
+      className="fixed bottom-4 right-4 bg-gray-800 hover:bg-gray-900 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-50"
       title="Volver al inicio"
     >
       <svg 
-        className="w-5 h-5" 
+        className="w-4 h-4 sm:w-5 sm:h-5" 
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24"

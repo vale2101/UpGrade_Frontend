@@ -20,7 +20,7 @@ export default function ConditionBadge({ condition, className = "" }: ConditionB
   };
 
   return (
-    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getBadgeColor(condition)} ${className}`}>
+    <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${getBadgeColor(condition)} ${className}`}>
       {condition}
     </span>
   );

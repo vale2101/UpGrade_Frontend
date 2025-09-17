@@ -62,10 +62,10 @@ export default function PromotionsPage() {
 
   return (
     <HomeLayout>
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-4">
           {/* Barra de navegación de categorías */}
-          <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+          <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 mb-4 sm:mb-6">
             <CategoryTabs 
               selectedCategory={selectedCategory}
               onCategoryChange={setSelectedCategory}
@@ -73,9 +73,9 @@ export default function PromotionsPage() {
           </div>
 
           {/* Barra de búsqueda */}
-          <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="flex-1">
+          <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <div className="flex-1 w-full sm:w-auto">
                 <SearchInput
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -83,47 +83,51 @@ export default function PromotionsPage() {
                   placeholder="Buscar productos..."
                 />
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-gray-600 text-center sm:text-left">
                 {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''}
               </div>
             </div>
           </div>
 
           {/* Contenido principal */}
-          <div className="flex gap-6">
-            <FilterSidebar />
-            {filteredProducts.length > 0 ? (
-              <ProductListing 
-                products={filteredProducts as any} 
-                onAddToCart={handleAddToCart}
-              />
-            ) : (
-              <div className="flex-1 bg-white rounded-lg shadow-md p-8 text-center">
-                <div className="max-w-md mx-auto">
-                  <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    No se encontraron productos
-                  </h3>
-                  <p className="text-gray-500 mb-4">
-                    {searchTerm 
-                      ? `No hay productos que coincidan con "${searchTerm}"`
-                      : `No hay productos en la categoría "${selectedCategory}"`
-                    }
-                  </p>
-                  <Button
-                    onClick={() => {
-                      setSearchTerm("");
-                      setSelectedCategory("Todas");
-                    }}
-                    variant="primary"
-                  >
-                    Ver todos los productos
-                  </Button>
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+            <div className="lg:w-64">
+              <FilterSidebar />
+            </div>
+            <div className="flex-1">
+              {filteredProducts.length > 0 ? (
+                <ProductListing 
+                  products={filteredProducts as any} 
+                  onAddToCart={handleAddToCart}
+                />
+              ) : (
+                <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
+                  <div className="max-w-md mx-auto">
+                    <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      No se encontraron productos
+                    </h3>
+                    <p className="text-gray-500 mb-4">
+                      {searchTerm 
+                        ? `No hay productos que coincidan con "${searchTerm}"`
+                        : `No hay productos en la categoría "${selectedCategory}"`
+                      }
+                    </p>
+                    <Button
+                      onClick={() => {
+                        setSearchTerm("");
+                        setSelectedCategory("Todas");
+                      }}
+                      variant="primary"
+                    >
+                      Ver todos los productos
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ export default function CategoryTab({ label, active = false, onClick }: Category
   return (
     <button
       onClick={onClick}
-      className={`px-6 py-2 rounded-md font-semibold text-sm border shadow-sm transition 
+      className={`px-3 sm:px-6 py-1.5 sm:py-2 rounded-md font-semibold text-xs sm:text-sm border shadow-sm transition 
         ${active 
           ? "bg-black text-white" 
           : "bg-white text-black hover:bg-black hover:text-white"

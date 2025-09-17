@@ -18,11 +18,11 @@ export default function ProductPrice({
           -{discount}
         </span>
       )}
-      <div className="text-xl font-bold text-gray-900">
+      <div className="text-lg sm:text-xl font-bold text-gray-900">
         Desde {currentPrice}
       </div>
       {originalPrice && (
-        <div className="text-sm text-gray-500 line-through">
+        <div className="text-xs sm:text-sm text-gray-500 line-through">
           Antes {originalPrice}
         </div>
       )}

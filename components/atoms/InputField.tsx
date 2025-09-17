@@ -33,7 +33,7 @@ export default function InputField({
       required={required}
       name={name}
       id={id}
-      className={`w-full border-b border-gray-300 p-2 focus:outline-none focus:border-black transition-colors ${className}`}
+      className={`w-full border-b border-gray-300 p-2 sm:p-3 focus:outline-none focus:border-black transition-colors text-sm sm:text-base ${className}`}
     />
   );
 }

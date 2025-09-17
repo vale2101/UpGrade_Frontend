@@ -10,7 +10,7 @@ export default function InstallmentPlan({
   className = "" 
 }: InstallmentPlanProps) {
   return (
-    <div className={`text-sm text-gray-600 mb-3 ${className}`}>
+    <div className={`text-xs sm:text-sm text-gray-600 mb-3 ${className}`}>
       {installments} cuotas 0% interés {monthlyAmount}*
     </div>
   );

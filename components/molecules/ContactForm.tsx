@@ -37,11 +37,11 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
+      <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
         ¿Tienes alguna duda?
       </h3>
-      <p className="text-gray-600 mb-6 text-center">
+      <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 text-center">
         Completa el formulario y nos pondremos en contacto contigo lo antes posible.
       </p>
       

@@ -14,9 +14,9 @@ interface SearchSectionProps {
 
 export default function SearchSection({ title, items, onSearch, className = "" }: SearchSectionProps) {
   return (
-    <div className={`mb-8 ${className}`}>
-      <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-4">{title}</h3>
-      <div className="space-y-2">
+    <div className={`mb-6 sm:mb-8 ${className}`}>
+      <h3 className="text-xs sm:text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 sm:mb-4">{title}</h3>
+      <div className="space-y-1 sm:space-y-2">
         {items.map((item, index) => (
           <SearchButton
             key={index}
