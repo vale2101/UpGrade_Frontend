@@ -2,6 +2,11 @@ import LoginHeroImage from "@/components/organisms/LoginHeroImage"
 import RegisterForm from "@/components/molecules/RegisterForm"
 import BackToHomeButton from "@/components/atoms/BackToHomeButton"
 
+export const metadata = {
+  title: "Registro - UpGrade",
+  description: "Crea tu cuenta en UpGrade y únete a miles de clientes satisfechos. Accede a ofertas exclusivas, sigue tus pedidos y disfruta de una experiencia de compra personalizada."
+};
+
 export default function RegisterPage() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
