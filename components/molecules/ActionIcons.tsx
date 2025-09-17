@@ -2,7 +2,8 @@
 import Link from "next/link";
 import IconButton from "../atoms/IconButton";
 import SearchBar from "./SearchBar";
-import { Mail, User, ShoppingCart } from "lucide-react";
+import UserDropdown from "./UserDropdown";
+import { Mail, ShoppingCart } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 
 interface ActionIconsProps {
@@ -29,10 +30,10 @@ export default function ActionIcons({ mobile = false }: ActionIconsProps) {
           </Link>
 
           {/* User */}
-          <Link href="/login" className="flex items-center space-x-2 text-gray-700 hover:text-black transition-colors">
-            <User size={24} />
+          <div className="flex items-center space-x-2 text-gray-700 hover:text-black transition-colors">
+            <UserDropdown />
             <span className="text-lg font-medium">Mi Cuenta</span>
-          </Link>
+          </div>
 
           {/* Carrito */}
           <div className="relative">
@@ -64,11 +65,7 @@ export default function ActionIcons({ mobile = false }: ActionIconsProps) {
       <SearchBar />
 
       {/* User */}
-      <Link href="/login">
-        <IconButton>
-          <User size={20} />
-        </IconButton>
-      </Link>
+      <UserDropdown />
 
       {/* Carrito */}
       <div className="relative">
