@@ -22,7 +22,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Cargar sesión desde localStorage al inicializar
   useEffect(() => {
     const savedUser = localStorage.getItem('upgrade-user');
     if (savedUser) {
@@ -37,7 +36,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulación de login - en un proyecto real harías una llamada a la API
     if (email && password) {
       const userData: User = {
         id: '1',
@@ -53,7 +51,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (name: string, email: string, password: string): Promise<boolean> => {
-    // Simulación de registro - en un proyecto real harías una llamada a la API
     if (name && email && password) {
       const userData: User = {
         id: Date.now().toString(),
@@ -94,4 +91,3 @@ export function useAuth() {
   }
   return context;
 }
-

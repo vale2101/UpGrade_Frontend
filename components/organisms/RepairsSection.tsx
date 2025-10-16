@@ -3,7 +3,7 @@ import SectionDescription from "../atoms/SectionDescription";
 import FeatureCard from "../atoms/FeatureCard";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
-import { getRepairServices, getRepairProcess } from "../../db/data";
+import { getRepairServices, getRepairProcess } from "../../contexts/DataContext";
 
 export default function RepairsSection() {
   const repairServices = getRepairServices();

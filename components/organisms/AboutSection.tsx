@@ -4,7 +4,7 @@ import InfoCard from "../molecules/InfoCard";
 import FeatureGrid from "../molecules/FeatureGrid";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
-import { getAboutFeatures } from "../../db/data";
+import { getAboutFeatures } from "../../contexts/DataContext";
 
 export default function AboutSection() {
   const features = getAboutFeatures();

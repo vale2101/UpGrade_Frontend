@@ -1,4 +1,4 @@
-import HomeLayout from "../../components/layouts/HomeLayout";
+import MainLayout from "../../components/organisms/MainLayout";
 import RepairsSection from "../../components/organisms/RepairsSection";
 
 export const metadata = {
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default function RepairsPage() {
   return (
-    <HomeLayout>
+    <MainLayout>
       <RepairsSection />
-    </HomeLayout>
+    </MainLayout>
   );
 }

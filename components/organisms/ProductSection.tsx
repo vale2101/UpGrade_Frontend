@@ -1,16 +1,5 @@
 import ProductGrid from "../molecules/ProductGrid";
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments: number;
-  monthlyAmount: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo";
-}
+import { Product } from "../../contexts/DataContext";
 
 interface ProductSectionProps {
   title: string;
@@ -33,14 +22,12 @@ export default function ProductSection({
 }: ProductSectionProps) {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
-      {/* Grid de productos */}
       <ProductGrid 
         products={products} 
         onProductClick={onProductClick} 
         onAddToCart={onAddToCart}
       />
 
-      {/* Botón Ver todos */}
       <div className="flex justify-center mt-10">
         <button 
           onClick={onToggleShowAll}

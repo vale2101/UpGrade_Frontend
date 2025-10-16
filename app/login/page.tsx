@@ -1,4 +1,4 @@
-import LoginLayout from "@/components/layouts/LoginLayout"
+import LoginSection from "@/components/organisms/LoginSection";
 
 export const metadata = {
   title: "Iniciar Sesión - UpGrade",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <LoginLayout />
+  return <LoginSection />;
 }

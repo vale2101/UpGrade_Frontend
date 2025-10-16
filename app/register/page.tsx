@@ -1,6 +1,4 @@
-import LoginHeroImage from "@/components/organisms/LoginHeroImage"
-import RegisterForm from "@/components/molecules/RegisterForm"
-import BackToHomeButton from "@/components/atoms/BackToHomeButton"
+import RegisterSection from "@/components/organisms/RegisterSection";
 
 export const metadata = {
   title: "Registro - UpGrade",
@@ -8,16 +6,5 @@ export const metadata = {
 };
 
 export default function RegisterPage() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-      <LoginHeroImage />
-      <div className="flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Registro</h1>
-          <RegisterForm />
-        </div>
-      </div>
-      <BackToHomeButton />
-    </div>
-  )
+  return <RegisterSection />;
 }

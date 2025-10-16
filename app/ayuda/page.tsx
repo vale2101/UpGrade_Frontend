@@ -1,4 +1,4 @@
-import HomeLayout from "../../components/layouts/HomeLayout";
+import MainLayout from "../../components/organisms/MainLayout";
 import HelpSection from "../../components/organisms/HelpSection";
 
 export const metadata = {
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default function HelpPage() {
   return (
-    <HomeLayout>
+    <MainLayout>
       <HelpSection />
-    </HomeLayout>
+    </MainLayout>
   );
 }

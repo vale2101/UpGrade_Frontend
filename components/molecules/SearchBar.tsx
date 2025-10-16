@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import SearchSection from "./SearchSection";
-import { getSearchSections } from "../../db/data";
+import { getSearchSections } from "../../contexts/DataContext";
 
 interface SearchBarProps {
   mobile?: boolean;

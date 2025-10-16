@@ -30,7 +30,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // Cargar carrito desde localStorage al inicializar
   useEffect(() => {
     const savedCart = localStorage.getItem('upgrade-cart');
     if (savedCart) {
@@ -42,7 +41,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Guardar carrito en localStorage cuando cambie
   useEffect(() => {
     localStorage.setItem('upgrade-cart', JSON.stringify(items));
   }, [items]);
@@ -98,7 +96,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const getTotalPrice = () => {
     return items.reduce((total, item) => {
-      const price = parseFloat(item.price.replace(/[$,]/g, ''));
+      const cleanPrice = item.price
+        .replace(/Desde\s*/gi, '')
+        .replace(/Antes\s*/gi, '')
+        .replace(/[$.,]/g, '');
+      const price = parseFloat(cleanPrice) || 0;
       return total + (price * item.quantity);
     }, 0);
   };
@@ -125,4 +127,3 @@ export function useCart() {
   }
   return context;
 }
-

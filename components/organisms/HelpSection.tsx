@@ -4,7 +4,7 @@ import FeatureCard from "../atoms/FeatureCard";
 import ContactForm from "../molecules/ContactForm";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
-import { getHelpServices, getContactInfo } from "../../db/data";
+import { getHelpServices, getContactInfo } from "../../contexts/DataContext";
 
 export default function HelpSection() {
   const helpServices = getHelpServices();

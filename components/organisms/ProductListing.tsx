@@ -1,18 +1,7 @@
 "use client";
 
 import ProductGrid from "../molecules/ProductGrid";
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments?: number;
-  monthlyAmount?: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet";
-}
+import { Product } from "../../contexts/DataContext";
 
 interface ProductListingProps {
   products: Product[];

@@ -1,6 +1,6 @@
 import React from 'react';
 import CategoryButton from '../atoms/CategoryButton';
-import { getAllCategories } from '../../db/data';
+import { getAllCategories } from '../../contexts/DataContext';
 
 interface CategoryTabsProps {
   selectedCategory: string;

@@ -1,18 +1,7 @@
 "use client";
 
 import ProductCard from "./ProductCard";
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments: number;
-  monthlyAmount: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet";
-}
+import { Product } from "../../contexts/DataContext";
 
 interface ProductGridProps {
   products: Product[];

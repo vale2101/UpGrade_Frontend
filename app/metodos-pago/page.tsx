@@ -1,4 +1,4 @@
-import HomeLayout from "../../components/layouts/HomeLayout";
+import MainLayout from "../../components/organisms/MainLayout";
 import PaymentMethodsSection from "../../components/organisms/PaymentMethodsSection";
 
 export const metadata = {
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default function PaymentMethodsPage() {
   return (
-    <HomeLayout>
+    <MainLayout>
       <PaymentMethodsSection />
-    </HomeLayout>
+    </MainLayout>
   );
 }

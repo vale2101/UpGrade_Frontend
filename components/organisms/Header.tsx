@@ -5,7 +5,7 @@ import NavMenu from "../molecules/NavMenu"
 import ActionIcons from "../molecules/ActionIcons"
 import { Menu, X } from "lucide-react";
 
-export default function NavBar() {
+export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (

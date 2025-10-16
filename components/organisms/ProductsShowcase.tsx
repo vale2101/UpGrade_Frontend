@@ -2,25 +2,23 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ProductSection from "../organisms/ProductSection";
-import { getProductsByCategory } from "../../db/data";
+import ProductSection from "./ProductSection";
+import { getProductsByCategory } from "../../contexts/DataContext";
 import { useCart } from "../../contexts/CartContext";
 
-interface ProductLayoutProps {
+interface ProductsShowcaseProps {
   selectedCategory: string;
   onAddToCart?: (productId: string) => void;
 }
 
-export default function ProductLayout({ selectedCategory, onAddToCart }: ProductLayoutProps) {
+export default function ProductsShowcase({ selectedCategory, onAddToCart }: ProductsShowcaseProps) {
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const { addToCart } = useCart();
   
-  // Obtener productos desde la base de datos centralizada
   const filteredProducts = getProductsByCategory(selectedCategory);
   const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 4);
 
-  // Convertir productos al formato esperado por ProductSection
   const formattedProducts = displayedProducts.map(product => ({
     id: product.id,
     name: product.name,
@@ -30,7 +28,8 @@ export default function ProductLayout({ selectedCategory, onAddToCart }: Product
     discount: product.discount,
     installments: product.installments || 6,
     monthlyAmount: product.monthlyAmount || "$0",
-    condition: product.condition
+    condition: product.condition,
+    category: product.category
   }));
 
   const handleProductClick = (productId: string) => {
@@ -48,18 +47,16 @@ export default function ProductLayout({ selectedCategory, onAddToCart }: Product
         originalPrice: product.originalPrice,
         discount: product.discount,
         condition: product.condition,
-        capacity: "128GB", // Valor por defecto
-        color: "Gray", // Valor por defecto
+        capacity: "128GB",
+        color: "Gray",
         category: product.category
       });
     }
-    // Llamar también a la función del padre si existe
     onAddToCart?.(productId);
   };
 
   return (
     <main>
-      {/* Aquí puedes meter más secciones si quieres */}
       <ProductSection 
         title="Productos Destacados" 
         products={formattedProducts}
@@ -71,3 +68,4 @@ export default function ProductLayout({ selectedCategory, onAddToCart }: Product
     </main>
   );
 }
+

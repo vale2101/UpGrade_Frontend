@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
 import { useFilter } from '../contexts/FilterContext';
-import { Product } from '../db/data';
+import { Product } from '../contexts/DataContext';
 
 export function useProductFilter<T extends Product>(products: T[]): T[] {
   const { filters } = useFilter();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
-      // Filtro por disponibilidad (usando condition como proxy)
       if (filters.disponibilidad.length > 0) {
         const productAvailability = product.condition === 'Nuevo' ? 'En stock' : 'Disponible';
         if (!filters.disponibilidad.includes(productAvailability)) {
@@ -15,7 +14,6 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
         }
       }
 
-      // Filtro por tipo de producto
       if (filters.tipo.length > 0) {
         const productType = getProductTypeFromName(product.name);
         if (!filters.tipo.includes(productType)) {
@@ -23,7 +21,6 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
         }
       }
 
-      // Filtro por marca
       if (filters.marca.length > 0) {
         const productBrand = getBrandFromName(product.name);
         if (!filters.marca.includes(productBrand)) {
@@ -31,7 +28,6 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
         }
       }
 
-      // Filtro por precio
       if (filters.precio.length > 0) {
         const price = parsePrice(product.currentPrice);
         const priceInRange = filters.precio.some(range => {
@@ -51,14 +47,12 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
         }
       }
 
-      // Filtro por categoría (condición)
       if (filters.categoria.length > 0) {
         if (!filters.categoria.includes(product.condition)) {
           return false;
         }
       }
 
-      // Filtro por capacidad
       if (filters.capacidad.length > 0) {
         const productCapacity = product.capacity || getCapacityFromName(product.name);
         if (!filters.capacidad.includes(productCapacity)) {
@@ -66,7 +60,6 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
         }
       }
 
-      // Filtro por color
       if (filters.color.length > 0) {
         const productColor = product.color || getColorFromName(product.name);
         if (!filters.color.includes(productColor)) {
@@ -81,7 +74,6 @@ export function useProductFilter<T extends Product>(products: T[]): T[] {
   return filteredProducts;
 }
 
-// Funciones auxiliares para extraer información de los nombres de productos
 function getProductTypeFromName(name: string): string {
   const lowerName = name.toLowerCase();
   if (lowerName.includes('iphone') || lowerName.includes('galaxy') || lowerName.includes('vivo')) {
@@ -93,7 +85,7 @@ function getProductTypeFromName(name: string): string {
   if (lowerName.includes('watch')) {
     return 'Accesorios';
   }
-  return 'Smartphones'; // Default
+  return 'Smartphones';
 }
 
 function getBrandFromName(name: string): string {
@@ -107,7 +99,7 @@ function getBrandFromName(name: string): string {
   if (lowerName.includes('vivo')) {
     return 'Vivo';
   }
-  return 'Samsung'; // Default
+  return 'Samsung';
 }
 
 function getCapacityFromName(name: string): string {
@@ -119,7 +111,7 @@ function getCapacityFromName(name: string): string {
     if (capacity <= 128) return '128GB';
     return '256GB+';
   }
-  return '128GB'; // Default
+  return '128GB';
 }
 
 function getColorFromName(name: string): string {
@@ -128,11 +120,10 @@ function getColorFromName(name: string): string {
   if (lowerName.includes('blanco') || lowerName.includes('white')) return 'Blanco';
   if (lowerName.includes('azul') || lowerName.includes('blue')) return 'Azul';
   if (lowerName.includes('dorado') || lowerName.includes('gold')) return 'Dorado';
-  return 'Negro'; // Default
+  return 'Negro';
 }
 
 function parsePrice(priceString: string): number {
-  // Extraer números del string de precio
   const numbers = priceString.replace(/[^0-9]/g, '');
   return parseInt(numbers) || 0;
 }

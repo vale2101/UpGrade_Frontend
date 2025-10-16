@@ -3,7 +3,7 @@ import SectionDescription from "../atoms/SectionDescription";
 import FeatureCard from "../atoms/FeatureCard";
 import HeroImage from "../atoms/HeroImage";
 import SectionImage from "../atoms/SectionImage";
-import { getPaymentMethods } from "../../db/data";
+import { getPaymentMethods } from "../../contexts/DataContext";
 
 export default function PaymentMethodsSection() {
   const paymentMethods = getPaymentMethods();

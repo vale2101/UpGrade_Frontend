@@ -1,7 +1,7 @@
 import SectionTitle from "../atoms/SectionTitle";
 import SectionDescription from "../atoms/SectionDescription";
 import FeatureCard from "../atoms/FeatureCard";
-import { getPromotions } from "../../db/data";
+import { getPromotions } from "../../contexts/DataContext";
 
 export default function PromotionsSection() {
   const promotions = getPromotions();

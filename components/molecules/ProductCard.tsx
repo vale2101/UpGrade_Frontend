@@ -6,7 +6,7 @@ import ProductPrice from "../atoms/ProductPrice";
 import InstallmentPlan from "../atoms/InstallmentPlan";
 import ConditionBadge from "../atoms/ConditionBadge";
 import AddToCartButton from "../atoms/AddToCartButton";
-import { Product } from "../../db/data";
+import { Product } from "../../contexts/DataContext";
 
 interface ProductCardProps {
   product: Product;
@@ -17,7 +17,6 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onAddToCart, onProductClick, className = "" }: ProductCardProps) {
   const handleCardClick = (e: React.MouseEvent) => {
-    // Evitar que se active cuando se hace clic en el botón de agregar al carrito
     if ((e.target as HTMLElement).closest('[data-add-to-cart]')) {
       return;
     }

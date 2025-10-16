@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getProductDetail } from '../../../db/data'
+import { getProductDetail } from '../../../contexts/DataContext'
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const product = getProductDetail(params.id);
