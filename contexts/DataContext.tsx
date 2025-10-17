@@ -1116,3 +1116,4 @@ export const getPromotions = (): Promotion[] => {
   return data.promotions;
 };
 
+
