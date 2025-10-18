@@ -8,12 +8,12 @@ import EmptyProductsState from "../molecules/EmptyProductsState";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import { useCart } from "../../contexts/CartContext";
 import { useProductFilter } from "../../hooks/useProductFilter";
+import { useProductSearch } from "../../hooks/useProductSearch";
 import { getPromotionProductsByCategory } from "../../contexts/DataContext";
 
 export default function PromotionsPageSection() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("Todas");
-  const [searchTerm, setSearchTerm] = useState("");
   
   useEffect(() => {
     const categoria = searchParams.get('categoria');
@@ -21,12 +21,9 @@ export default function PromotionsPageSection() {
   }, [searchParams]);
   
   const allProducts = getPromotionProductsByCategory("Todas");
-  const categoryFilteredProducts = getPromotionProductsByCategory(selectedCategory).filter(product =>
-    searchTerm === "" || 
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const filteredProducts = useProductFilter(categoryFilteredProducts);
+  const categoryProducts = getPromotionProductsByCategory(selectedCategory);
+  const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(categoryProducts);
+  const { filteredProducts } = useProductFilter(searchResults);
   const { addToCart } = useCart();
 
   const handleAddToCart = (productId: string) => {
@@ -55,9 +52,9 @@ export default function PromotionsPageSection() {
         </div>
 
         <ProductSearchBar 
-          searchTerm={searchTerm}
-          onSearchChange={(e: any) => setSearchTerm(e.target.value)}
-          onClear={() => setSearchTerm("")}
+          searchTerm={searchQuery}
+          onSearchChange={(e: any) => setSearchQuery(e.target.value)}
+          onClear={() => setSearchQuery("")}
           resultsCount={filteredProducts.length}
         />
 
@@ -70,10 +67,10 @@ export default function PromotionsPageSection() {
               <ProductListing products={filteredProducts as any} onAddToCart={handleAddToCart} />
             ) : (
               <EmptyProductsState
-                searchTerm={searchTerm}
+                searchTerm={searchQuery}
                 categoryName={selectedCategory}
                 onReset={() => {
-                  setSearchTerm("");
+                  setSearchQuery("");
                   setSelectedCategory("Todas");
                 }}
               />
@@ -84,4 +81,3 @@ export default function PromotionsPageSection() {
     </div>
   );
 }
-

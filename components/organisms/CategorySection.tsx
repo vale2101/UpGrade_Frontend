@@ -1,27 +1,21 @@
 "use client";
-import { useState } from "react";
 import FilterSidebar from "./FilterSidebar";
 import ProductListing from "./ProductListing";
 import EmptyProductsState from "../molecules/EmptyProductsState";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import { useCart } from "../../contexts/CartContext";
 import { useProductFilter } from "../../hooks/useProductFilter";
+import { useProductSearch } from "../../hooks/useProductSearch";
 import { getProductsByCategory, getAllCategories } from "../../contexts/DataContext";
 
 export default function CategorySection({ slug }: { slug: string }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  
   const categories = getAllCategories();
   const currentCategory = categories.find(cat => cat.slug === slug);
   const categoryName = currentCategory?.name || "Todas";
   
   const allProducts = getProductsByCategory(categoryName);
-  const categoryFilteredProducts = allProducts.filter(product =>
-    searchTerm === "" || 
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const filteredProducts = useProductFilter(categoryFilteredProducts);
+  const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(allProducts);
+  const filteredProducts = useProductFilter(searchResults);
   const { addToCart } = useCart();
 
   const handleAddToCart = (productId: string) => {
@@ -48,9 +42,9 @@ export default function CategorySection({ slug }: { slug: string }) {
         <h1 className="text-2xl sm:text-3xl font-bold mb-6">{categoryName}</h1>
 
         <ProductSearchBar 
-          searchTerm={searchTerm}
-          onSearchChange={(e: any) => setSearchTerm(e.target.value)}
-          onClear={() => setSearchTerm("")}
+          searchTerm={searchQuery}
+          onSearchChange={(e: any) => setSearchQuery(e.target.value)}
+          onClear={() => setSearchQuery("")}
           resultsCount={filteredProducts.length}
         />
 
@@ -63,10 +57,10 @@ export default function CategorySection({ slug }: { slug: string }) {
               <ProductListing products={filteredProducts as any} onAddToCart={handleAddToCart} />
             ) : (
               <EmptyProductsState
-                searchTerm={searchTerm}
+                searchTerm={searchQuery}
                 categoryName={categoryName}
-                onReset={() => setSearchTerm("")}
-                showResetButton={!!searchTerm}
+                onReset={() => setSearchQuery("")}
+                showResetButton={!!searchQuery}
               />
             )}
           </div>

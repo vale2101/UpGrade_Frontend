@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { usePayment } from "../../hooks/usePayment";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 import EmptyCartMessage from "../molecules/EmptyCartMessage";
 import CartItemCard from "../molecules/CartItemCard";
@@ -10,16 +9,11 @@ import AuthModal from "./AuthModal";
 
 export default function CartSection() {
   const { items, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart();
-  const { isAuthenticated, user } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-
-  const handleProceedToPayment = () => {
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-      return;
-    }
-    alert(`¡Hola ${user?.name}! Redirigiendo al proceso de pago...`);
-  };
+  const { 
+    showAuthModal, 
+    handleProceedToPayment, 
+    closeAuthModal 
+  } = usePayment();
 
   if (items.length === 0) {
     return (
@@ -80,7 +74,7 @@ export default function CartSection() {
             </div>
         </div>
       </div>
-      {showAuthModal && <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />}
+      {showAuthModal && <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} />}
     </div>
   );
 }
