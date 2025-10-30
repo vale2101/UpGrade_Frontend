@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import SearchSection from "./SearchSection";
 import { getSearchSections } from "../../contexts/DataContext";
@@ -15,6 +16,7 @@ export default function SearchBar({ mobile = false }: SearchBarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const searchSections = getSearchSections();
+  const router = useRouter();
 
   const toggleSearchBar = () => {
     setIsOpen(!isOpen);
@@ -23,7 +25,8 @@ export default function SearchBar({ mobile = false }: SearchBarProps) {
   const handleSearch = (query: string) => {
     if (query.trim()) {
       setSearchQuery(query);
-      setIsOpen(false); 
+      setIsOpen(false);
+      router.push(`/buscar?q=${encodeURIComponent(query)}`);
     }
   };
 
