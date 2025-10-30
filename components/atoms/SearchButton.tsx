@@ -1,16 +1,17 @@
+import { Search } from "lucide-react";
+
 interface SearchButtonProps {
-  label: string;
   onClick: () => void;
-  className?: string;
 }
 
-export default function SearchButton({ label, onClick, className = "" }: SearchButtonProps) {
+export default function SearchButton({ onClick }: SearchButtonProps) {
   return (
-    <button 
+    <button
       onClick={onClick}
-      className={`block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-md transition-colors text-gray-900 text-sm sm:text-base ${className}`}
+      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+      aria-label="Buscar"
     >
-      {label}
+      <Search size={20} />
     </button>
   );
 }

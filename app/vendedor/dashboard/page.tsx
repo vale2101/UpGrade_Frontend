@@ -1,4 +1,5 @@
 import VendedorDashboardSection from "@/components/organisms/VendedorDashboardSection";
+import MainLayout from "@/components/organisms/MainLayout";
 
 export const metadata = {
   title: "Dashboard Vendedor - UpGrade",
@@ -6,7 +7,9 @@ export const metadata = {
 };
 
 export default function VendedorDashboardPage() {
-  return <VendedorDashboardSection />;
+  return (
+    <MainLayout>
+      <VendedorDashboardSection />
+    </MainLayout>
+  );
 }
-
-
