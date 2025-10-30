@@ -1,7 +1,6 @@
 "use client";
 
 import { LogOut, MapPin, Package, ClipboardList } from "lucide-react";
-import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
 import Tabs from "../molecules/UserTabs";
 import EmptyOrders from "../molecules/EmptyOrders";
@@ -10,21 +9,8 @@ import RepairStatus from "../molecules/RepairStatus";
 import ServiceHistory from "../molecules/ServiceHistory";
 
 export default function UserSection() {
-  const { user, isAuthenticated, logout } = useAuth();
-
-  if (!isAuthenticated) {
-    return (
-      <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Mi cuenta</h1>
-        <p className="text-gray-600 mb-6">Inicia sesión para ver tus pedidos y gestionar tu información.</p>
-        <div className="flex gap-3">
-          <Link href="/login" className="bg-black text-white px-6 py-2 rounded-full font-semibold hover:bg-gray-800">Iniciar sesión</Link>
-          <Link href="/register" className="px-6 py-2 rounded-full font-semibold border border-gray-300 hover:bg-gray-50">Crear cuenta</Link>
-        </div>
-      </div>
-    );
-  }
-
+  const { user, logout } = useAuth();
+  
   const initials = (user?.name || "U").split(" ").map(s => s[0]).slice(0,2).join("").toUpperCase();
 
   return (

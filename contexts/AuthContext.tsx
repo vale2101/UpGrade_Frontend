@@ -27,9 +27,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
+        // Set cookie for middleware
+        document.cookie = 'upgrade-auth=true; path=/; max-age=2592000'; // 30 days
       } catch (error) {
         console.error('Error loading user from localStorage:', error);
         localStorage.removeItem('upgrade-user');
+        document.cookie = 'upgrade-auth=; path=/; max-age=0';
       }
     }
     setIsLoading(false);
@@ -45,6 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       setUser(userData);
       localStorage.setItem('upgrade-user', JSON.stringify(userData));
+      // Set cookie for middleware
+      document.cookie = 'upgrade-auth=true; path=/; max-age=2592000'; // 30 days
       return true;
     }
     return false;
@@ -60,6 +65,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       setUser(userData);
       localStorage.setItem('upgrade-user', JSON.stringify(userData));
+      // Set cookie for middleware
+      document.cookie = 'upgrade-auth=true; path=/; max-age=2592000'; // 30 days
       return true;
     }
     return false;
@@ -68,6 +75,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('upgrade-user');
+    // Remove cookie for middleware
+    document.cookie = 'upgrade-auth=; path=/; max-age=0';
   };
 
   return (
