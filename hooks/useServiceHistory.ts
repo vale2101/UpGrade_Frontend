@@ -13,10 +13,8 @@ export interface ServiceHistoryItem {
 
 const STORAGE_KEY = "upgrade-service-history";
 
-const seed: ServiceHistoryItem[] = [
-  { id: "1", date: new Date().toISOString(), device: "iPhone 13", service: "Cambio de pantalla", status: "Reparado", amount: "$320.000" },
-  { id: "2", date: new Date(Date.now() - 86400000 * 15).toISOString(), device: "Samsung S22", service: "Cambio de batería", status: "Entregado", amount: "$180.000" }
-];
+// TODO: Los servicios deben ser obtenidos desde la base de datos
+const seed: ServiceHistoryItem[] = [];
 
 export function useServiceHistory() {
   const [items, setItems] = useState<ServiceHistoryItem[]>([]);

@@ -14,10 +14,8 @@ export interface VendedorProduct {
 
 const STORAGE_KEY = "vendedor-products";
 
-const seedProducts: VendedorProduct[] = [
-  { id: "1", name: "iPhone 13 Pro", price: "$2.500.000", stock: 5, category: "iPhone", condition: "Como Nuevo", image: "/api/placeholder/100/100" },
-  { id: "2", name: "Samsung S23", price: "$1.800.000", stock: 3, category: "Samsung", condition: "Nuevo", image: "/api/placeholder/100/100" },
-];
+// TODO: Los productos del vendedor deben ser obtenidos desde la base de datos
+const seedProducts: VendedorProduct[] = [];
 
 export function useVendedorProducts() {
   const [products, setProducts] = useState<VendedorProduct[]>([]);
@@ -49,4 +47,5 @@ export function useVendedorProducts() {
 
   return { products, addProduct, updateProduct, deleteProduct };
 }
+
 

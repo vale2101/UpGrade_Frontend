@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Package, Wrench, LogOut, Plus } from "lucide-react";
+import { Package, Wrench, LogOut, Plus, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorProducts";
 import Tabs from "../molecules/UserTabs";
 import VendedorProductsTable from "../molecules/VendedorProductsTable";
 import VendedorProductForm from "../molecules/VendedorProductForm";
 import VendedorRepairsList from "../molecules/VendedorRepairsList";
+import VendedorOrdersList from "../molecules/VendedorOrdersList";
 
 export default function VendedorDashboardSection() {
   const { user, logout } = useAuth();
@@ -70,6 +71,7 @@ export default function VendedorDashboardSection() {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs
+          baseUrl="" // Sin navegación para el dashboard del vendedor
           items={[
             {
               key: "products",
@@ -116,6 +118,17 @@ export default function VendedorDashboardSection() {
                   <VendedorRepairsList />
                 </div>
               )
+            },
+            {
+              key: "orders",
+              label: "Pedidos",
+              icon: <ShoppingBag size={16} />,
+              content: (
+                <div className="bg-white rounded-xl shadow-sm border p-6">
+                  <h2 className="text-xl font-semibold mb-6">Gestión de Pedidos</h2>
+                  <VendedorOrdersList />
+                </div>
+              )
             }
           ]}
         />
@@ -123,4 +136,5 @@ export default function VendedorDashboardSection() {
     </div>
   );
 }
+
 

@@ -20,15 +20,15 @@ export default function HeroBanner() {
           <span className="text-yellow-400">SIN MIEDO NECESITAS EL</span>
         </div>
 
-        {/* Caja de precio - Posicionada a la derecha */}
-        <div className="w-full max-w-xs sm:max-w-sm lg:max-w-none">
+        {/* TODO: Caja de precio - Debe mostrar producto destacado desde la base de datos */}
+        {/* <div className="w-full max-w-xs sm:max-w-sm lg:max-w-none">
           <ProductHighlight
             title="Samsung Galaxy S23 Plus"
             subtitle="512 GB - OUTLET"
             price="$2.299.900"
             cuotas="6 cuotas $383.317"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );

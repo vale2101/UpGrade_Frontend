@@ -13,9 +13,10 @@ interface TabItem {
 interface UserTabsProps {
   items: TabItem[];
   defaultKey?: string;
+  baseUrl?: string; // URL base para la navegación de tabs (por defecto /user)
 }
 
-function Tabs({ items, defaultKey }: UserTabsProps) {
+function Tabs({ items, defaultKey, baseUrl = "/user" }: UserTabsProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tabFromUrl = searchParams.get("tab");
@@ -29,7 +30,10 @@ function Tabs({ items, defaultKey }: UserTabsProps) {
 
   const handleTabChange = (key: string) => {
     setActive(key);
-    router.push(`/user?tab=${key}`, { scroll: false });
+    // Solo navegar si se proporciona una baseUrl válida (no vacía)
+    if (baseUrl && baseUrl.trim() !== "") {
+      router.push(`${baseUrl}?tab=${key}`, { scroll: false });
+    }
   };
 
   const ActivePanel = items.find(i => i.key === active)?.content || null;
