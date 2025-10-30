@@ -53,7 +53,7 @@ export default function UserDropdown() {
               {/* Opciones del menú */}
               <div className="py-1">
                 <Link
-                  href="/user"
+                  href="/user?tab=orders"
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
@@ -62,7 +62,7 @@ export default function UserDropdown() {
                 </Link>
                 
                 <Link
-                  href="/carrito"
+                  href="/user?tab=orders"
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
@@ -71,7 +71,7 @@ export default function UserDropdown() {
                 </Link>
                 
                 <Link
-                  href="/reparaciones"
+                  href="/user?tab=status"
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
@@ -80,7 +80,7 @@ export default function UserDropdown() {
                 </Link>
                 
                 <Link
-                  href="/user/historial"
+                  href="/user?tab=history"
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >

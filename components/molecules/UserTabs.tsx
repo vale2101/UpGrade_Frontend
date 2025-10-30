@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, ReactNode, memo } from "react";
+import { useState, ReactNode, memo, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface TabItem {
   key: string;
@@ -15,7 +16,21 @@ interface UserTabsProps {
 }
 
 function Tabs({ items, defaultKey }: UserTabsProps) {
-  const [active, setActive] = useState<string>(defaultKey || items[0]?.key);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const tabFromUrl = searchParams.get("tab");
+  const [active, setActive] = useState<string>(tabFromUrl || defaultKey || items[0]?.key);
+
+  useEffect(() => {
+    if (tabFromUrl && items.some(i => i.key === tabFromUrl)) {
+      setActive(tabFromUrl);
+    }
+  }, [tabFromUrl, items]);
+
+  const handleTabChange = (key: string) => {
+    setActive(key);
+    router.push(`/user?tab=${key}`, { scroll: false });
+  };
 
   const ActivePanel = items.find(i => i.key === active)?.content || null;
 
@@ -26,7 +41,7 @@ function Tabs({ items, defaultKey }: UserTabsProps) {
           {items.map(item => (
             <button
               key={item.key}
-              onClick={() => setActive(item.key)}
+              onClick={() => handleTabChange(item.key)}
               className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base transition-colors ${
                 active === item.key
                   ? "bg-[#57ad63] text-white"

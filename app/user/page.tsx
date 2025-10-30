@@ -1,3 +1,4 @@
+import MainLayout from "@/components/organisms/MainLayout";
 import UserSection from "@/components/organisms/UserSection";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function UserPage() {
-  return <UserSection />;
+  return (
+    <MainLayout>
+      <UserSection />
+    </MainLayout>
+  );
 }
