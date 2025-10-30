@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { User, LogIn, UserPlus, ShoppingBag, Wrench, History, LogOut } from "lucide-react";
+import { User, LogIn, UserPlus, ShoppingBag, Wrench, History, LogOut, Store } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function UserDropdown() {
@@ -92,6 +92,19 @@ export default function UserDropdown() {
               {/* Separador */}
               <div className="border-t border-gray-100 my-1"></div>
 
+              {/* Iniciar sesión como vendedor */}
+              <Link
+                href="/vendedor/login"
+                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Store size={16} className="mr-3" />
+                Iniciar sesión como vendedor
+              </Link>
+
+              {/* Separador */}
+              <div className="border-t border-gray-100 my-1"></div>
+
               {/* Cerrar sesión */}
               <button
                 onClick={handleLogout}
@@ -113,6 +126,8 @@ export default function UserDropdown() {
                 Iniciar Sesión
               </Link>
               
+              <div className="border-t border-gray-100 my-1"></div>
+              
               <Link
                 href="/register"
                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
@@ -120,6 +135,15 @@ export default function UserDropdown() {
               >
                 <UserPlus size={16} className="mr-3" />
                 Registrarse
+              </Link>
+              
+              <Link
+                href="/vendedor/login"
+                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Store size={16} className="mr-3" />
+                Iniciar sesión como vendedor
               </Link>
             </div>
           )}
