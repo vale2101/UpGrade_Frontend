@@ -77,3 +77,4 @@ export default function VendedorNavigation({ mobile = false }: VendedorNavigatio
   return <RecursiveMenu items={menuItems} mobile={mobile} />;
 }
 
+

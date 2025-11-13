@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface InputFieldProps {
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   placeholder?: string;
   value?: string;
@@ -21,7 +21,8 @@ export default function InputField({
   disabled = false,
   required = false,
   name,
-  id
+  id,
+  ...props
 }: InputFieldProps) {
   return (
     <input
@@ -34,6 +35,7 @@ export default function InputField({
       name={name}
       id={id}
       className={`w-full border-b border-gray-300 p-2 sm:p-3 focus:outline-none focus:border-black transition-colors text-sm sm:text-base ${className}`}
+      {...props}
     />
   );
 }

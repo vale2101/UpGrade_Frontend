@@ -7,7 +7,7 @@ import ErrorAlert from "../atoms/ErrorAlert";
 import FormLink from "../atoms/FormLink";
 
 export default function VendedorLoginForm() {
-  const { email, setEmail, password, setPassword, error, loading, handleSubmit } = useVendedorLogin();
+  const { register, handleSubmit, errors, error, loading } = useVendedorLogin();
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -20,10 +20,12 @@ export default function VendedorLoginForm() {
             type="email" 
             placeholder="vendedor@negocio.com" 
             name="email"
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
+            {...register("email")}
             required
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <label className="text-sm font-medium text-gray-700">Contraseña</label>
@@ -31,10 +33,12 @@ export default function VendedorLoginForm() {
             type="password" 
             placeholder="Ingresa tu contraseña" 
             name="password"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
+            {...register("password")}
             required
           />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+          )}
         </div>
         <Button type="submit" fullWidth disabled={loading}>
           {loading ? "Cargando..." : "Iniciar Sesión como Vendedor"}

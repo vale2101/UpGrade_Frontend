@@ -1,39 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import FormInput from "../atoms/FormInput";
 import FormTextArea from "../atoms/FormTextArea";
 import SubmitButton from "../atoms/SubmitButton";
 
+const contactFormSchema = z.object({
+  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  contacto: z.string().min(10, "El teléfono debe tener al menos 10 caracteres"),
+  correo: z.string().email("Correo electrónico inválido"),
+  duda: z.string().min(10, "La consulta debe tener al menos 10 caracteres"),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
+
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    contacto: "",
-    correo: "",
-    duda: ""
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí puedes agregar la lógica para enviar el formulario
-    // Aquí se procesarían los datos del formulario
-    alert("¡Gracias por tu consulta! Te contactaremos pronto.");
-    
-    // Limpiar el formulario
-    setFormData({
-      nombre: "",
-      contacto: "",
-      correo: "",
-      duda: ""
-    });
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      // Simulación de envío
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      alert("¡Gracias por tu consulta! Te contactaremos pronto.");
+      reset();
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      alert("Hubo un error al enviar tu consulta. Por favor, inténtalo de nuevo.");
+    }
   };
 
   return (
@@ -45,50 +47,50 @@ export default function ContactForm() {
         Completa el formulario y nos pondremos en contacto contigo lo antes posible.
       </p>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormInput
+          <FormInput<ContactFormData>
             label="Nombre completo"
             type="text"
             name="nombre"
             placeholder="Tu nombre completo"
             required
-            value={formData.nombre}
-            onChange={handleInputChange}
+            register={register}
+            errors={errors}
           />
           
-          <FormInput
+          <FormInput<ContactFormData>
             label="Teléfono de contacto"
             type="tel"
             name="contacto"
             placeholder="Tu número de teléfono"
             required
-            value={formData.contacto}
-            onChange={handleInputChange}
+            register={register}
+            errors={errors}
           />
         </div>
         
-        <FormInput
+        <FormInput<ContactFormData>
           label="Correo electrónico"
           type="email"
           name="correo"
           placeholder="tu@email.com"
           required
-          value={formData.correo}
-          onChange={handleInputChange}
+          register={register}
+          errors={errors}
         />
         
-        <FormTextArea
+        <FormTextArea<ContactFormData>
           label="Describe tu duda o consulta"
           name="duda"
           placeholder="Escribe aquí tu pregunta, problema o consulta..."
           required
           rows={5}
-          value={formData.duda}
-          onChange={handleInputChange}
+          register={register}
+          errors={errors}
         />
         
-        <SubmitButton>
+        <SubmitButton loading={isSubmitting}>
           Enviar Consulta
         </SubmitButton>
       </form>

@@ -1,27 +1,43 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import InputField from "../atoms/InputField"
 import Button from "../atoms/Button"
 
+const loginFormSchema = z.object({
+  email: z.string().email("Correo electrónico inválido"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+});
+
+type LoginFormData = z.infer<typeof loginFormSchema>;
+
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const onFormSubmit = async (data: LoginFormData) => {
+    setError("");
     try {
-      const success = await login(email, password);
+      const success = await login(data.email, data.password);
       if (success) {
         const redirect = searchParams.get("redirect") || "/user";
         router.push(redirect);
@@ -30,8 +46,6 @@ export default function LoginForm() {
       }
     } catch (err) {
       setError("Error al iniciar sesión");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -44,17 +58,19 @@ export default function LoginForm() {
       )}
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 sm:space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
           <InputField 
             type="email" 
             placeholder="Ingresa tu correo" 
             name="email"
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
+            {...register("email")}
             required
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <label className="text-sm font-medium text-gray-700">Contraseña</label>
@@ -62,13 +78,15 @@ export default function LoginForm() {
             type="password" 
             placeholder="Ingresa tu contraseña" 
             name="password"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
+            {...register("password")}
             required
           />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+          )}
         </div>
-        <Button type="submit" fullWidth disabled={loading}>
-          {loading ? "Cargando..." : "Iniciar Sesión"}
+        <Button type="submit" fullWidth disabled={isSubmitting}>
+          {isSubmitting ? "Cargando..." : "Iniciar Sesión"}
         </Button>
       </form>
 

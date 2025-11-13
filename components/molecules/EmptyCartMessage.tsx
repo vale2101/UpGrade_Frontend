@@ -1,4 +1,10 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function EmptyCartMessage() {
+  const router = useRouter();
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 text-center">
       <div className="max-w-md mx-auto">
@@ -8,7 +14,7 @@ export default function EmptyCartMessage() {
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h1>
         <p className="text-gray-600 mb-6">Agrega algunos productos para comenzar tu compra</p>
         <button
-          onClick={() => window.location.href = '/promociones'}
+          onClick={() => router.push('/promociones')}
           className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto"
         >
           Ver productos

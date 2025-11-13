@@ -1,25 +1,41 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 
+const vendedorLoginFormSchema = z.object({
+  email: z.string().email("Correo electrónico inválido"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+});
+
+type VendedorLoginFormData = z.infer<typeof vendedorLoginFormSchema>;
+
 export function useVendedorLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<VendedorLoginFormData>({
+    resolver: zodResolver(vendedorLoginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const onSubmit = async (data: VendedorLoginFormData) => {
+    setError("");
     try {
-      const success = await login(email, password);
+      const success = await login(data.email, data.password);
       if (success) {
         const redirect = searchParams.get("redirect") || "/vendedor/dashboard";
         router.push(redirect);
@@ -28,19 +44,15 @@ export function useVendedorLogin() {
       }
     } catch (err) {
       setError("Error al iniciar sesión");
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
-    email,
-    setEmail,
-    password,
-    setPassword,
+    register,
+    handleSubmit: handleSubmit(onSubmit),
+    errors,
     error,
-    loading,
-    handleSubmit
+    loading: isSubmitting,
   };
 }
 
