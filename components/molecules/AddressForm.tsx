@@ -2,21 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import FormInput from "../atoms/FormInput";
 
-const addressFormSchema = z.object({
-  fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  phone: z.string().min(10, "El teléfono debe tener al menos 10 caracteres"),
-  line1: z.string().min(5, "La dirección debe tener al menos 5 caracteres"),
-  line2: z.string().optional(),
-  city: z.string().min(2, "La ciudad debe tener al menos 2 caracteres"),
-  state: z.string().min(2, "El departamento/estado debe tener al menos 2 caracteres"),
-  zip: z.string().min(4, "El código postal debe tener al menos 4 caracteres"),
-});
-
-type AddressFormData = z.infer<typeof addressFormSchema>;
+interface AddressFormData {
+  fullName: string;
+  phone: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  zip: string;
+}
 
 const STORAGE_KEY = "upgrade-address";
 
@@ -30,7 +26,6 @@ export default function AddressForm() {
     reset,
     watch
   } = useForm<AddressFormData>({
-    resolver: zodResolver(addressFormSchema),
     defaultValues: {
       fullName: "",
       phone: "",
@@ -75,7 +70,10 @@ export default function AddressForm() {
       <div>
         <label className="block text-sm text-gray-600 mb-1">Nombre completo</label>
         <input
-          {...register("fullName")}
+          {...register("fullName", {
+            required: "El nombre es requerido",
+            minLength: { value: 2, message: "El nombre debe tener al menos 2 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.fullName ? "border-red-500" : "border-gray-300"
           }`}
@@ -87,7 +85,10 @@ export default function AddressForm() {
       <div>
         <label className="block text-sm text-gray-600 mb-1">Teléfono</label>
         <input
-          {...register("phone")}
+          {...register("phone", {
+            required: "El teléfono es requerido",
+            minLength: { value: 10, message: "El teléfono debe tener al menos 10 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.phone ? "border-red-500" : "border-gray-300"
           }`}
@@ -99,7 +100,10 @@ export default function AddressForm() {
       <div className="sm:col-span-2">
         <label className="block text-sm text-gray-600 mb-1">Dirección</label>
         <input
-          {...register("line1")}
+          {...register("line1", {
+            required: "La dirección es requerida",
+            minLength: { value: 5, message: "La dirección debe tener al menos 5 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.line1 ? "border-red-500" : "border-gray-300"
           }`}
@@ -118,7 +122,10 @@ export default function AddressForm() {
       <div>
         <label className="block text-sm text-gray-600 mb-1">Ciudad</label>
         <input
-          {...register("city")}
+          {...register("city", {
+            required: "La ciudad es requerida",
+            minLength: { value: 2, message: "La ciudad debe tener al menos 2 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.city ? "border-red-500" : "border-gray-300"
           }`}
@@ -130,7 +137,10 @@ export default function AddressForm() {
       <div>
         <label className="block text-sm text-gray-600 mb-1">Departamento/Estado</label>
         <input
-          {...register("state")}
+          {...register("state", {
+            required: "El departamento/estado es requerido",
+            minLength: { value: 2, message: "El departamento/estado debe tener al menos 2 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.state ? "border-red-500" : "border-gray-300"
           }`}
@@ -142,7 +152,10 @@ export default function AddressForm() {
       <div>
         <label className="block text-sm text-gray-600 mb-1">Código Postal</label>
         <input
-          {...register("zip")}
+          {...register("zip", {
+            required: "El código postal es requerido",
+            minLength: { value: 4, message: "El código postal debe tener al menos 4 caracteres" },
+          })}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.zip ? "border-red-500" : "border-gray-300"
           }`}

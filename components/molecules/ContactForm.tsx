@@ -1,20 +1,16 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import FormInput from "../atoms/FormInput";
 import FormTextArea from "../atoms/FormTextArea";
 import SubmitButton from "../atoms/SubmitButton";
 
-const contactFormSchema = z.object({
-  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  contacto: z.string().min(10, "El teléfono debe tener al menos 10 caracteres"),
-  correo: z.string().email("Correo electrónico inválido"),
-  duda: z.string().min(10, "La consulta debe tener al menos 10 caracteres"),
-});
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
+interface ContactFormData {
+  nombre: string;
+  contacto: string;
+  correo: string;
+  duda: string;
+}
 
 export default function ContactForm() {
   const {
@@ -23,7 +19,12 @@ export default function ContactForm() {
     formState: { errors, isSubmitting },
     reset
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      nombre: "",
+      contacto: "",
+      correo: "",
+      duda: "",
+    },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -55,7 +56,10 @@ export default function ContactForm() {
             name="nombre"
             placeholder="Tu nombre completo"
             required
-            register={register}
+            register={register("nombre", {
+              required: "El nombre es requerido",
+              minLength: { value: 2, message: "El nombre debe tener al menos 2 caracteres" },
+            }) as any}
             errors={errors}
           />
           
@@ -65,7 +69,10 @@ export default function ContactForm() {
             name="contacto"
             placeholder="Tu número de teléfono"
             required
-            register={register}
+            register={register("contacto", {
+              required: "El teléfono es requerido",
+              minLength: { value: 10, message: "El teléfono debe tener al menos 10 caracteres" },
+            }) as any}
             errors={errors}
           />
         </div>
@@ -76,7 +83,13 @@ export default function ContactForm() {
           name="correo"
           placeholder="tu@email.com"
           required
-          register={register}
+          register={register("correo", {
+            required: "El correo es requerido",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Correo electrónico inválido",
+            },
+          }) as any}
           errors={errors}
         />
         
@@ -86,7 +99,10 @@ export default function ContactForm() {
           placeholder="Escribe aquí tu pregunta, problema o consulta..."
           required
           rows={5}
-          register={register}
+          register={register("duda", {
+            required: "La consulta es requerida",
+            minLength: { value: 10, message: "La consulta debe tener al menos 10 caracteres" },
+          }) as any}
           errors={errors}
         />
         

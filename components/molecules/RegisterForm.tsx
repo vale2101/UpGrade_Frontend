@@ -2,21 +2,17 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import InputField from "../atoms/InputField"
 import Button from "../atoms/Button"
 
-const registerFormSchema = z.object({
-  fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  email: z.string().email("Correo electrónico inválido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-  phone: z.string().min(10, "El teléfono debe tener al menos 10 caracteres"),
-});
-
-type RegisterFormData = z.infer<typeof registerFormSchema>;
+interface RegisterFormData {
+  fullName: string;
+  email: string;
+  password: string;
+  phone: string;
+}
 
 export default function RegisterForm() {
   const [error, setError] = useState("");
@@ -28,7 +24,6 @@ export default function RegisterForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       fullName: "",
       email: "",
@@ -73,7 +68,10 @@ export default function RegisterForm() {
             type="text" 
             placeholder="Ingresa tu nombre completo" 
             name="fullName"
-            {...register("fullName")}
+            {...register("fullName", {
+              required: "El nombre es requerido",
+              minLength: { value: 2, message: "El nombre debe tener al menos 2 caracteres" },
+            })}
             required
           />
           {errors.fullName && (
@@ -86,7 +84,13 @@ export default function RegisterForm() {
             type="email" 
             placeholder="Ingresa tu correo" 
             name="email"
-            {...register("email")}
+            {...register("email", {
+              required: "El correo es requerido",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Correo electrónico inválido",
+              },
+            })}
             required
           />
           {errors.email && (
@@ -99,7 +103,10 @@ export default function RegisterForm() {
             type="password" 
             placeholder="Ingresa tu contraseña" 
             name="password"
-            {...register("password")}
+            {...register("password", {
+              required: "La contraseña es requerida",
+              minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
+            })}
             required
           />
           {errors.password && (
@@ -112,7 +119,10 @@ export default function RegisterForm() {
             type="tel" 
             placeholder="Ingresa tu número de teléfono" 
             name="phone"
-            {...register("phone")}
+            {...register("phone", {
+              required: "El teléfono es requerido",
+              minLength: { value: 10, message: "El teléfono debe tener al menos 10 caracteres" },
+            })}
             required
           />
           {errors.phone && (
