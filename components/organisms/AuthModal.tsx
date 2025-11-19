@@ -1,11 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useRouter } from "next/navigation"; // 👈 importamos router
+import { useAuthService } from "../../hooks/useAuthService";
 import ModalHeader from "../atoms/ModalHeader";
 import ErrorAlert from "../atoms/ErrorAlert";
-import AuthForm, { AuthFormData } from "../molecules/AuthForm";
+import AuthForm from "../molecules/AuthForm";
 import DemoCredentials from "../atoms/DemoCredentials";
+
+interface AuthFormData {
+  name?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -13,47 +21,34 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
-  const { login, register } = useAuth();
+  const { login, register, loading, error } = useAuthService();
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const router = useRouter(); 
 
   const handleSubmit = async (formData: AuthFormData) => {
-    setIsLoading(true);
-    setError("");
-
     try {
       if (isLogin) {
         const success = await login(formData.email, formData.password);
         if (success) {
           onClose();
-        } else {
-          setError("Credenciales inválidas");
+          router.push("/user"); 
         }
       } else {
         if (formData.password !== formData.confirmPassword) {
-          setError("Las contraseñas no coinciden");
-          setIsLoading(false);
           return;
         }
-        
         const success = await register(formData.name!, formData.email, formData.password);
         if (success) {
           onClose();
-        } else {
-          setError("Error al crear la cuenta");
+          router.push("/register"); 
         }
       }
-    } catch (error) {
-      setError("Ocurrió un error inesperado");
-    } finally {
-      setIsLoading(false);
+    } catch {
     }
   };
 
   const handleToggleMode = () => {
     setIsLogin(!isLogin);
-    setError("");
   };
 
   if (!isOpen) return null;
@@ -72,7 +67,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <AuthForm 
             isLogin={isLogin} 
             onSubmit={handleSubmit} 
-            isLoading={isLoading} 
+            isLoading={loading} 
           />
 
           <div className="mt-6 text-center">
