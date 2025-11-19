@@ -2,19 +2,15 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import InputField from "../atoms/InputField"
 import Button from "../atoms/Button"
 
-const loginFormSchema = z.object({
-  email: z.string().email("Correo electrónico inválido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-});
-
-type LoginFormData = z.infer<typeof loginFormSchema>;
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 export default function LoginForm() {
   const [error, setError] = useState("");
@@ -27,7 +23,6 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -65,7 +60,13 @@ export default function LoginForm() {
             type="email" 
             placeholder="Ingresa tu correo" 
             name="email"
-            {...register("email")}
+            {...register("email", {
+              required: "El correo es requerido",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Correo electrónico inválido",
+              },
+            })}
             required
           />
           {errors.email && (
@@ -78,7 +79,10 @@ export default function LoginForm() {
             type="password" 
             placeholder="Ingresa tu contraseña" 
             name="password"
-            {...register("password")}
+            {...register("password", {
+              required: "La contraseña es requerida",
+              minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
+            })}
             required
           />
           {errors.password && (

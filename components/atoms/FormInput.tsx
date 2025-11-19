@@ -1,4 +1,5 @@
-import { UseFormRegister, FieldErrors, FieldValues, Path } from "react-hook-form";
+import { FieldErrors, FieldValues, Path } from "react-hook-form";
+import React from "react";
 
 interface FormInputProps<T extends FieldValues> {
   label: string;
@@ -6,7 +7,7 @@ interface FormInputProps<T extends FieldValues> {
   name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  register?: UseFormRegister<T>;
+  register?: any; // Recibe el resultado de register() directamente (UseFormRegisterReturn)
   errors?: FieldErrors<T>;
   className?: string;
   // Props legacy para compatibilidad
@@ -29,8 +30,8 @@ export default function FormInput<T extends FieldValues>({
   const error = errors?.[name];
   const errorMessage = error?.message as string;
 
-  // Si se usa react-hook-form
-  if (register) {
+  // Si se usa react-hook-form (register viene como objeto de props)
+  if (register && typeof register === "object" && !onChange) {
     return (
       <div className={`mb-4 ${className}`}>
         <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
@@ -39,7 +40,7 @@ export default function FormInput<T extends FieldValues>({
         <input
           type={type}
           id={name}
-          {...register(name, { required: required ? `${label} es requerido` : false })}
+          {...register}
           placeholder={placeholder}
           className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 text-sm sm:text-base ${
             errorMessage 

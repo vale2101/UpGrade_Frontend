@@ -1,27 +1,15 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import FormInput from "../atoms/FormInput";
 import SubmitButton from "../atoms/SubmitButton";
 
-const authFormSchema = z.object({
-  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres").optional(),
-  email: z.string().email("Correo electrónico inválido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-  confirmPassword: z.string().optional(),
-}).refine((data) => {
-  if (data.confirmPassword) {
-    return data.password === data.confirmPassword;
-  }
-  return true;
-}, {
-  message: "Las contraseñas no coinciden",
-  path: ["confirmPassword"],
-});
-
-type AuthFormData = z.infer<typeof authFormSchema>;
+interface AuthFormData {
+  name?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -34,8 +22,8 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<AuthFormData>({
-    resolver: zodResolver(authFormSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -43,6 +31,8 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
       confirmPassword: "",
     },
   });
+
+  const password = watch("password");
 
   const onFormSubmit = async (data: AuthFormData) => {
     await onSubmit(data);
@@ -57,7 +47,10 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
           name="name"
           placeholder="Tu nombre completo"
           required={!isLogin}
-          register={register}
+          register={register("name", !isLogin ? {
+            required: "El nombre es requerido",
+            minLength: { value: 2, message: "El nombre debe tener al menos 2 caracteres" },
+          } : {})}
           errors={errors}
         />
       )}
@@ -68,7 +61,13 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
         name="email"
         placeholder="tu@email.com"
         required
-        register={register}
+        register={register("email", {
+          required: "El correo es requerido",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "Correo electrónico inválido",
+          },
+        })}
         errors={errors}
       />
 
@@ -78,7 +77,10 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
         name="password"
         placeholder="Tu contraseña"
         required
-        register={register}
+        register={register("password", {
+          required: "La contraseña es requerida",
+          minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
+        })}
         errors={errors}
       />
 
@@ -89,7 +91,10 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
           name="confirmPassword"
           placeholder="Confirma tu contraseña"
           required={!isLogin}
-          register={register}
+          register={register("confirmPassword", !isLogin ? {
+            required: "Confirma tu contraseña",
+            validate: (value) => value === password || "Las contraseñas no coinciden",
+          } : {})}
           errors={errors}
         />
       )}

@@ -2,17 +2,13 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 
-const vendedorLoginFormSchema = z.object({
-  email: z.string().email("Correo electrónico inválido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-});
-
-type VendedorLoginFormData = z.infer<typeof vendedorLoginFormSchema>;
+interface VendedorLoginFormData {
+  email: string;
+  password: string;
+}
 
 export function useVendedorLogin() {
   const [error, setError] = useState("");
@@ -21,11 +17,10 @@ export function useVendedorLogin() {
   const searchParams = useSearchParams();
 
   const {
-    register,
+    register: registerField,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<VendedorLoginFormData>({
-    resolver: zodResolver(vendedorLoginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -45,6 +40,25 @@ export function useVendedorLogin() {
     } catch (err) {
       setError("Error al iniciar sesión");
     }
+  };
+
+  const register = (name: keyof VendedorLoginFormData) => {
+    if (name === "email") {
+      return registerField("email", {
+        required: "El correo es requerido",
+        pattern: {
+          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+          message: "Correo electrónico inválido",
+        },
+      });
+    }
+    if (name === "password") {
+      return registerField("password", {
+        required: "La contraseña es requerida",
+        minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
+      });
+    }
+    return registerField(name);
   };
 
   return {

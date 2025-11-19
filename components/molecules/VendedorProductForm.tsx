@@ -2,21 +2,17 @@
 
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import InputField from "../atoms/InputField";
 import Button from "../atoms/Button";
 import { VendedorProduct } from "../../hooks/useVendedorProducts";
 
-const vendedorProductFormSchema = z.object({
-  name: z.string().min(2, "El nombre del producto debe tener al menos 2 caracteres"),
-  price: z.string().min(1, "El precio es requerido"),
-  stock: z.number().min(0, "El stock debe ser mayor o igual a 0"),
-  category: z.string().min(1, "La categoría es requerida"),
-  condition: z.string().min(1, "La condición es requerida"),
-});
-
-type VendedorProductFormData = z.infer<typeof vendedorProductFormSchema>;
+interface VendedorProductFormData {
+  name: string;
+  price: string;
+  stock: number;
+  category: string;
+  condition: string;
+}
 
 interface VendedorProductFormProps {
   product?: VendedorProduct | null;
@@ -32,7 +28,6 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
     control,
     reset
   } = useForm<VendedorProductFormData>({
-    resolver: zodResolver(vendedorProductFormSchema),
     defaultValues: {
       name: "",
       price: "",
@@ -69,7 +64,10 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
       <div>
         <label className="text-sm font-medium text-gray-700">Nombre del Producto</label>
         <InputField
-          {...register("name")}
+          {...register("name", {
+            required: "El nombre del producto es requerido",
+            minLength: { value: 2, message: "El nombre del producto debe tener al menos 2 caracteres" },
+          })}
           placeholder="Ej: iPhone 13 Pro"
           required
         />
@@ -82,7 +80,9 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
         <div>
           <label className="text-sm font-medium text-gray-700">Precio</label>
           <InputField
-            {...register("price")}
+            {...register("price", {
+              required: "El precio es requerido",
+            })}
             placeholder="$1.000.000"
             required
           />
@@ -95,6 +95,10 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
           <Controller
             name="stock"
             control={control}
+            rules={{
+              required: "El stock es requerido",
+              min: { value: 0, message: "El stock debe ser mayor o igual a 0" },
+            }}
             render={({ field }) => (
               <>
                 <InputField
@@ -119,6 +123,9 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
           <Controller
             name="category"
             control={control}
+            rules={{
+              required: "La categoría es requerida",
+            }}
             render={({ field }) => (
               <>
                 <select
@@ -145,6 +152,9 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
           <Controller
             name="condition"
             control={control}
+            rules={{
+              required: "La condición es requerida",
+            }}
             render={({ field }) => (
               <>
                 <select
