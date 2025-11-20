@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { DireccionService } from "../../services/DireccionService";
 import { direccionInterface } from "../../interfaces/direccion.interface";
+import AddressList from "./AddressList";
 
 export default function AddressForm() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const {
     register,
@@ -32,6 +34,8 @@ export default function AddressForm() {
         setSaved(true);
         reset(); // limpiar formulario
         setTimeout(() => setSaved(false), 3000);
+        // Refrescar la lista de direcciones
+        setRefreshKey(prev => prev + 1);
       } else {
         setError(res.message || "Error al guardar la dirección");
       }
@@ -40,11 +44,16 @@ export default function AddressForm() {
     }
   };
 
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit(onSave)}
-      className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 grid grid-cols-1 gap-4"
-    >
+    <div className="space-y-6">
+      <form
+        onSubmit={handleSubmit(onSave)}
+        className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 grid grid-cols-1 gap-4"
+      >
       <div>
         <label className="block text-sm text-gray-600 mb-1">País</label>
         <input
@@ -108,6 +117,10 @@ export default function AddressForm() {
       </div>
 
       {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
-    </form>
+      </form>
+
+      {/* Lista de direcciones registradas */}
+      <AddressList refreshKey={refreshKey} onRefresh={handleRefresh} />
+    </div>
   );
 }

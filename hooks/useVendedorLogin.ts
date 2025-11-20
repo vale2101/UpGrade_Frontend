@@ -50,15 +50,15 @@ export function useVendedorLogin() {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
           message: "Correo electrónico inválido",
         },
-      });
+      }) as any;
     }
     if (name === "password") {
       return registerField("password", {
         required: "La contraseña es requerida",
         minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
-      });
+      }) as any;
     }
-    return registerField(name);
+    return registerField(name) as any;
   };
 
   return {

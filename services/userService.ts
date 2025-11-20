@@ -8,6 +8,7 @@ import {
   User,
   ApiResponse,
 } from "../interfaces/user.interface";
+import { direccionInterface } from "../interfaces/direccion.interface";
 
 axios.defaults.withCredentials = true;
 

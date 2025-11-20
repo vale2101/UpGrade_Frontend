@@ -1,10 +1,15 @@
 "use client";
 
 import { useVendedorLogin } from "../../hooks/useVendedorLogin";
-import InputField from "../atoms/InputField";
+import FormInput from "../atoms/FormInput";
 import Button from "../atoms/Button";
 import ErrorAlert from "../atoms/ErrorAlert";
 import FormLink from "../atoms/FormLink";
+
+interface VendedorLoginFormData {
+  email: string;
+  password: string;
+}
 
 export default function VendedorLoginForm() {
   const { register, handleSubmit, errors, error, loading } = useVendedorLogin();
@@ -14,32 +19,26 @@ export default function VendedorLoginForm() {
       <ErrorAlert message={error} />
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-        <div>
-          <label className="text-sm font-medium text-gray-700">Correo del Vendedor</label>
-          <InputField 
-            type="email" 
-            placeholder="vendedor@negocio.com" 
-            name="email"
-            {...register("email")}
-            required
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="text-sm font-medium text-gray-700">Contraseña</label>
-          <InputField 
-            type="password" 
-            placeholder="Ingresa tu contraseña" 
-            name="password"
-            {...register("password")}
-            required
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-          )}
-        </div>
+        <FormInput<VendedorLoginFormData>
+          label="Correo del Vendedor"
+          type="email"
+          name="email"
+          placeholder="vendedor@negocio.com"
+          required
+          register={register("email")}
+          errors={errors}
+        />
+        
+        <FormInput<VendedorLoginFormData>
+          label="Contraseña"
+          type="password"
+          name="password"
+          placeholder="Ingresa tu contraseña"
+          required
+          register={register("password")}
+          errors={errors}
+        />
+        
         <Button type="submit" fullWidth disabled={loading}>
           {loading ? "Cargando..." : "Iniciar Sesión como Vendedor"}
         </Button>
