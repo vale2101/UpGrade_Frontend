@@ -2,6 +2,7 @@
 
 import FilterItem from "./FilterItem";
 import FilterCheckbox from "../atoms/FilterCheckbox";
+import { FilterState } from "../../contexts/FilterContext";
 
 interface FilterOption {
   value: string;
@@ -10,12 +11,12 @@ interface FilterOption {
 
 interface FilterGroupProps {
   label: string;
-  filterKey: string;
+  filterKey: keyof FilterState;
   options: FilterOption[];
   isExpanded: boolean;
   onToggle: () => void;
-  isFilterActive: (key: string, value: string) => boolean;
-  onFilterChange: (key: string, value: string) => void;
+  isFilterActive: (key: keyof FilterState, value: string) => boolean;
+  onFilterChange: (key: keyof FilterState, value: string) => void;
 }
 
 export default function FilterGroup({

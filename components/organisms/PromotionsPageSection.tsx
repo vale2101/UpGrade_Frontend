@@ -53,7 +53,7 @@ export default function PromotionsPageSection() {
 
         <ProductSearchBar 
           searchTerm={searchQuery}
-          onSearchChange={(e: any) => setSearchQuery(e.target.value)}
+          onSearchChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
           onClear={() => setSearchQuery("")}
           resultsCount={filteredProducts.length}
         />
@@ -64,7 +64,7 @@ export default function PromotionsPageSection() {
           </div>
           <div className="flex-1">
             {filteredProducts.length > 0 ? (
-              <ProductListing products={filteredProducts as any} onAddToCart={handleAddToCart} />
+              <ProductListing products={filteredProducts} onAddToCart={handleAddToCart} />
             ) : (
               <EmptyProductsState
                 searchTerm={searchQuery}

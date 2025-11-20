@@ -67,3 +67,6 @@ export default function VendedorProductsTable({ products, onEdit, onDelete }: Ve
 
 
 
+
+
+

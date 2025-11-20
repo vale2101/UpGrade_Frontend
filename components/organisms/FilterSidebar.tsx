@@ -2,10 +2,16 @@
 
 import { useState } from "react";
 import FilterGroup from "../molecules/FilterGroup";
-import { useFilter } from "../../contexts/FilterContext";
+import { useFilter, FilterState } from "../../contexts/FilterContext";
 
 // Configuración de filtros
-const filterConfig = [
+interface FilterConfig {
+  key: keyof FilterState;
+  label: string;
+  options: Array<{ value: string; label: string }>;
+}
+
+const filterConfig: FilterConfig[] = [
   {
     key: 'disponibilidad',
     label: 'Disponibilidad',
@@ -16,49 +22,67 @@ const filterConfig = [
   },
   {
     key: 'tipo',
-    label: 'Tipo de producto',
+    label: 'Tipo de Producto',
     options: [
-      { value: 'Smartphones', label: 'Smartphones' },
-      { value: 'Tablets', label: 'Tablets' },
-      { value: 'Accesorios', label: 'Accesorios' }
+      { value: 'Smartphone', label: 'Smartphone' },
+      { value: 'Tablet', label: 'Tablet' },
+      { value: 'Laptop', label: 'Laptop' },
+      { value: 'Accesorio', label: 'Accesorio' }
     ]
   },
   {
     key: 'marca',
     label: 'Marca',
     options: [
+      { value: 'Apple', label: 'Apple' },
       { value: 'Samsung', label: 'Samsung' },
-      { value: 'iPhone', label: 'iPhone' },
-      { value: 'iPad', label: 'iPad' },
-      { value: 'Vivo', label: 'Vivo' }
+      { value: 'Xiaomi', label: 'Xiaomi' },
+      { value: 'Huawei', label: 'Huawei' },
+      { value: 'Oppo', label: 'Oppo' },
+      { value: 'Vivo', label: 'Vivo' },
+      { value: 'Realme', label: 'Realme' },
+      { value: 'OnePlus', label: 'OnePlus' },
+      { value: 'Motorola', label: 'Motorola' },
+      { value: 'Nokia', label: 'Nokia' },
+      { value: 'Sony', label: 'Sony' },
+      { value: 'LG', label: 'LG' },
+      { value: 'Google', label: 'Google' },
+      { value: 'Asus', label: 'Asus' },
+      { value: 'Lenovo', label: 'Lenovo' },
+      { value: 'Otras marcas', label: 'Otras marcas' }
     ]
   },
   {
     key: 'precio',
-    label: 'Precio',
+    label: 'Rango de Precio',
     options: [
-      { value: '0-300000', label: '$0 - $300.000' },
-      { value: '300000-500000', label: '$300.000 - $500.000' },
-      { value: '500000+', label: '$500.000+' }
+      { value: '0-500', label: 'Menos de S/500' },
+      { value: '500-1000', label: 'S/500 - S/1000' },
+      { value: '1000-2000', label: 'S/1000 - S/2000' },
+      { value: '2000-3000', label: 'S/2000 - S/3000' },
+      { value: '3000-5000', label: 'S/3000 - S/5000' },
+      { value: '5000+', label: 'Más de S/5000' }
     ]
   },
   {
     key: 'categoria',
     label: 'Categoría',
     options: [
-      { value: 'Nuevos', label: 'Nuevos' },
-      { value: 'Como Nuevo', label: 'Como Nuevo' },
-      { value: 'Outlet', label: 'Outlet' }
+      { value: 'smartphones', label: 'Smartphones' },
+      { value: 'tablets', label: 'Tablets' },
+      { value: 'laptops', label: 'Laptops' },
+      { value: 'accesorios', label: 'Accesorios' }
     ]
   },
   {
     key: 'capacidad',
     label: 'Capacidad',
     options: [
-      { value: '32GB', label: '32GB' },
       { value: '64GB', label: '64GB' },
       { value: '128GB', label: '128GB' },
-      { value: '256GB+', label: '256GB+' }
+      { value: '256GB', label: '256GB' },
+      { value: '512GB', label: '512GB' },
+      { value: '1TB', label: '1TB' }
     ]
   },
   {
@@ -74,10 +98,10 @@ const filterConfig = [
 ];
 
 export default function FilterSidebar() {
-  const [expandedFilters, setExpandedFilters] = useState<string[]>([]);
+  const [expandedFilters, setExpandedFilters] = useState<Array<keyof FilterState>>([]);
   const { isFilterActive, toggleFilter, clearFilters } = useFilter();
 
-  const handleToggleExpand = (filterKey: string) => {
+  const handleToggleExpand = (filterKey: keyof FilterState) => {
     setExpandedFilters(prev => 
       prev.includes(filterKey) 
         ? prev.filter(f => f !== filterKey)
@@ -98,8 +122,8 @@ export default function FilterSidebar() {
             options={filter.options}
             isExpanded={expandedFilters.includes(filter.key)}
             onToggle={() => handleToggleExpand(filter.key)}
-            isFilterActive={(key, value) => isFilterActive(key as any, value)}
-            onFilterChange={(key, value) => toggleFilter(key as any, value)}
+            isFilterActive={isFilterActive}
+            onFilterChange={toggleFilter}
           />
         ))}
       </div>

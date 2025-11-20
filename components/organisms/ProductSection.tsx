@@ -2,9 +2,7 @@ import ProductGrid from "../molecules/ProductGrid";
 import { Product } from "../../contexts/DataContext";
 
 interface ProductSectionProps {
-  title: string;
   products: Product[];
-  showFilter?: boolean;
   showAll?: boolean;
   onToggleShowAll?: () => void;
   onProductClick?: (productId: string) => void;
@@ -12,9 +10,7 @@ interface ProductSectionProps {
 }
 
 export default function ProductSection({
-  title,
   products,
-  showFilter = true,
   showAll = false,
   onToggleShowAll,
   onProductClick,

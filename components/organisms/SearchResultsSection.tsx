@@ -27,14 +27,14 @@ export default function SearchResultsSection() {
 
       <ProductSearchBar
         searchTerm={searchQuery}
-        onSearchChange={(e: any) => setSearchQuery(e.target.value)}
+        onSearchChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         onClear={() => setSearchQuery("")}
         resultsCount={filteredProducts.length}
       />
 
       <div className="mt-4">
         {filteredProducts.length > 0 ? (
-          <ProductListing products={filteredProducts as any} />
+          <ProductListing products={filteredProducts} />
         ) : (
           <EmptyProductsState
             searchTerm={searchQuery}

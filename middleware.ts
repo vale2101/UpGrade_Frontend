@@ -20,7 +20,6 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // If authenticated and trying to access auth pages, redirect to user
   if (authRoutes.some(route => pathname.startsWith(route))) {
     if (isAuthenticated) {
       return NextResponse.redirect(new URL('/user', request.url));
