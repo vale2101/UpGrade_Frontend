@@ -29,7 +29,6 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      // Simulación de envío
       await new Promise((resolve) => setTimeout(resolve, 1000));
       alert("¡Gracias por tu consulta! Te contactaremos pronto.");
       reset();

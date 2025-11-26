@@ -7,11 +7,9 @@ const authRoutes = ['/login', '/register'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  // Check if user is authenticated by looking for the cookie
   const userCookie = request.cookies.get('upgrade-auth');
   const isAuthenticated = !!userCookie;
 
-  // If trying to access protected route without auth, redirect to login
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
     if (!isAuthenticated) {
       const loginUrl = new URL('/login', request.url);

@@ -7,12 +7,7 @@ interface VendedorNavigationProps {
   mobile?: boolean;
 }
 
-/**
- * Ejemplo de uso del componente RecursiveMenu con estructura de menú anidado
- * Demuestra recursividad en múltiples niveles
- */
 export default function VendedorNavigation({ mobile = false }: VendedorNavigationProps) {
-  // Configuración del menú con estructura recursiva
   const menuItems: MenuItem[] = [
     {
       label: "Productos",

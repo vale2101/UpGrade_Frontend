@@ -35,7 +35,6 @@ export default function AddressForm() {
 
     try {
       setError(null);
-      // Agregar el id_user del usuario autenticado extraído del token
       const direccionData: direccionInterface = {
         ...data,
         id_user: parseInt(user.id, 10),
@@ -45,9 +44,8 @@ export default function AddressForm() {
 
       if (res.success) {
         setSaved(true);
-        reset(); // limpiar formulario
+        reset(); 
         setTimeout(() => setSaved(false), 3000);
-        // Refrescar la lista de direcciones
         setRefreshKey(prev => prev + 1);
       } else {
         setError(res.message || "Error al guardar la dirección");
@@ -132,7 +130,6 @@ export default function AddressForm() {
       {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
       </form>
 
-      {/* Lista de direcciones registradas */}
       <AddressList refreshKey={refreshKey} onRefresh={handleRefresh} />
     </div>
   );

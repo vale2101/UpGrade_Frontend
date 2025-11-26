@@ -13,7 +13,6 @@ export interface ServiceHistoryItem {
 
 const STORAGE_KEY = "upgrade-service-history";
 
-// TODO: Los servicios deben ser obtenidos desde la base de datos
 const seed: ServiceHistoryItem[] = [];
 
 export function useServiceHistory() {

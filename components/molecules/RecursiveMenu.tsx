@@ -8,20 +8,16 @@ export interface MenuItem {
   label: string;
   href?: string;
   icon?: ReactNode;
-  subItems?: MenuItem[]; // Recursividad: un item puede tener sub-items
+  subItems?: MenuItem[]; 
   onClick?: () => void;
 }
 
 interface RecursiveMenuProps {
   items: MenuItem[];
-  level?: number; // Para controlar la profundidad de anidamiento
+  level?: number; 
   mobile?: boolean;
 }
 
-/**
- * Componente recursivo que renderiza un menú con soporte para sub-menús anidados
- * Usa recursividad para renderizar niveles infinitos de menú
- */
 export default function RecursiveMenu({ items, level = 0, mobile = false }: RecursiveMenuProps) {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
 
@@ -47,7 +43,6 @@ export default function RecursiveMenu({ items, level = 0, mobile = false }: Recu
 
         return (
           <div key={`${item.label}-${index}`}>
-            {/* Item principal */}
             {item.href ? (
               <Link
                 href={item.href}
@@ -92,7 +87,6 @@ export default function RecursiveMenu({ items, level = 0, mobile = false }: Recu
               </button>
             )}
 
-            {/* Sub-items (RECURSIÓN) */}
             {hasSubItems && isOpen && (
               <div className="ml-4 mt-1">
                 <RecursiveMenu

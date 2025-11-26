@@ -19,12 +19,6 @@ export default function PaymentMethodsSection() {
           </SectionDescription>
         </div>
 
-        <div className="mb-12">
-          <HeroImage 
-            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-            alt="Diferentes métodos de pago y tarjetas"
-          />
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {paymentMethods.map((method, index) => (

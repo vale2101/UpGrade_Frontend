@@ -17,25 +17,21 @@ export default function ActionIcons({ mobile = false }: ActionIconsProps) {
   if (mobile) {
     return (
       <div className="flex flex-col space-y-4">
-        {/* Search */}
         <div className="w-full">
           <SearchBar mobile />
         </div>
 
         <div className="flex items-center justify-center space-x-6">
-          {/* Mail */}
           <Link href="/ayuda" className="flex items-center space-x-2 text-gray-700 hover:text-black transition-colors">
             <Mail size={24} />
             <span className="text-lg font-medium">Ayuda</span>
           </Link>
 
-          {/* User */}
           <div className="flex items-center space-x-2 text-gray-700 hover:text-black transition-colors">
             <UserDropdown />
             <span className="text-lg font-medium">Mi Cuenta</span>
           </div>
 
-          {/* Carrito */}
           <div className="relative">
             <Link href="/carrito" className="flex items-center space-x-2 text-gray-700 hover:text-black transition-colors">
               <ShoppingCart size={24} />
@@ -54,20 +50,16 @@ export default function ActionIcons({ mobile = false }: ActionIconsProps) {
 
   return (
     <div className="flex items-center gap-4">
-      {/* Mail */}
       <Link href="/ayuda">
         <IconButton>
           <Mail size={20} />
         </IconButton>
       </Link>
 
-      {/* Search */}
       <SearchBar />
 
-      {/* User */}
       <UserDropdown />
 
-      {/* Carrito */}
       <div className="relative">
         <Link href="/carrito">
           <IconButton>

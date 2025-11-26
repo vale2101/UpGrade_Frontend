@@ -4,7 +4,6 @@ import { useState } from "react";
 import FilterGroup from "../molecules/FilterGroup";
 import { useFilter, FilterState } from "../../contexts/FilterContext";
 
-// Configuración de filtros
 interface FilterConfig {
   key: keyof FilterState;
   label: string;

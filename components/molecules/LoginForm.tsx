@@ -53,7 +53,6 @@ export default function LoginForm() {
         </div>
       )}
 
-      {/* Formulario */}
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 sm:space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
@@ -98,7 +97,6 @@ export default function LoginForm() {
         </Button>
       </form>
 
-      {/* Enlaces adicionales */}
       <div className="text-center space-y-2">
         <a href="#" className="text-xs sm:text-sm text-green-600 hover:text-green-800">
           ¿Olvidaste tu contraseña?

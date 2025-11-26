@@ -84,13 +84,10 @@ export interface Promotion {
   icon: string;
 }
 
-// TODO: Los productos deben ser obtenidos desde la base de datos
 const mainProducts: Product[] = [];
 
-// TODO: Los productos de promoción deben ser obtenidos desde la base de datos
 const promotionProducts: Product[] = [];
 
-// TODO: Los detalles de productos deben ser obtenidos desde la base de datos
 const productDetails: Record<string, Product> = {};
 
 const data = {

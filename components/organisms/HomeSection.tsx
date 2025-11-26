@@ -9,7 +9,6 @@ export default function HomeSection() {
 
   const handleAddToCart = (productId: string) => {
     console.log('Adding product to cart:', productId);
-    // TODO: Implement add to cart functionality
   };
 
   return (

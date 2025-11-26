@@ -14,7 +14,6 @@ export interface VendedorProduct {
 
 const STORAGE_KEY = "vendedor-products";
 
-// TODO: Los productos del vendedor deben ser obtenidos desde la base de datos
 const seedProducts: VendedorProduct[] = [];
 
 export function useVendedorProducts() {

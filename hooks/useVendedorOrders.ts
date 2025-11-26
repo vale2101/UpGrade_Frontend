@@ -16,7 +16,6 @@ export interface VendedorOrder {
 
 const STORAGE_KEY = "vendedor-orders";
 
-// TODO: Los pedidos del vendedor deben ser obtenidos desde la base de datos
 const seedOrders: VendedorOrder[] = [];
 
 const STATUS_LABELS: Record<VendedorOrder["status"], string> = {

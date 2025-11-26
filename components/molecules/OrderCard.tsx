@@ -12,7 +12,6 @@ export default function OrderCard({ order, statusLabel, onStatusChange }: OrderC
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        {/* Información del pedido */}
         <div className="flex-1 space-y-3">
           <div className="flex items-start justify-between">
             <div>
@@ -58,7 +57,6 @@ export default function OrderCard({ order, statusLabel, onStatusChange }: OrderC
           </div>
         </div>
 
-        {/* Estado del pedido */}
         <div className="flex flex-col items-start lg:items-end gap-3 lg:min-w-[200px]">
           <OrderStatusBadge status={order.status} label={statusLabel} />
           

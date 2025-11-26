@@ -20,12 +20,7 @@ export default function RepairsSection() {
           </SectionDescription>
         </div>
 
-        <div className="mb-12">
-          <HeroImage 
-            src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80"
-            alt="Técnico reparando dispositivos electrónicos"
-          />
-        </div>
+       
 
         <div className="mb-12">
           <SectionTitle className="text-center mb-8">Dispositivos que Reparamos</SectionTitle>

@@ -54,10 +54,9 @@ export default function VendedorDashboardSection() {
     <div className="bg-gray-50">
       <DashboardHeader userName={user?.name || "Vendedor"} onLogout={handleLogout} />
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs
-          baseUrl="" // Sin navegación para el dashboard del vendedor
+          baseUrl="" 
           items={[
             {
               key: "products",

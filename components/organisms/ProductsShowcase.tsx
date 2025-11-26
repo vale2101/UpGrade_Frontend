@@ -48,7 +48,6 @@ export default function ProductsShowcase({ selectedCategory, onAddToCart }: Prod
         originalPrice: product.originalPrice,
         discount: product.discount,
         condition: product.condition,
-        // TODO: capacity y color deben venir del producto desde la base de datos
         capacity: Array.isArray(product.capacity) ? product.capacity[0] : product.capacity || "",
         color: Array.isArray(product.color) ? product.color[0] : product.color || "",
         category: product.category

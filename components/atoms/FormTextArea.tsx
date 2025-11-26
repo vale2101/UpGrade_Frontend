@@ -6,11 +6,10 @@ interface FormTextAreaProps<T extends FieldValues> {
   name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  register?: any; // Recibe el resultado de register() directamente (UseFormRegisterReturn)
+  register?: any; 
   errors?: FieldErrors<T>;
   rows?: number;
   className?: string;
-  // Props legacy para compatibilidad
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
@@ -30,7 +29,6 @@ export default function FormTextArea<T extends FieldValues>({
   const error = errors?.[name];
   const errorMessage = error?.message as string;
 
-  // Si se usa react-hook-form (register viene como objeto de props)
   if (register && typeof register === "object" && !onChange) {
     return (
       <div className={`mb-4 ${className}`}>
@@ -55,7 +53,6 @@ export default function FormTextArea<T extends FieldValues>({
     );
   }
 
-  // Compatibilidad con formularios legacy
   return (
     <div className={`mb-4 ${className}`}>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">

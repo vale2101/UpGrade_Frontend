@@ -2,8 +2,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { UserService } from "../services/userService";
 import { User as LoginRequest, CreateUserRequest } from "../interfaces/user.interface";
-import Swal from "sweetalert2"; // 👈 importamos SweetAlert2
-import { useRouter } from "next/navigation"; // 👈 para redirección
+import Swal from "sweetalert2"; 
+import { useRouter } from "next/navigation"; 
 
 interface User {
   id: string;
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-        document.cookie = "upgrade-auth=true; path=/; max-age=2592000"; // 30 days
+        document.cookie = "upgrade-auth=true; path=/; max-age=2592000"; 
       } catch (error) {
         console.error("Error loading user from localStorage:", error);
         localStorage.removeItem("upgrade-user");
@@ -63,16 +63,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       return false;
     } catch (error: any) {
-      // 👇 Capturamos específicamente el 401
       if (error.response?.status === 401) {
         Swal.fire({
           icon: "warning",
           title: "Acceso restringido",
           text: "Los vendedores no pueden acceder por ese formulario",
-          confirmButtonText: "Ir al inicio del vendedor", // 👈 texto personalizado
+          confirmButtonText: "Ir al inicio del vendedor", 
         }).then((result) => {
           if (result.isConfirmed) {
-            router.push("/login"); // 👈 redirige al login de vendedores
+            router.push("/login"); 
           }
         });
       } else {

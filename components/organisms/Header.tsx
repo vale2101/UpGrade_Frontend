@@ -12,7 +12,6 @@ export default function Header() {
 
   return (
     <header className="bg-black text-white px-4 sm:px-6 py-3 flex items-center justify-between shadow-md">
-      {/* Logo y Navegación Desktop */}
       <div className="flex items-center gap-4 sm:gap-8">
         <Logo />
         <div className="hidden lg:block">
@@ -20,18 +19,15 @@ export default function Header() {
         </div>
       </div>
       
-      {/* Action Icons Desktop */}
       <div className="hidden sm:block">
         <ActionIcons />
       </div>
 
-      {/* Botón de Menú Móvil */}
       <MobileMenuButton 
         isOpen={isMobileMenuOpen} 
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
       />
 
-      {/* Overlay de Menú Móvil */}
       <MobileMenuOverlay 
         isOpen={isMobileMenuOpen} 
         onClose={() => setIsMobileMenuOpen(false)} 

@@ -3,13 +3,13 @@ import CategoryIcon from "../atoms/CategoryIcon";
 import { useCategory } from "../../contexts/CategoryContext";
 
 const categories = [
-  { src: "https://clevercel.co/cdn/shop/files/menu-samsung.png", label: "Samsung" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-iphone.png", label: "iPhone" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-watch.png", label: "Apple Watch" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-ipad.png", label: "iPad" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-huawei.png", label: "Otras Marcas" },
-  { src: "https://clevercel.co/cdn/shop/files/menu-promociones.png", label: "Sin IVA" },
-  { src: "https://clevercel.co/cdn/shop/files/Icono_menu_full_saldos.png", label: "Saldos" },
+  { src: "https://media.falabella.com/falabellaCO/73421300_1/w=1500,h=1500,fit=pad", label: "Samsung" },
+  { src: "https://media.falabella.com/falabellaCO/73417536_1/w=1500,h=1500,fit=pad", label: "iPhone" },
+  { src: "https://media.falabella.com/falabellaCO/73060557_1/w=1500,h=1500,fit=pad", label: "Apple Watch" },
+  { src: "https://media.falabella.com/falabellaCO/73354833_1/w=1500,h=1500,fit=pad", label: "iPad" },
+  { src: "https://media.falabella.com/falabellaCO/73329917_1/w=1500,h=1500,fit=pad", label: "Otras Marcas" },
+  { src: "https://media.falabella.com/falabellaCO/73434923_1/w=1500,h=1500,fit=pad", label: "Sin IVA" },
+  { src: "https://media.falabella.com/falabellaCO/73477905_1/w=1500,h=1500,fit=pad", label: "Saldos" },
 ];
 
 export default function CategoryMenu() {

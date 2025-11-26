@@ -21,12 +21,7 @@ export default function HelpSection() {
           </SectionDescription>
         </div>
 
-        <div className="mb-12">
-          <HeroImage 
-            src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            alt="Equipo de soporte técnico ayudando a clientes"
-          />
-        </div>
+    
 
         <div className="mb-12">
           <SectionTitle className="text-center mb-8">Nuestros Servicios de Ayuda</SectionTitle>

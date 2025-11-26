@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-images: {
+  images: {
     remotePatterns: [
+ 
       {
         protocol: "https",
-        hostname: "clevercel.co",
+        hostname: "media.falabella.com",
       },
       {
         protocol: "https",

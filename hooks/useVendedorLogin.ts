@@ -38,7 +38,6 @@ export function useVendedorLogin() {
       if (res.success && res.data) {
         localStorage.setItem("vendedor", JSON.stringify(res.data.trabajador));
 
-        // ✅ Alerta de éxito
         await Swal.fire({
           icon: "success",
           title: "Bienvenido",
@@ -55,10 +54,10 @@ export function useVendedorLogin() {
           icon: "error",
           title: "Acceso denegado",
           text: res.message || "Credenciales incorrectas",
-          confirmButtonText: "Ir al inicio del cliente", // 👈 texto personalizado
+          confirmButtonText: "Ir al inicio del cliente", 
         }).then((result) => {
           if (result.isConfirmed) {
-            router.push("/login"); // 👈 redirige al login
+            router.push("/login"); 
           }
         });
       }
