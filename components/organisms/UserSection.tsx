@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { LogOut, MapPin, Package, ClipboardList } from "lucide-react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/AuthContext";
 import Tabs from "../molecules/UserTabs";
 import EmptyOrders from "../molecules/EmptyOrders";
 import AddressForm from "../molecules/AddressForm";

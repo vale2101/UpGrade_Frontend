@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { DireccionService } from "../../services/DireccionService";
 import { direccionInterface } from "../../interfaces/direccion.interface";
+import { useAuth } from "../../hooks/AuthContext";
 import AddressList from "./AddressList";
 
 export default function AddressForm() {
+  const { user } = useAuth();
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -26,9 +28,20 @@ export default function AddressForm() {
   });
 
   const onSave = async (data: direccionInterface) => {
+    if (!user?.id) {
+      setError("Debes estar autenticado para agregar una dirección");
+      return;
+    }
+
     try {
       setError(null);
-      const res = await DireccionService.createDireccion(data);
+      // Agregar el id_user del usuario autenticado extraído del token
+      const direccionData: direccionInterface = {
+        ...data,
+        id_user: parseInt(user.id, 10),
+      };
+      
+      const res = await DireccionService.createDireccion(direccionData);
 
       if (res.success) {
         setSaved(true);

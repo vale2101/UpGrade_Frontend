@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Package, Wrench, Plus, ShoppingBag } from "lucide-react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/AuthContext";
 import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorProducts";
 import Tabs from "../molecules/UserTabs";
 import DashboardHeader from "../molecules/DashboardHeader";
@@ -122,5 +122,3 @@ export default function VendedorDashboardSection() {
     </div>
   );
 }
-
-

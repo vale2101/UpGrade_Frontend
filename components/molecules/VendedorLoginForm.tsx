@@ -7,8 +7,8 @@ import ErrorAlert from "../atoms/ErrorAlert";
 import FormLink from "../atoms/FormLink";
 
 interface VendedorLoginFormData {
-  email: string;
-  password: string;
+  correo: string;
+  contrasena: string;
 }
 
 export default function VendedorLoginForm() {
@@ -22,23 +22,23 @@ export default function VendedorLoginForm() {
         <FormInput<VendedorLoginFormData>
           label="Correo del Vendedor"
           type="email"
-          name="email"
+          name="correo"
           placeholder="vendedor@negocio.com"
           required
-          register={register("email")}
+          register={register("correo")}
           errors={errors}
         />
-        
+
         <FormInput<VendedorLoginFormData>
           label="Contraseña"
           type="password"
-          name="password"
+          name="contrasena"
           placeholder="Ingresa tu contraseña"
           required
-          register={register("password")}
+          register={register("contrasena")}
           errors={errors}
         />
-        
+
         <Button type="submit" fullWidth disabled={loading}>
           {loading ? "Cargando..." : "Iniciar Sesión como Vendedor"}
         </Button>
@@ -56,4 +56,3 @@ export default function VendedorLoginForm() {
     </div>
   );
 }
-

@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "../../contexts/AuthContext";
-import InputField from "../atoms/InputField"
-import Button from "../atoms/Button"
+import { useAuth } from "../../hooks/AuthContext";
+import InputField from "../atoms/InputField";
+import Button from "../atoms/Button";
 
 interface LoginFormData {
-  email: string;
-  password: string;
+  correo: string;
+  contrasena: string;
 }
 
 export default function LoginForm() {
@@ -24,15 +24,16 @@ export default function LoginForm() {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     defaultValues: {
-      email: "",
-      password: "",
+      correo: "",
+      contrasena: "",
     },
   });
 
   const onFormSubmit = async (data: LoginFormData) => {
     setError("");
     try {
-      const success = await login(data.email, data.password);
+      const success = await login(data.correo, data.contrasena);
+
       if (success) {
         const redirect = searchParams.get("redirect") || "/user";
         router.push(redirect);
@@ -56,11 +57,10 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 sm:space-y-6">
         <div>
           <label className="text-sm font-medium text-gray-700">Correo</label>
-          <InputField 
-            type="email" 
-            placeholder="Ingresa tu correo" 
-            name="email"
-            {...register("email", {
+          <InputField
+            type="email"
+            placeholder="Ingresa tu correo"
+            {...register("correo", {
               required: "El correo es requerido",
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -69,26 +69,30 @@ export default function LoginForm() {
             })}
             required
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          {errors.correo && (
+            <p className="mt-1 text-sm text-red-600">{errors.correo.message}</p>
           )}
         </div>
+
         <div>
           <label className="text-sm font-medium text-gray-700">Contraseña</label>
-          <InputField 
-            type="password" 
-            placeholder="Ingresa tu contraseña" 
-            name="password"
-            {...register("password", {
+          <InputField
+            type="password"
+            placeholder="Ingresa tu contraseña"
+            {...register("contrasena", {
               required: "La contraseña es requerida",
-              minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
+              minLength: {
+                value: 4,
+                message: "La contraseña debe tener al menos 4 caracteres",
+              },
             })}
             required
           />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+          {errors.contrasena && (
+            <p className="mt-1 text-sm text-red-600">{errors.contrasena.message}</p>
           )}
         </div>
+
         <Button type="submit" fullWidth disabled={isSubmitting}>
           {isSubmitting ? "Cargando..." : "Iniciar Sesión"}
         </Button>
@@ -107,5 +111,5 @@ export default function LoginForm() {
         </p>
       </div>
     </div>
-  )
+  );
 }

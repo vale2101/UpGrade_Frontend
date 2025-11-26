@@ -103,8 +103,10 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
               <>
                 <InputField
                   type="number"
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                  name={field.name}
+                  value={String(field.value ?? "")}
+                  onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                  onBlur={field.onBlur}
                   placeholder="10"
                   required
                 />
@@ -188,8 +190,3 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
     </form>
   );
 }
-
-
-
-
-

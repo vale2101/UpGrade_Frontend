@@ -3,16 +3,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "../contexts/AuthContext";
+import { TrabajadorService } from "../services/TrabajadorService";
+import Swal from "sweetalert2";
 
 interface VendedorLoginFormData {
-  email: string;
-  password: string;
+  correo: string;
+  contrasena: string;
 }
 
 export function useVendedorLogin() {
   const [error, setError] = useState("");
-  const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -22,29 +22,77 @@ export function useVendedorLogin() {
     formState: { errors, isSubmitting },
   } = useForm<VendedorLoginFormData>({
     defaultValues: {
-      email: "",
-      password: "",
+      correo: "",
+      contrasena: "",
     },
   });
 
   const onSubmit = async (data: VendedorLoginFormData) => {
     setError("");
     try {
-      const success = await login(data.email, data.password);
-      if (success) {
+      const res = await TrabajadorService.login({
+        correo: data.correo,
+        contrasena: data.contrasena,
+      });
+
+      if (res.success && res.data) {
+        localStorage.setItem("vendedor", JSON.stringify(res.data.trabajador));
+
+        // ✅ Alerta de éxito
+        await Swal.fire({
+          icon: "success",
+          title: "Bienvenido",
+          text: "Login exitoso",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         const redirect = searchParams.get("redirect") || "/vendedor/dashboard";
         router.push(redirect);
       } else {
-        setError("Credenciales incorrectas");
+        setError(res.message || "Credenciales incorrectas");
+        Swal.fire({
+          icon: "error",
+          title: "Acceso denegado",
+          text: res.message || "Credenciales incorrectas",
+          confirmButtonText: "Ir al inicio del cliente", // 👈 texto personalizado
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/login"); // 👈 redirige al login
+          }
+        });
       }
-    } catch (err) {
-      setError("Error al iniciar sesión");
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        Swal.fire({
+          icon: "warning",
+          title: "Acceso restringido",
+          text: "Los clientes no pueden acceder por ese formulario",
+          confirmButtonText: "Ir al inicio del cliente", 
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/login"); 
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error al iniciar sesión",
+          confirmButtonText: "Ir al inicio del cliente", 
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/login"); 
+          }
+        });
+      }
+      setError(err.message || "Error al iniciar sesión");
     }
   };
 
   const register = (name: keyof VendedorLoginFormData) => {
-    if (name === "email") {
-      return registerField("email", {
+    if (name === "correo") {
+      return registerField("correo", {
         required: "El correo es requerido",
         pattern: {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -52,8 +100,8 @@ export function useVendedorLogin() {
         },
       }) as any;
     }
-    if (name === "password") {
-      return registerField("password", {
+    if (name === "contrasena") {
+      return registerField("contrasena", {
         required: "La contraseña es requerida",
         minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
       }) as any;
@@ -69,4 +117,3 @@ export function useVendedorLogin() {
     loading: isSubmitting,
   };
 }
-

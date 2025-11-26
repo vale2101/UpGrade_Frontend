@@ -7,6 +7,7 @@ import { getProductsByCategory } from "../../contexts/DataContext";
 import { useCart } from "../../contexts/CartContext";
 
 interface ProductsShowcaseProps {
+  title: string;
   selectedCategory: string;
   onAddToCart?: (productId: string) => void;
 }
@@ -69,5 +70,3 @@ export default function ProductsShowcase({ selectedCategory, onAddToCart }: Prod
     </main>
   );
 }
-
-

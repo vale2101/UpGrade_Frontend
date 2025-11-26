@@ -47,5 +47,3 @@ export function useVendedorProducts() {
 
   return { products, addProduct, updateProduct, deleteProduct };
 }
-
-

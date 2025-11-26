@@ -8,7 +8,6 @@ import {
   User,
   ApiResponse,
 } from "../interfaces/user.interface";
-import { direccionInterface } from "../interfaces/direccion.interface";
 
 axios.defaults.withCredentials = true;
 
@@ -47,12 +46,13 @@ export const UserService = {
     return response.data.data as User;
   },
 
-  async getUserWithDireccion(id: string): Promise<User> {
-    const response = await axios.get<ApiResponse<User>>(
+  async getUserWithDireccion(id: string): Promise<any> {
+    const response = await axios.get<ApiResponse<any>>(
       `${ENV.API_URL}/usuarios/${id}/direccion`,
       { withCredentials: true }
     );
-    return response.data.data as User;
+    // Retornar la respuesta completa para que el componente pueda acceder a las direcciones
+    return response.data.data || response.data;
   },
 
   async createUser(data: CreateUserRequest): Promise<ApiResponse<User>> {

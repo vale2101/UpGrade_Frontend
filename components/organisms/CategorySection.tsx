@@ -45,7 +45,7 @@ export default function CategorySection({ slug }: { slug: string }) {
           searchTerm={searchQuery}
           onSearchChange={(e: any) => setSearchQuery(e.target.value)}
           onClear={() => setSearchQuery("")}
-          resultsCount={filteredProducts.length}
+          resultsCount={filteredProducts.filteredProducts.length}
         />
 
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
@@ -53,8 +53,8 @@ export default function CategorySection({ slug }: { slug: string }) {
             <FilterSidebar />
           </div>
           <div className="flex-1">
-            {filteredProducts.length > 0 ? (
-              <ProductListing products={filteredProducts as any} onAddToCart={handleAddToCart} />
+            {filteredProducts.filteredProducts.length > 0 ? (
+              <ProductListing products={filteredProducts.filteredProducts as any} onAddToCart={handleAddToCart} />
             ) : (
               <EmptyProductsState
                 searchTerm={searchQuery}
@@ -69,4 +69,3 @@ export default function CategorySection({ slug }: { slug: string }) {
     </div>
   );
 }
-

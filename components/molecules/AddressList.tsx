@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { UserService } from "../../services/userService";
 import { DireccionService } from "../../services/DireccionService";
 import { direccionInterface } from "../../interfaces/direccion.interface";
-import { useAuth } from "../../contexts/AuthContext";
 import { MapPin, Trash2 } from "lucide-react";
+import { useAuth } from "../../hooks/AuthContext";
 
 interface AddressListProps {
   onRefresh?: () => void;
@@ -20,8 +20,11 @@ export default function AddressList({ onRefresh, refreshKey }: AddressListProps)
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const loadDirecciones = async () => {
-    if (!user?.id) {
-      setError("Usuario no autenticado");
+    // Extraer el id del usuario del contexto de autenticación
+    const userId = user?.id;
+    
+    if (!userId) {
+      setError("Debes estar autenticado para ver tus direcciones");
       setLoading(false);
       return;
     }
@@ -29,25 +32,101 @@ export default function AddressList({ onRefresh, refreshKey }: AddressListProps)
     try {
       setLoading(true);
       setError(null);
-      const userData = await UserService.getUserWithDireccion(user.id);
-      
+
+      const userData = await UserService.getUserWithDireccion(userId);
+
       let direccionesData: direccionInterface[] = [];
-      
+
+      // Caso 1: direcciones como array directo
       if ((userData as any).direcciones && Array.isArray((userData as any).direcciones)) {
         direccionesData = (userData as any).direcciones;
       }
-      else if ((userData as any).direccion) {
-        direccionesData = Array.isArray((userData as any).direccion) 
-          ? (userData as any).direccion 
-          : [(userData as any).direccion];
+      // Caso 2: direccion (singular) como array
+      else if ((userData as any).direccion && Array.isArray((userData as any).direccion)) {
+        direccionesData = (userData as any).direccion;
       }
+      // Caso 3: direccion (singular) como objeto único
+      else if ((userData as any).direccion && typeof (userData as any).direccion === 'object' && !Array.isArray((userData as any).direccion)) {
+        direccionesData = [(userData as any).direccion];
+      }
+      // Caso 4: direcciones dentro de data
+      else if ((userData as any).data?.direcciones && Array.isArray((userData as any).data.direcciones)) {
+        direccionesData = (userData as any).data.direcciones;
+      }
+      // Caso 5: direcciones como array en la raíz (si la respuesta es directamente un array)
       else if (Array.isArray(userData)) {
-        direccionesData = userData as any;
+        // Si es un array, verificar si cada elemento tiene propiedades de dirección
+        direccionesData = userData.filter((item: any) => 
+          item && (item.pais || item.departamento || item.ciudad || item.completa || item.id_direccion)
+        );
       }
-      else {
-        direccionesData = [];
+      // Caso 6: Las propiedades de dirección están directamente en el objeto User
+      // (pais, departamento, ciudad, completa, id_direccion)
+      else if (userData && typeof userData === 'object') {
+        const data = userData as any;
+        // Verificar si el objeto tiene propiedades de dirección
+        if (data.pais || data.departamento || data.ciudad || data.completa || data.id_direccion) {
+          // Si tiene id_direccion, es una dirección individual
+          if (data.id_direccion) {
+            direccionesData = [{
+              id_user: data.id_user,
+              id_direccion: data.id_direccion,
+              pais: data.pais,
+              departamento: data.departamento,
+              ciudad: data.ciudad,
+              completa: data.completa
+            }];
+          }
+          // Si no tiene id_direccion pero tiene las otras propiedades, también es una dirección
+          else if (data.pais && data.departamento && data.ciudad && data.completa) {
+            direccionesData = [{
+              id_user: data.id_user,
+              id_direccion: data.id_direccion,
+              pais: data.pais,
+              departamento: data.departamento,
+              ciudad: data.ciudad,
+              completa: data.completa
+            }];
+          }
+        }
+        // Caso 7: Buscar cualquier propiedad que sea un array de direcciones
+        else {
+          const keys = Object.keys(data || {});
+          for (const key of keys) {
+            const value = data[key];
+            if (Array.isArray(value) && value.length > 0) {
+              // Verificar si el primer elemento tiene campos de dirección
+              const firstItem = value[0];
+              if (firstItem && (firstItem.pais || firstItem.departamento || firstItem.ciudad || firstItem.completa)) {
+                direccionesData = value;
+                break;
+              }
+            }
+          }
+        }
       }
-      
+
+      // Si no se encontraron direcciones y el endpoint solo retorna una, intentar obtener todas las direcciones del usuario
+      if (direccionesData.length === 0 || direccionesData.length === 1) {
+        try {
+          // Intentar obtener todas las direcciones y filtrar por id_user
+          const allDireccionesRes = await DireccionService.getDirecciones();
+          if (allDireccionesRes.success && allDireccionesRes.data) {
+            const userIdNum = parseInt(userId, 10);
+            const userDirecciones = allDireccionesRes.data.filter(
+              (dir: direccionInterface) => dir.id_user === userIdNum
+            );
+            // Si encontramos más direcciones, usar esas
+            if (userDirecciones.length > direccionesData.length) {
+              direccionesData = userDirecciones;
+            }
+          }
+        } catch (err) {
+          // Si falla, continuar con las direcciones que ya tenemos
+          console.warn("No se pudieron obtener todas las direcciones:", err);
+        }
+      }
+
       setDirecciones(direccionesData);
     } catch (err: any) {
       setError(err.message || "Error inesperado al cargar direcciones");
@@ -68,7 +147,7 @@ export default function AddressList({ onRefresh, refreshKey }: AddressListProps)
     try {
       setDeletingId(id);
       const res = await DireccionService.deleteDireccion(id);
-      
+
       if (res.success) {
         await loadDirecciones();
         if (onRefresh) {
@@ -145,7 +224,7 @@ export default function AddressList({ onRefresh, refreshKey }: AddressListProps)
                 <Trash2 size={18} />
               </button>
             </div>
-            
+
             <div className="space-y-2 text-sm text-gray-700">
               <div>
                 <span className="font-medium">País:</span> {direccion.pais}
@@ -167,4 +246,3 @@ export default function AddressList({ onRefresh, refreshKey }: AddressListProps)
     </div>
   );
 }
-
