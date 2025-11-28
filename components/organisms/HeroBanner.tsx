@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function HeroBanner() {
   return (
-    <section className="relative w-full h-[300px] sm:h-[400px] lg:h-[450px] bg-pink-700 flex items-center justify-center">
+    <section className="relative w-full h-[300px] sm:h-[400px] lg:h-[450px] bg-green-700 flex items-center justify-center">
       <Image
         src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
         alt="Banner background"
