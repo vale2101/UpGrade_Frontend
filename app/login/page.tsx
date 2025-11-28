@@ -1,4 +1,4 @@
-import LoginSection from "@/components/organisms/LoginSection";
+import LoginSection from "@/components/molecules/LoginSection";
 
 export const metadata = {
   title: "Iniciar Sesión - UpGrade",

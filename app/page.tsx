@@ -1,5 +1,5 @@
 import MainLayout from "../components/organisms/MainLayout";
-import HomeSection from "../components/organisms/HomeSection";
+import HomeSection from "../components/molecules/HomeSection";
 
 export default function HomePage() {
   return (

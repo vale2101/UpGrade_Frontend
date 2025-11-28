@@ -1,7 +1,7 @@
 "use client";
-import CategoryMenu from "../molecules/CategoryMenu";
+import CategoryMenu from "./CategoryMenu";
 import HeroBanner from "./HeroBanner";
-import ProductsShowcase from "./ProductsShowcase";
+import ProductsShowcase from "../organisms/ProductsShowcase";
 import { useCategory } from "../../contexts/CategoryContext";
 
 export default function HomeSection() {

@@ -5,7 +5,7 @@ import { LogOut, MapPin, Package, ClipboardList } from "lucide-react";
 import { useAuth } from "../../hooks/AuthContext";
 import Tabs from "../molecules/UserTabs";
 import EmptyOrders from "../molecules/EmptyOrders";
-import AddressForm from "../molecules/AddressForm";
+import AddressForm from "./AddressForm";
 import RepairStatus from "../molecules/RepairStatus";
 import ServiceHistory from "../molecules/ServiceHistory";
 

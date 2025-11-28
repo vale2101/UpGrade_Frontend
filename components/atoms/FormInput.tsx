@@ -26,32 +26,9 @@ export default function FormInput<T extends FieldValues>({
   value,
   onChange
 }: FormInputProps<T>) {
-  const error = errors?.[name];
-  const errorMessage = error?.message as string;
-
-  if (register && typeof register === "object" && !onChange) {
-    return (
-      <div className={`mb-4 ${className}`}>
-        <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
-          {label} {required && <span className="text-red-500">*</span>}
-        </label>
-        <input
-          type={type}
-          id={name}
-          {...register}
-          placeholder={placeholder}
-          className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 text-sm sm:text-base ${
-            errorMessage 
-              ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
-              : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-          }`}
-        />
-        {errorMessage && (
-          <p className="mt-1 text-sm text-red-600">{errorMessage}</p>
-        )}
-      </div>
-    );
-  }
+  const errorMessage = errors?.[name]?.message as string;
+  const hasError = !!errorMessage;
+  const inputProps = register && !onChange ? register : { name, value, onChange, required };
 
   return (
     <div className={`mb-4 ${className}`}>
@@ -61,13 +38,15 @@ export default function FormInput<T extends FieldValues>({
       <input
         type={type}
         id={name}
-        name={name}
         placeholder={placeholder}
-        required={required}
-        value={value}
-        onChange={onChange}
-        className="w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+        className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 text-sm sm:text-base ${
+          hasError 
+            ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
+            : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        }`}
+        {...inputProps}
       />
+      {errorMessage && <p className="mt-1 text-sm text-red-600">{errorMessage}</p>}
     </div>
   );
 }

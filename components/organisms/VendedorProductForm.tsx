@@ -190,3 +190,4 @@ export default function VendedorProductForm({ product, onSave, onCancel }: Vende
     </form>
   );
 }
+

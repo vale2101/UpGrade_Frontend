@@ -1,4 +1,4 @@
-import ProductGrid from "../molecules/ProductGrid";
+import ProductGrid from "./ProductGrid";
 import { Product } from "../../contexts/DataContext";
 
 interface ProductSectionProps {
@@ -35,3 +35,4 @@ export default function ProductSection({
     </section>
   );
 }
+

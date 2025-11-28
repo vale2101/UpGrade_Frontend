@@ -1,6 +1,6 @@
 "use client";
 import FilterSidebar from "./FilterSidebar";
-import ProductListing from "./ProductListing";
+import ProductListing from "../molecules/ProductListing";
 import EmptyProductsState from "../molecules/EmptyProductsState";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import { useCart } from "../../contexts/CartContext";

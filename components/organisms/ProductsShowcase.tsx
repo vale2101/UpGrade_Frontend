@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ProductSection from "./ProductSection";
+import ProductSection from "../molecules/ProductSection";
 import { getProductsByCategory } from "../../contexts/DataContext";
 import { useCart } from "../../contexts/CartContext";
 

@@ -1,5 +1,5 @@
-import LoginHeroImage from "./LoginHeroImage";
-import RegisterForm from "../molecules/RegisterForm";
+import LoginHeroImage from "../atoms/LoginHeroImage";
+import RegisterForm from "./RegisterForm";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 
 export default function RegisterSection() {

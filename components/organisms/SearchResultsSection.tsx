@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import ProductListing from "./ProductListing";
+import ProductListing from "../molecules/ProductListing";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import EmptyProductsState from "../molecules/EmptyProductsState";
 import { useProductSearch } from "../../hooks/useProductSearch";

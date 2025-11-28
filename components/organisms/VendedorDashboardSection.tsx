@@ -8,7 +8,7 @@ import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorPro
 import Tabs from "../molecules/UserTabs";
 import DashboardHeader from "../molecules/DashboardHeader";
 import VendedorProductsTable from "../molecules/VendedorProductsTable";
-import VendedorProductForm from "../molecules/VendedorProductForm";
+import VendedorProductForm from "./VendedorProductForm";
 import VendedorRepairsList from "../molecules/VendedorRepairsList";
 import VendedorOrdersList from "../molecules/VendedorOrdersList";
 

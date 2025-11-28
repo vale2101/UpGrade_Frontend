@@ -1,4 +1,4 @@
-import RegisterSection from "@/components/organisms/RegisterSection";
+import RegisterSection from "@/components/molecules/RegisterSection";
 
 export const metadata = {
   title: "Registro - UpGrade",

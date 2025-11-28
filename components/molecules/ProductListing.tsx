@@ -1,6 +1,6 @@
 "use client";
 
-import ProductGrid from "../molecules/ProductGrid";
+import ProductGrid from "./ProductGrid";
 import { Product } from "../../contexts/DataContext";
 
 interface ProductListingProps {
@@ -34,3 +34,4 @@ export default function ProductListing({ products, onAddToCart, className = "" }
     </div>
   );
 }
+

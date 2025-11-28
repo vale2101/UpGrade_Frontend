@@ -1,4 +1,4 @@
-import LoginHeroImage from "./LoginHeroImage";
+import LoginHeroImage from "../atoms/LoginHeroImage";
 import LoginCard from "./LoginCard";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 
@@ -11,5 +11,4 @@ export default function LoginSection() {
     </div>
   );
 }
-
 

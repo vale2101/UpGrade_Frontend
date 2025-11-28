@@ -7,3 +7,4 @@ export default function LoginHeroImage() {
     </div>
   )
 }
+
