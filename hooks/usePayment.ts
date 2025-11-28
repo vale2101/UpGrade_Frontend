@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './useAuthContext';
 import { useCart } from '../contexts/CartContext';
 
 export function usePayment() {
@@ -50,3 +50,4 @@ export function usePayment() {
     closeAuthModal
   };
 }
+

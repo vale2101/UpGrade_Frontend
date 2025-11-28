@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useFilter } from '../contexts/FilterContext';
-import { Product } from '../contexts/DataContext';
+
+interface Product {
+  id: string;
+  name: string;
+  currentPrice: string;
+  condition: string;
+  category: string;
+  capacity?: string | string[];
+  color?: string | string[];
+}
 
 export function useProductFilter<T extends Product>(products: T[]) {
   const [loading, setLoading] = useState(false);
@@ -113,3 +122,4 @@ const getColor = (name: string) => {
   if (lower.includes('dorado') || lower.includes('gold')) return 'Dorado';
   return 'Negro';
 };
+

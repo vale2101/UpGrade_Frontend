@@ -3,36 +3,22 @@ import FilterSidebar from "./FilterSidebar";
 import ProductListing from "../molecules/ProductListing";
 import EmptyProductsState from "../molecules/EmptyProductsState";
 import ProductSearchBar from "../molecules/ProductSearchBar";
-import { useCart } from "../../contexts/CartContext";
 import { useProductFilter } from "../../hooks/useProductFilter";
 import { useProductSearch } from "../../hooks/useProductSearch";
-import { getProductsByCategory, getAllCategories } from "../../contexts/DataContext";
+import { useProductCategory } from "../../hooks/useProductCategory";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 export default function CategorySection({ slug }: { slug: string }) {
-  const categories = getAllCategories();
-  const currentCategory = categories.find(cat => cat.slug === slug);
-  const categoryName = currentCategory?.name || "Todas";
-  
-  const allProducts = getProductsByCategory(categoryName);
+  const { categoryName } = useProductCategory(slug);
+  const allProducts: any[] = [];
   const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(allProducts);
   const filteredProducts = useProductFilter(searchResults);
-  const { addToCart } = useCart();
+  const { handleAddToCart } = useAddToCart();
 
-  const handleAddToCart = (productId: string) => {
+  const onAddToCart = (productId: string) => {
     const product = allProducts.find(p => p.id === productId);
     if (product) {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        image: product.image,
-        price: product.currentPrice,
-        originalPrice: product.originalPrice,
-        discount: product.discount,
-        condition: product.condition,
-        capacity: "128GB",
-        color: "Gray",
-        category: product.category
-      });
+      handleAddToCart(product);
     }
   };
 
@@ -49,12 +35,12 @@ export default function CategorySection({ slug }: { slug: string }) {
         />
 
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
-          <div className="lg:w-64">
+          <div className="w-full lg:w-64">
             <FilterSidebar />
           </div>
           <div className="flex-1">
             {filteredProducts.filteredProducts.length > 0 ? (
-              <ProductListing products={filteredProducts.filteredProducts as any} onAddToCart={handleAddToCart} />
+              <ProductListing products={filteredProducts.filteredProducts as any} onAddToCart={onAddToCart} />
             ) : (
               <EmptyProductsState
                 searchTerm={searchQuery}

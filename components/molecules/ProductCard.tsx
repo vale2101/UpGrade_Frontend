@@ -6,7 +6,18 @@ import ProductPrice from "../atoms/ProductPrice";
 import InstallmentPlan from "../atoms/InstallmentPlan";
 import ConditionBadge from "../atoms/ConditionBadge";
 import AddToCartButton from "../atoms/AddToCartButton";
-import { Product } from "../../contexts/DataContext";
+
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  currentPrice: string;
+  originalPrice?: string;
+  discount?: string;
+  installments?: number;
+  monthlyAmount?: string;
+  condition: string;
+}
 
 interface ProductCardProps {
   product: Product;

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import FormInput from "../atoms/FormInput";
 import FormTextArea from "../atoms/FormTextArea";
 import SubmitButton from "../atoms/SubmitButton";
+import Swal from "sweetalert2";
 
 interface ContactFormData {
   nombre: string;
@@ -30,11 +31,37 @@ export default function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      alert("¡Gracias por tu consulta! Te contactaremos pronto.");
+      
+      Swal.fire({
+        icon: "success",
+        title: "¡Consulta enviada!",
+        text: "¡Gracias por tu consulta! Te contactaremos pronto.",
+        confirmButtonText: "Entendido",
+        confirmButtonColor: "#57ad63",
+        width: "450px",
+        padding: "2rem",
+        customClass: {
+          popup: "rounded-xl",
+          confirmButton: "px-6 py-3 rounded-lg font-semibold"
+        }
+      });
+      
       reset();
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-      alert("Hubo un error al enviar tu consulta. Por favor, inténtalo de nuevo.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al enviar tu consulta. Por favor, inténtalo de nuevo.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#dc2626",
+        width: "450px",
+        padding: "2rem",
+        customClass: {
+          popup: "rounded-xl",
+          confirmButton: "px-6 py-3 rounded-lg font-semibold"
+        }
+      });
     }
   };
 

@@ -1,22 +1,3 @@
-export interface Product {
-  id: string;
-  name: string;
-  brand?: string;
-  image: string;
-  images?: string[];
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments?: number;
-  monthlyAmount?: string;
-  condition: "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo";
-  category: string;
-  capacity?: string | string[];
-  color?: string | string[];
-  description?: string;
-  features?: string[];
-}
-
 export interface Category {
   id: string;
   name: string;
@@ -84,12 +65,6 @@ export interface Promotion {
   icon: string;
 }
 
-const mainProducts: Product[] = [];
-
-const promotionProducts: Product[] = [];
-
-const productDetails: Record<string, Product> = {};
-
 const data = {
   categories: [
     { 
@@ -142,9 +117,6 @@ const data = {
     }
   ],
 
-  products: mainProducts,
-  promotionProducts: promotionProducts,
-
   searchSections: [
     {
       title: "INICIO",
@@ -155,38 +127,22 @@ const data = {
     {
       title: "PRODUCTOS",
       items: [
-        { label: "Samsung Gama S24", searchQuery: "Samsung Galaxy S24" },
-        { label: "Samsung Gama S23", searchQuery: "Samsung Galaxy S23" },
-        { label: "Samsung Gama S22", searchQuery: "Samsung Galaxy S22" },
-        { label: "Samsung Galaxy Z", searchQuery: "Samsung Galaxy Z" },
-        { label: "Samsung Galaxy A y M", searchQuery: "Samsung Galaxy A" },
+        { label: "Samsung", searchQuery: "Samsung" },
+        { label: "iPhone", searchQuery: "iPhone" },
         { label: "Apple Watch", searchQuery: "Apple Watch" },
-        { label: "iPhone Familia 15", searchQuery: "iPhone 15" },
-        { label: "iPhone Familia 14", searchQuery: "iPhone 14" },
-        { label: "iPhone Familia 13", searchQuery: "iPhone 13" },
-        { label: "iPhone Familia 12", searchQuery: "iPhone 12" },
-        { label: "iPhone Familia 11", searchQuery: "iPhone 11" },
-        { label: "Tablets Samsung", searchQuery: "Tablets Samsung" },
-        { label: "Otras marcas", searchQuery: "Otras marcas" },
-        { label: "Promociones", searchQuery: "Promociones" },
+        { label: "iPad", searchQuery: "iPad" },
+        { label: "Otras Marcas", searchQuery: "Otras marcas" },
         { label: "Sin IVA", searchQuery: "Sin IVA" },
-        { label: "iPad", searchQuery: "iPad" }
-      ]
-    },
-    {
-      title: "BENEFICIO DE 30 DÍAS",
-      items: [
-        { label: "Garantía de 30 días", searchQuery: "garantía 30 días" }
+        { label: "Saldos", searchQuery: "Saldos" }
       ]
     },
     {
       title: "QUIÉNES SOMOS",
       items: [
-        { label: "Categorías", searchQuery: "categorías" },
-        { label: "Calidad", searchQuery: "calidad" },
-        { label: "Garantía", searchQuery: "garantía" },
-        { label: "Métodos de pago", searchQuery: "métodos de pago" },
-        { label: "Medio ambiente", searchQuery: "medio ambiente" }
+        { label: "¿Quiénes somos?", searchQuery: "/about" },
+        { label: "Te ayudamos", searchQuery: "/ayuda" },
+        { label: "Reparaciones", searchQuery: "/reparaciones" },
+        { label: "Métodos de pago", searchQuery: "/metodos-pago" }
       ]
     }
   ],
@@ -195,17 +151,17 @@ const data = {
     {
       title: "Experiencia",
       description: "Más de 10 años en el mercado de reparación y venta de equipos tecnológicos.",
-      icon: "🔧"
+      icon: "wrench"
     },
     {
       title: "Calidad",
       description: "Garantizamos la mejor calidad en todos nuestros servicios y productos.",
-      icon: "⭐"
+      icon: "star"
     },
     {
       title: "Confianza",
       description: "Miles de clientes satisfechos respaldan nuestro trabajo.",
-      icon: "🤝"
+      icon: "handshake"
     }
   ],
 
@@ -213,55 +169,55 @@ const data = {
     {
       title: "Soporte Técnico",
       description: "Asistencia técnica especializada para resolver cualquier problema con tus dispositivos.",
-      icon: "🔧"
+      icon: "wrench"
     },
     {
       title: "Consultoría",
       description: "Te ayudamos a elegir la mejor opción tecnológica según tus necesidades.",
-      icon: "💡"
+      icon: "lightbulb"
     },
     {
       title: "Instalación",
       description: "Servicio de instalación y configuración de software y hardware.",
-      icon: "⚙️"
+      icon: "settings"
     },
     {
       title: "Capacitación",
       description: "Te enseñamos a usar tus dispositivos de manera eficiente y segura.",
-      icon: "📚"
+      icon: "book-open"
     },
     {
       title: "Mantenimiento",
       description: "Programas de mantenimiento preventivo para mantener tus equipos en óptimas condiciones.",
-      icon: "🔍"
+      icon: "search"
     },
     {
       title: "Recuperación de Datos",
       description: "Recuperamos información perdida de discos duros, memorias y otros dispositivos.",
-      icon: "💾"
+      icon: "hard-drive"
     }
   ],
 
   contactInfo: [
     {
       title: "Teléfono",
-      description: "+1 (555) 123-4567",
-      icon: "📞"
+      description: "606-881-2556",
+      icon: "phone"
     },
     {
       title: "Email",
       description: "ayuda@upgrade.com",
-      icon: "📧"
+      icon: "mail"
     },
     {
       title: "WhatsApp",
-      description: "+1 (555) 987-6543",
-      icon: "💬"
+      description: "314 800 65 47",
+      icon: "message-circle"
     },
     {
       title: "Horarios",
       description: "Lun-Vie: 8:00-18:00, Sáb: 9:00-15:00",
-      icon: "🕒"
+      icon: "clock"
     }
   ],
 
@@ -269,32 +225,32 @@ const data = {
     {
       title: "Tarjeta de Crédito/Débito",
       description: "Aceptamos todas las tarjetas principales: Visa, Mastercard, American Express",
-      icon: "💳"
+      icon: "credit-card"
     },
     {
       title: "Transferencia Bancaria",
       description: "Pago directo desde tu cuenta bancaria con descuento especial",
-      icon: "🏦"
+      icon: "building-2"
     },
     {
       title: "Efectivo",
       description: "Pago en efectivo en nuestras tiendas físicas",
-      icon: "💰"
+      icon: "dollar-sign"
     },
     {
       title: "PayPal",
       description: "Pago seguro a través de PayPal",
-      icon: "🔒"
+      icon: "lock"
     },
     {
       title: "Criptomonedas",
       description: "Aceptamos Bitcoin y otras criptomonedas principales",
-      icon: "₿"
+      icon: "bitcoin"
     },
     {
       title: "Financiamiento",
       description: "Planes de financiamiento sin intereses hasta 12 meses",
-      icon: "📅"
+      icon: "calendar"
     }
   ],
 
@@ -302,32 +258,32 @@ const data = {
     {
       title: "Laptops",
       description: "Reparación de pantallas, teclados, baterías, puertos USB y problemas de software.",
-      icon: "💻"
+      icon: "laptop"
     },
     {
       title: "Smartphones",
       description: "Cambio de pantallas, baterías, módulos de cámara y reparación de software.",
-      icon: "📱"
+      icon: "smartphone"
     },
     {
       title: "Tablets",
       description: "Reparación de pantallas táctiles, conectores de carga y problemas de rendimiento.",
-      icon: "📱"
+      icon: "tablet"
     },
     {
       title: "PCs de Escritorio",
       description: "Reparación de motherboards, fuentes de poder, discos duros y tarjetas gráficas.",
-      icon: "🖥️"
+      icon: "monitor"
     },
     {
       title: "Consolas de Videojuegos",
       description: "Reparación de PlayStation, Xbox, Nintendo Switch y accesorios gaming.",
-      icon: "🎮"
+      icon: "gamepad-2"
     },
     {
       title: "Impresoras",
       description: "Mantenimiento, reparación de cabezales, alimentadores y problemas de conectividad.",
-      icon: "🖨️"
+      icon: "printer"
     }
   ],
 
@@ -335,22 +291,22 @@ const data = {
     {
       title: "Recibido",
       description: "Tu dispositivo ha sido recibido y registrado en nuestro sistema.",
-      icon: "📥"
+      icon: "download"
     },
     {
       title: "Revisión",
       description: "Nuestros técnicos están evaluando el problema y preparando el presupuesto.",
-      icon: "🔍"
+      icon: "search"
     },
     {
       title: "Reparación",
       description: "Realizamos la reparación con piezas originales y técnicas especializadas.",
-      icon: "🔧"
+      icon: "wrench"
     },
     {
       title: "Reparado",
       description: "Tu dispositivo está listo y ha pasado todas las pruebas de calidad.",
-      icon: "✅"
+      icon: "check-circle-2"
     }
   ],
 
@@ -358,61 +314,38 @@ const data = {
     {
       title: "Descuento del 20%",
       description: "En reparaciones de laptops y computadoras de escritorio. Válido hasta el 31 de diciembre.",
-      icon: "💻"
+      icon: "laptop"
     },
     {
       title: "2x1 en Accesorios",
       description: "Compra cualquier accesorio y lleva otro igual gratis. Aplican términos y condiciones.",
-      icon: "🎁"
+      icon: "gift"
     },
     {
       title: "Garantía Extendida",
       description: "Obtén 6 meses adicionales de garantía en todas las reparaciones. Sin costo extra.",
-      icon: "🛡️"
+      icon: "shield"
     },
     {
       title: "Servicio a Domicilio",
       description: "Reparación a domicilio sin costo adicional en compras superiores a $200.",
-      icon: "🚚"
+      icon: "truck"
     },
     {
       title: "Estudiantes",
       description: "15% de descuento presentando carnet estudiantil. Válido todo el año.",
-      icon: "🎓"
+      icon: "graduation-cap"
     },
     {
       title: "Primera Vez",
       description: "10% de descuento en tu primera compra. Regístrate y obtén tu código.",
-      icon: "✨"
+      icon: "sparkles"
     }
   ]
 };
 
-export const getProductsByCategory = (category: string): Product[] => {
-  if (category === "Todas") {
-    return data.products;
-  }
-  return data.products.filter(product => product.category === category);
-};
-
-export const getPromotionProductsByCategory = (category: string): Product[] => {
-  if (category === "Todas") {
-    return data.promotionProducts;
-  }
-  return data.promotionProducts.filter(product => product.category === category);
-};
-
 export const getAllCategories = (): Category[] => {
   return data.categories;
-};
-
-export const getProductById = (id: string): Product | undefined => {
-  return data.products.find(product => product.id === id) || 
-         data.promotionProducts.find(product => product.id === id);
-};
-
-export const getProductDetail = (id: string): Product | undefined => {
-  return productDetails[id];
 };
 
 export const getSearchSections = (): SearchSection[] => {

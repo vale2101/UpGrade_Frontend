@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../hooks/AuthContext";
+import { useAuth } from "../../hooks/useAuthContext";
 import InputField from "../atoms/InputField"
 import Button from "../atoms/Button"
 

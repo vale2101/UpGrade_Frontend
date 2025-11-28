@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Product } from '../contexts/DataContext';
+
+interface Product {
+  id: string;
+  name: string;
+  brand?: string;
+  category: string;
+  condition: string;
+}
 
 export function useProductSearch(products: Product[]) {
   const [loading, setLoading] = useState(false);
@@ -52,3 +59,4 @@ export function useProductSearch(products: Product[]) {
     hasResults: filteredProducts.length > 0
   };
 }
+

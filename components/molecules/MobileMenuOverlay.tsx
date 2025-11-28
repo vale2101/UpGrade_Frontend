@@ -21,7 +21,7 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
         aria-hidden="true"
       />
       
-      <div className="fixed top-0 right-0 h-full w-80 bg-white text-black shadow-xl">
+      <div className="fixed top-0 right-0 h-full w-full sm:w-80 bg-white text-black shadow-xl">
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <Logo />

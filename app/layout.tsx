@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '../contexts/CartContext'
-import { AuthProvider } from '../hooks/AuthContext'
+import { AuthProvider } from '../hooks/useAuthContext'
 import { CategoryProvider } from '../contexts/CategoryContext'
 import { FilterProvider } from '../contexts/FilterContext'
 

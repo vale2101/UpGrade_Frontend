@@ -109,8 +109,8 @@ export default function FilterSidebar() {
   };
 
   return (
-    <div className="w-64 bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-lg font-bold text-gray-800 mb-6">Filtros</h3>
+    <div className="w-full lg:w-64 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6">Filtros</h3>
       
       <div className="space-y-1">
         {filterConfig.map((filter) => (

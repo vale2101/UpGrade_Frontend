@@ -1,7 +1,18 @@
 "use client";
 
 import ProductGrid from "./ProductGrid";
-import { Product } from "../../contexts/DataContext";
+
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  currentPrice: string;
+  originalPrice?: string;
+  discount?: string;
+  installments?: number;
+  monthlyAmount?: string;
+  condition: string;
+}
 
 interface ProductListingProps {
   products: Product[];
@@ -12,15 +23,15 @@ interface ProductListingProps {
 export default function ProductListing({ products, onAddToCart, className = "" }: ProductListingProps) {
   return (
     <div className={`flex-1 ${className}`}>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <div className="flex items-center space-x-4">
-          <span className="text-base sm:text-lg font-medium text-gray-700">
-            {products.length} productos
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
+        <div className="flex items-center">
+          <span className="text-sm sm:text-base md:text-lg font-medium text-gray-700">
+            {products.length} producto{products.length !== 1 ? 's' : ''}
           </span>
         </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
-          <label className="text-sm text-gray-600">Ordenar por:</label>
-          <select className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full sm:w-auto min-w-[200px]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+          <label className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Ordenar por:</label>
+          <select className="border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm w-full sm:w-auto min-w-[180px] sm:min-w-[200px] focus:outline-none focus:ring-2 focus:ring-black">
             <option>Características</option>
             <option>Precio: Menor a Mayor</option>
             <option>Precio: Mayor a Menor</option>

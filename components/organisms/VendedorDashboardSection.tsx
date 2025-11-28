@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Package, Wrench, Plus, ShoppingBag } from "lucide-react";
-import { useAuth } from "../../hooks/AuthContext";
+import { useAuth } from "../../hooks/useAuthContext";
 import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorProducts";
 import Tabs from "../molecules/UserTabs";
 import DashboardHeader from "../molecules/DashboardHeader";
@@ -54,7 +54,7 @@ export default function VendedorDashboardSection() {
     <div className="bg-gray-50">
       <DashboardHeader userName={user?.name || "Vendedor"} onLogout={handleLogout} />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 md:py-8">
         <Tabs
           baseUrl="" 
           items={[
@@ -63,13 +63,13 @@ export default function VendedorDashboardSection() {
               label: "Productos",
               icon: <Package size={16} />,
               content: (
-                <div className="bg-white rounded-xl shadow-sm border p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold">Gestión de Productos</h2>
+                <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <h2 className="text-lg sm:text-xl font-semibold">Gestión de Productos</h2>
                     {!showForm && (
                       <button
                         onClick={() => setShowForm(true)}
-                        className="inline-flex items-center gap-2 bg-[#57ad63] text-white px-4 py-2 rounded-lg hover:bg-[#459a52]"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#57ad63] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#459a52] text-sm sm:text-base transition-colors"
                       >
                         <Plus size={16} />
                         Nuevo Producto
@@ -98,8 +98,8 @@ export default function VendedorDashboardSection() {
               label: "Reparaciones",
               icon: <Wrench size={16} />,
               content: (
-                <div className="bg-white rounded-xl shadow-sm border p-6">
-                  <h2 className="text-xl font-semibold mb-6">Gestión de Reparaciones</h2>
+                <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Reparaciones</h2>
                   <VendedorRepairsList />
                 </div>
               )
@@ -109,8 +109,8 @@ export default function VendedorDashboardSection() {
               label: "Pedidos",
               icon: <ShoppingBag size={16} />,
               content: (
-                <div className="bg-white rounded-xl shadow-sm border p-6">
-                  <h2 className="text-xl font-semibold mb-6">Gestión de Pedidos</h2>
+                <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Pedidos</h2>
                   <VendedorOrdersList />
                 </div>
               )

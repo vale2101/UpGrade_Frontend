@@ -6,7 +6,7 @@ interface SectionImageProps {
 
 export default function SectionImage({ src, alt, className = "" }: SectionImageProps) {
   return (
-    <div className={`relative w-full h-40 sm:h-48 rounded-lg overflow-hidden shadow-lg ${className}`}>
+    <div className={`relative w-full h-full min-h-[200px] sm:min-h-[250px] md:min-h-[300px] rounded-xl overflow-hidden shadow-lg ${className}`}>
       <img
         src={src}
         alt={alt}

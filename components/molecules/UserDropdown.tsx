@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { User } from "lucide-react";
-import { useAuth } from "../../hooks/AuthContext";
+import { useAuth } from "../../hooks/useAuthContext";
 import LoggedInUserMenu from "./LoggedInUserMenu";
 import GuestUserMenu from "./GuestUserMenu";
 

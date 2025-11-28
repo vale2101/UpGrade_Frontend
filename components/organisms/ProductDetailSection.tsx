@@ -1,43 +1,41 @@
 "use client";
-import { useState } from "react";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 import ProductNotFound from "../atoms/ProductNotFound";
 import ProductImageGallery from "../molecules/ProductImageGallery";
 import ProductInfoCard from "../molecules/ProductInfoCard";
 import ProductOptionsSelector from "../molecules/ProductOptionsSelector";
 import ProductDetailsInfo from "../molecules/ProductDetailsInfo";
-import { useCart } from "../../contexts/CartContext";
-import { getProductDetail } from "../../contexts/DataContext";
+import { useProductSelection } from "../../hooks/useProductSelection";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 export default function ProductDetailSection({ productId }: { productId: string }) {
-  const { addToCart } = useCart();
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedCondition, setSelectedCondition] = useState("Outlet");
-  const [selectedCapacity, setSelectedCapacity] = useState("128GB");
-  const [selectedColor, setSelectedColor] = useState("Gray");
-  const [quantity, setQuantity] = useState(1);
-  const [addedToCart, setAddedToCart] = useState(false);
+  const product = null;
+  const {
+    selectedImage,
+    setSelectedImage,
+    selectedCondition,
+    setSelectedCondition,
+    selectedCapacity,
+    setSelectedCapacity,
+    selectedColor,
+    setSelectedColor,
+    quantity,
+    setQuantity,
+    addedToCart,
+    showAddedToCart
+  } = useProductSelection(product);
+  const { handleAddToCart } = useAddToCart();
 
-  const product = getProductDetail(productId);
-
-  const handleAddToCart = () => {
+  const onAddToCart = () => {
     if (!product) return;
     for (let i = 0; i < quantity; i++) {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        image: product.image,
-        price: product.currentPrice,
-        originalPrice: product.originalPrice,
-        discount: product.discount,
+      handleAddToCart(product, {
         condition: selectedCondition,
         capacity: selectedCapacity,
-        color: selectedColor,
-        category: product.category
+        color: selectedColor
       });
     }
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 3000);
+    showAddedToCart();
   };
 
   if (!product) {
@@ -70,7 +68,7 @@ export default function ProductDetailSection({ productId }: { productId: string 
                 quantity={quantity}
                 setQuantity={setQuantity}
                 addedToCart={addedToCart}
-                onAddToCart={handleAddToCart}
+                onAddToCart={onAddToCart}
               />
               
               <ProductOptionsSelector
