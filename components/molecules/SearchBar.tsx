@@ -22,11 +22,9 @@ export default function SearchBar({ mobile = false }: SearchBarProps) {
       setSearchQuery(query);
       setIsOpen(false);
       
-      // Si el query es una ruta (empieza con /), navegar directamente
       if (query.startsWith("/")) {
         router.push(query);
       } else {
-        // Si no, es una búsqueda de productos, ir a promociones
         router.push(`/promociones?q=${encodeURIComponent(query)}`);
       }
     }

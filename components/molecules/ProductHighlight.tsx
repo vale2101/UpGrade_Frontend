@@ -8,22 +8,17 @@ interface Props {
 export default function ProductHighlight({ title, subtitle, price, cuotas }: Props) {
   return (
     <div className="bg-black text-white p-4 sm:p-6 rounded-2xl shadow-lg w-full max-w-[280px] sm:max-w-[300px]">
-      {/* Título */}
       <h2 className="text-lg sm:text-xl font-bold mb-2">{title}</h2>
 
-      {/* Subtítulo */}
       <p className="text-pink-400 font-semibold text-xs sm:text-sm mb-3">{subtitle}</p>
 
-      {/* Precio */}
       <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#57ad63]">{price}</div>
 
-      {/* Información de cuotas */}
       <div className="mt-3">
         <p className="font-semibold text-sm sm:text-base">0% interés</p>
         <p className="text-xs sm:text-sm">{cuotas}</p>
       </div>
 
-      {/* Badge UpGrade */}
       <div className="mt-4">
         <span className="bg-[#57ad63] text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
           Enamórate de un UPGRADE

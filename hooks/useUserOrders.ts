@@ -77,10 +77,15 @@ export function useUserOrders() {
 
         const response = await PedidoService.getPedidosByUserId(userId);
 
-        if (response.success && response.data) {
-          // Normalizar todos los pedidos para asegurar que productos sea un array
-          const normalizedPedidos = response.data.map(normalizePedido);
-          setPedidos(normalizedPedidos);
+        if (response.success) {
+          // Si hay datos, normalizarlos. Si no hay datos (array vacío), está bien para usuarios nuevos
+          if (response.data) {
+            const normalizedPedidos = response.data.map(normalizePedido);
+            setPedidos(normalizedPedidos);
+          } else {
+            // Si no hay datos pero fue exitoso (como un 404 manejado), mostrar lista vacía
+            setPedidos([]);
+          }
         } else {
           setError(response.message || "Error al cargar los pedidos");
           setPedidos([]);
@@ -113,10 +118,15 @@ export function useUserOrders() {
 
       const response = await PedidoService.getPedidosByUserId(userId);
 
-      if (response.success && response.data) {
-        // Normalizar todos los pedidos para asegurar que productos sea un array
-        const normalizedPedidos = response.data.map(normalizePedido);
-        setPedidos(normalizedPedidos);
+      if (response.success) {
+        // Si hay datos, normalizarlos. Si no hay datos (array vacío), está bien para usuarios nuevos
+        if (response.data) {
+          const normalizedPedidos = response.data.map(normalizePedido);
+          setPedidos(normalizedPedidos);
+        } else {
+          // Si no hay datos pero fue exitoso (como un 404 manejado), mostrar lista vacía
+          setPedidos([]);
+        }
       } else {
         setError(response.message || "Error al cargar los pedidos");
         setPedidos([]);

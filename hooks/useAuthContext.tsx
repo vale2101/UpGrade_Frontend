@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { UserService } from "../services/userService";
-import { User as LoginRequest, CreateUserRequest } from "../interfaces/user.interface";
+import { User as LoginRequest } from "../interfaces/user.interface";
 import Swal from "sweetalert2"; 
 import { useRouter } from "next/navigation"; 
 
@@ -15,7 +15,6 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, phone?: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -34,7 +33,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(JSON.parse(savedUser));
         document.cookie = "upgrade-auth=true; path=/; max-age=2592000"; 
       } catch (error) {
-        console.error("Error loading user from localStorage:", error);
         localStorage.removeItem("upgrade-user");
         document.cookie = "upgrade-auth=; path=/; max-age=0";
       }
@@ -74,47 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             router.push("/login"); 
           }
         });
-      } else {
-        console.error("Error en login:", error);
       }
-      return false;
-    }
-  };
-
-  const register = async (
-    name: string,
-    email: string,
-    password: string,
-    phone?: string
-  ): Promise<boolean> => {
-    try {
-      const nameParts = name.trim().split(" ");
-      const nombre = nameParts[0] || "";
-      const apellido = nameParts.slice(1).join(" ") || "";
-
-      const res = await UserService.createUser({
-        nombre: nombre,
-        apellido: apellido,
-        correo: email,
-        contrasena: password,
-        telefono: phone,
-      } as CreateUserRequest);
-
-      if (res.success && res.data) {
-        const userData: User = {
-          id: res.data.id_user?.toString() || "",
-          name: `${res.data.nombre} ${res.data.apellido}`.trim(),
-          email: res.data.correo,
-        };
-
-        setUser(userData);
-        localStorage.setItem("upgrade-user", JSON.stringify(userData));
-        document.cookie = "upgrade-auth=true; path=/; max-age=2592000";
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error en registro:", error);
       return false;
     }
   };
@@ -123,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await UserService.logout();
     } catch (error) {
-      console.error("Error en logout:", error);
+      // Error en logout, continuar con el proceso
     } finally {
       setUser(null);
       localStorage.removeItem("upgrade-user");
@@ -137,7 +95,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         isAuthenticated: !!user,
         login,
-        register,
         logout,
         isLoading,
       }}

@@ -21,7 +21,6 @@ export default function StatCard({
       border border-gray-200 overflow-hidden
       ${className}
     `}>
-      {/* Efecto de brillo */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#57ad63]/0 via-[#57ad63]/5 to-[#57ad63]/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
       
       <div className="relative z-10">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Package, Wrench, Plus, ShoppingBag } from "lucide-react";
+import { Package, Wrench, Plus } from "lucide-react";
 import { useAuth } from "../../hooks/useAuthContext";
 import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorProducts";
 import Tabs from "../molecules/UserTabs";
@@ -10,7 +10,6 @@ import DashboardHeader from "../molecules/DashboardHeader";
 import VendedorProductsTable from "../molecules/VendedorProductsTable";
 import VendedorProductForm from "./VendedorProductForm";
 import VendedorRepairsList from "../molecules/VendedorRepairsList";
-import VendedorOrdersList from "../molecules/VendedorOrdersList";
 
 export default function VendedorDashboardSection() {
   const { user, logout } = useAuth();
@@ -101,17 +100,6 @@ export default function VendedorDashboardSection() {
                 <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Reparaciones</h2>
                   <VendedorRepairsList />
-                </div>
-              )
-            },
-            {
-              key: "orders",
-              label: "Pedidos",
-              icon: <ShoppingBag size={16} />,
-              content: (
-                <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-                  <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Pedidos</h2>
-                  <VendedorOrdersList />
                 </div>
               )
             }

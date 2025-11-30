@@ -1,4 +1,4 @@
-import { User, ShoppingBag, Wrench, History, LogOut, Store } from "lucide-react";
+import { User, ShoppingBag, Wrench, History, LogOut, Store, Shield } from "lucide-react";
 import DropdownMenuItem from "../atoms/DropdownMenuItem";
 import UserInfo from "../atoms/UserInfo";
 
@@ -52,6 +52,12 @@ export default function LoggedInUserMenu({
         href="/vendedor/login" 
         icon={<Store size={16} />} 
         label="Iniciar sesión como vendedor" 
+        onClick={onClose}
+      />
+      <DropdownMenuItem 
+        href="/administrador/login" 
+        icon={<Shield size={16} />} 
+        label="Iniciar sesión como administrador" 
         onClick={onClose}
       />
 

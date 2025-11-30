@@ -11,7 +11,6 @@ export default function ProductDetailsInfo({ product, idProducto }: ProductDetai
 
   return (
     <>
-      {/* Información de la ficha técnica */}
       {ficha && (
         <div className="pt-3 sm:pt-4 border-t border-gray-200">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Especificaciones técnicas</h3>
@@ -74,7 +73,6 @@ export default function ProductDetailsInfo({ product, idProducto }: ProductDetai
         </div>
       )}
 
-      {/* Descripción adicional si existe */}
       {product.description && (
         <div className="pt-3 sm:pt-4 border-t border-gray-200">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Descripción</h3>
@@ -82,7 +80,6 @@ export default function ProductDetailsInfo({ product, idProducto }: ProductDetai
         </div>
       )}
 
-      {/* Características adicionales si existen */}
       {product.features && product.features.length > 0 && (
         <div className="mt-3 sm:mt-4">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Características principales</h3>

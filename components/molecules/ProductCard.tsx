@@ -7,6 +7,28 @@ import InstallmentPlan from "../atoms/InstallmentPlan";
 import ConditionBadge from "../atoms/ConditionBadge";
 import AddToCartButton from "../atoms/AddToCartButton";
 
+function normalizeConditionForBadge(condition: string): "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo" {
+  const normalized = condition.toLowerCase().trim();
+  
+  if (normalized.includes('nuevo') && !normalized.includes('semi') && !normalized.includes('como')) {
+    return "Nuevo";
+  }
+  
+  if (normalized.includes('como nuevo')) {
+    return "Como Nuevo";
+  }
+  
+  if (normalized.includes('semi')) {
+    return "Semi Nuevo";
+  }
+  
+  if (normalized.includes('outlet') || normalized.includes('reacondicionado')) {
+    return "Outlet";
+  }
+  
+  return "Outlet";
+}
+
 interface Product {
   id: string;
   name: string;
@@ -63,7 +85,7 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
       )}
       
       <div className="flex justify-center mt-3">
-        <ConditionBadge condition={product.condition} />
+        <ConditionBadge condition={normalizeConditionForBadge(product.condition)} />
       </div>
     </div>
   );

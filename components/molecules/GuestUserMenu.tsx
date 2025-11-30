@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Store } from "lucide-react";
+import { LogIn, UserPlus, Store, Shield } from "lucide-react";
 import DropdownMenuItem from "../atoms/DropdownMenuItem";
 
 interface GuestUserMenuProps {
@@ -28,6 +28,13 @@ export default function GuestUserMenu({ onClose }: GuestUserMenuProps) {
         href="/vendedor/login" 
         icon={<Store size={16} />} 
         label="Iniciar sesión como vendedor" 
+        onClick={onClose}
+      />
+      
+      <DropdownMenuItem 
+        href="/administrador/login" 
+        icon={<Shield size={16} />} 
+        label="Iniciar sesión como administrador" 
         onClick={onClose}
       />
     </div>

@@ -30,12 +30,10 @@ export default function TestimonialCard({
         ))}
       </div>
 
-      {/* Content */}
       <p className="text-gray-700 text-sm sm:text-base mb-6 leading-relaxed italic">
         "{content}"
       </p>
 
-      {/* Author */}
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#57ad63] to-[#459a52] flex items-center justify-center text-white font-bold text-lg">
           {avatar ? (

@@ -41,7 +41,6 @@ export default function SearchPanel({
   return (
     <div className="fixed top-0 right-0 h-full w-80 sm:w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out">
       <div className="h-full flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
           <div className="flex items-center gap-3 flex-1">
             <Search size={24} className="text-gray-600" />
@@ -64,7 +63,6 @@ export default function SearchPanel({
           </button>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {sections.map((section, index) => (
             <SearchSection

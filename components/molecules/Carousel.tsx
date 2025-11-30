@@ -54,7 +54,6 @@ export default function Carousel({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Contenedor de slides */}
       <div 
         className="flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -69,7 +68,6 @@ export default function Carousel({
         ))}
       </div>
 
-      {/* Botones de navegación */}
       {showControls && items.length > 1 && (
         <>
           <CarouselButton direction="prev" onClick={goToPrevious} />
@@ -77,7 +75,6 @@ export default function Carousel({
         </>
       )}
 
-      {/* Indicadores */}
       {showIndicators && items.length > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
           {items.map((_, index) => (

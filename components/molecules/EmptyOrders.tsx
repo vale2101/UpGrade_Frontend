@@ -18,7 +18,7 @@ export default function EmptyOrders() {
     );
   }
 
-  if (error) {
+  if (error && !error.toLowerCase().includes("no hay pedidos")) {
     return (
       <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
         <h2 className="text-2xl font-semibold mb-2">Pedidos</h2>

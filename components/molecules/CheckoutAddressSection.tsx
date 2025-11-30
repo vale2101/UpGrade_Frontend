@@ -1,7 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
 import { useAddressList } from "../../hooks/useAddressList";
-import { direccionInterface } from "../../interfaces/direccion.interface";
 
 interface CheckoutAddressSectionProps {
   selectedAddressId: number | null;

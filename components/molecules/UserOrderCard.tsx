@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { Calendar, Package } from "lucide-react";
 import { PedidoInterface } from "../../interfaces/pedido.interface";
 import UserOrderStatusBadge from "./UserOrderStatusBadge";
@@ -31,6 +32,8 @@ const formatDate = (dateString?: string) => {
 };
 
 export default function UserOrderCard({ pedido, className = "" }: UserOrderCardProps) {
+  const router = useRouter();
+  
   // Normalizar productos para asegurar que siempre sea un array
   let productos: any[] = [];
   
@@ -52,8 +55,17 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
   const totalItems = productos.reduce((sum, producto) => sum + (producto?.cantidad || 0), 0);
   const total = pedido.total || 0;
 
+  const handleClick = () => {
+    if (pedido.id_pedido) {
+      router.push(`/user/pedido/${pedido.id_pedido}`);
+    }
+  };
+
   return (
-    <div className={`bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow ${className}`}>
+    <div 
+      onClick={handleClick}
+      className={`bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow cursor-pointer ${className}`}
+    >
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex-1 space-y-3">
           <div className="flex items-start justify-between">
