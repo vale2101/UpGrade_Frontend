@@ -9,7 +9,7 @@ interface CategoryContextType {
 const CategoryContext = createContext<CategoryContextType | undefined>(undefined);
 
 export function CategoryProvider({ children }: { children: ReactNode }) {
-  const [selectedCategory, setSelectedCategory] = useState("Samsung");
+  const [selectedCategory, setSelectedCategory] = useState("Todas");
 
   return (
     <CategoryContext.Provider value={{ selectedCategory, setSelectedCategory }}>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductListing from "../molecules/ProductListing";
@@ -10,12 +10,24 @@ import { useProductFilter } from "../../hooks/useProductFilter";
 import { useProductSearch } from "../../hooks/useProductSearch";
 import { useProductCategory } from "../../hooks/useProductCategory";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useProducts } from "../../hooks/useProducts";
+import { filterProductsByCategory, mapProductoToProduct } from "../../utils/productMapper";
 
 export default function PromotionsPageSection() {
   const searchParams = useSearchParams();
   const { selectedCategory, setSelectedCategory } = useProductCategory();
-  const allProducts: any[] = [];
-  const categoryProducts: any[] = [];
+  const { products: productos, loading, error } = useProducts();
+  
+  // Mapear productos del backend al formato del frontend
+  const allProducts = useMemo(() => {
+    return productos.map(mapProductoToProduct);
+  }, [productos]);
+
+  // Filtrar productos por categoría seleccionada
+  const categoryProducts = useMemo(() => {
+    return filterProductsByCategory(allProducts, selectedCategory);
+  }, [allProducts, selectedCategory]);
+
   const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(categoryProducts);
   const { filteredProducts } = useProductFilter(searchResults);
   const { handleAddToCart } = useAddToCart();
@@ -52,6 +64,30 @@ export default function PromotionsPageSection() {
       handleAddToCart(product);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-gray-600">Cargando productos...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">

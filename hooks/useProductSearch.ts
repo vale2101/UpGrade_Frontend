@@ -1,12 +1,5 @@
 import { useState, useEffect } from 'react';
-
-interface Product {
-  id: string;
-  name: string;
-  brand?: string;
-  category: string;
-  condition: string;
-}
+import { Product } from '../utils/productMapper';
 
 export function useProductSearch(products: Product[]) {
   const [loading, setLoading] = useState(false);

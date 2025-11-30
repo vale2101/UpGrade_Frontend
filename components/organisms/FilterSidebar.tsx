@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import FilterGroup from "../molecules/FilterGroup";
 import { useFilter, FilterState } from "../../contexts/FilterContext";
+import { useProducts } from "../../hooks/useProducts";
+import { extractBrand } from "../../utils/productMapper";
 
 interface FilterConfig {
   key: keyof FilterState;
@@ -10,95 +12,78 @@ interface FilterConfig {
   options: Array<{ value: string; label: string }>;
 }
 
-const filterConfig: FilterConfig[] = [
-  {
-    key: 'disponibilidad',
-    label: 'Disponibilidad',
-    options: [
-      { value: 'En stock', label: 'En stock' },
-      { value: 'Agotado', label: 'Agotado' }
-    ]
-  },
-  {
-    key: 'tipo',
-    label: 'Tipo de Producto',
-    options: [
-      { value: 'Smartphone', label: 'Smartphone' },
-      { value: 'Tablet', label: 'Tablet' },
-      { value: 'Laptop', label: 'Laptop' },
-      { value: 'Accesorio', label: 'Accesorio' }
-    ]
-  },
-  {
-    key: 'marca',
-    label: 'Marca',
-    options: [
-      { value: 'Apple', label: 'Apple' },
-      { value: 'Samsung', label: 'Samsung' },
-      { value: 'Xiaomi', label: 'Xiaomi' },
-      { value: 'Huawei', label: 'Huawei' },
-      { value: 'Oppo', label: 'Oppo' },
-      { value: 'Vivo', label: 'Vivo' },
-      { value: 'Realme', label: 'Realme' },
-      { value: 'OnePlus', label: 'OnePlus' },
-      { value: 'Motorola', label: 'Motorola' },
-      { value: 'Nokia', label: 'Nokia' },
-      { value: 'Sony', label: 'Sony' },
-      { value: 'LG', label: 'LG' },
-      { value: 'Google', label: 'Google' },
-      { value: 'Asus', label: 'Asus' },
-      { value: 'Lenovo', label: 'Lenovo' },
-      { value: 'Otras marcas', label: 'Otras marcas' }
-    ]
-  },
-  {
-    key: 'precio',
-    label: 'Rango de Precio',
-    options: [
-      { value: '0-500', label: 'Menos de S/500' },
-      { value: '500-1000', label: 'S/500 - S/1000' },
-      { value: '1000-2000', label: 'S/1000 - S/2000' },
-      { value: '2000-3000', label: 'S/2000 - S/3000' },
-      { value: '3000-5000', label: 'S/3000 - S/5000' },
-      { value: '5000+', label: 'Más de S/5000' }
-    ]
-  },
-  {
-    key: 'categoria',
-    label: 'Categoría',
-    options: [
-      { value: 'smartphones', label: 'Smartphones' },
-      { value: 'tablets', label: 'Tablets' },
-      { value: 'laptops', label: 'Laptops' },
-      { value: 'accesorios', label: 'Accesorios' }
-    ]
-  },
-  {
-    key: 'capacidad',
-    label: 'Capacidad',
-    options: [
-      { value: '64GB', label: '64GB' },
-      { value: '128GB', label: '128GB' },
-      { value: '256GB', label: '256GB' },
-      { value: '512GB', label: '512GB' },
-      { value: '1TB', label: '1TB' }
-    ]
-  },
-  {
-    key: 'color',
-    label: 'Color',
-    options: [
-      { value: 'Negro', label: 'Negro' },
-      { value: 'Blanco', label: 'Blanco' },
-      { value: 'Azul', label: 'Azul' },
-      { value: 'Dorado', label: 'Dorado' }
-    ]
-  }
-];
-
 export default function FilterSidebar() {
   const [expandedFilters, setExpandedFilters] = useState<Array<keyof FilterState>>([]);
   const { isFilterActive, toggleFilter, clearFilters } = useFilter();
+  const { products } = useProducts();
+
+  // Generar opciones dinámicas basadas en los productos del backend
+  const filterConfig: FilterConfig[] = useMemo(() => {
+    // Extraer valores únicos de los productos
+    const tipos = Array.from(new Set(products.map(p => p.tipo).filter(Boolean))) as string[];
+    const marcas = Array.from(new Set(products.map(p => extractBrand(p.nombre)).filter(Boolean))).sort();
+    const capacidades = Array.from(new Set(products.map(p => p.capacidad).filter(Boolean))).sort();
+    const colores = Array.from(new Set(products.map(p => p.color).filter(Boolean))).sort();
+
+    // Configuración de filtros dinámicos
+    const config: FilterConfig[] = [
+      {
+        key: 'disponibilidad',
+        label: 'Disponibilidad',
+        options: [
+          { value: 'En stock', label: 'En stock' },
+          { value: 'Agotado', label: 'Agotado' }
+        ]
+      },
+      {
+        key: 'tipo',
+        label: 'Tipo',
+        options: tipos.map(tipo => ({
+          value: tipo,
+          label: tipo
+        }))
+      },
+      {
+        key: 'marca',
+        label: 'Marca',
+        options: marcas.map(marca => ({
+          value: marca,
+          label: marca
+        }))
+      },
+      {
+        key: 'precio',
+        label: 'Rango de Precio',
+        options: [
+          { value: '0-500', label: 'Menos de $500.000' },
+          { value: '500-1000', label: '$500.000 - $1.000.000' },
+          { value: '1000-2000', label: '$1.000.000 - $2.000.000' },
+          { value: '2000-3000', label: '$2.000.000 - $3.000.000' },
+          { value: '3000-5000', label: '$3.000.000 - $5.000.000' },
+          { value: '5000+', label: 'Más de $5.000.000' }
+        ]
+      },
+      {
+        key: 'capacidad',
+        label: 'Capacidad',
+        options: capacidades.map(cap => ({
+          value: cap,
+          label: cap
+        }))
+      },
+      {
+        key: 'color',
+        label: 'Color',
+        options: colores.map(color => ({
+          value: color,
+          label: color
+        }))
+      }
+    ];
+
+    // Filtrar configuraciones que no tienen opciones
+    return config.filter(filter => filter.options.length > 0);
+  }, [products]);
 
   const handleToggleExpand = (filterKey: keyof FilterState) => {
     setExpandedFilters(prev => 

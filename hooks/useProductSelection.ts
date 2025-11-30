@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect, useMemo } from "react";
+import { useProduct } from "./useProduct";
 
 interface Product {
   condition?: string;
@@ -6,23 +8,84 @@ interface Product {
   color?: string | string[];
 }
 
-export function useProductSelection(product: Product | null) {
+interface UseProductSelectionProps {
+  product?: Product | null;
+  productId?: number | string | null;
+}
+
+export function useProductSelection({ product, productId }: UseProductSelectionProps = {}) {
+  // Obtener producto del backend si se proporciona productId
+  const { product: productoBackend } = useProduct(productId || null);
+  
+  // Determinar los valores iniciales desde el backend o el producto proporcionado
+  const initialValues = useMemo(() => {
+    // Priorizar datos del backend si están disponibles
+    if (productoBackend) {
+      return {
+        condition: productoBackend.tipo || product?.condition || "Reacondicionado",
+        capacity: productoBackend.capacidad || 
+          (Array.isArray(product?.capacity) ? product.capacity[0] : product?.capacity) || 
+          "128GB",
+        color: productoBackend.color || 
+          (Array.isArray(product?.color) ? product.color[0] : product?.color) || 
+          "Negro",
+      };
+    }
+    // Fallback a datos del producto proporcionado
+    if (product) {
+      return {
+        condition: product.condition || "Reacondicionado",
+        capacity: Array.isArray(product.capacity) 
+          ? product.capacity[0] 
+          : product.capacity || "128GB",
+        color: Array.isArray(product.color) 
+          ? product.color[0] 
+          : product.color || "Negro",
+      };
+    }
+    // Valores por defecto
+    return {
+      condition: "Reacondicionado",
+      capacity: "128GB",
+      color: "Negro",
+    };
+  }, [productoBackend, product]);
+
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedCondition, setSelectedCondition] = useState(
-    product?.condition || "Outlet"
-  );
-  const [selectedCapacity, setSelectedCapacity] = useState(
-    Array.isArray(product?.capacity) 
-      ? product.capacity[0] 
-      : product?.capacity || "128GB"
-  );
-  const [selectedColor, setSelectedColor] = useState(
-    Array.isArray(product?.color) 
-      ? product.color[0] 
-      : product?.color || "Gray"
-  );
+  const [selectedCondition, setSelectedCondition] = useState(initialValues.condition);
+  const [selectedCapacity, setSelectedCapacity] = useState(initialValues.capacity);
+  const [selectedColor, setSelectedColor] = useState(initialValues.color);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  // Actualizar estados cuando cambien los valores iniciales (producto del backend)
+  useEffect(() => {
+    // Priorizar datos del backend
+    if (productoBackend) {
+      if (productoBackend.tipo) {
+        setSelectedCondition(productoBackend.tipo);
+      }
+      if (productoBackend.capacidad) {
+        setSelectedCapacity(productoBackend.capacidad);
+      }
+      if (productoBackend.color) {
+        setSelectedColor(productoBackend.color);
+      }
+    } else if (product) {
+      // Fallback a datos del producto proporcionado
+      if (product.condition) {
+        setSelectedCondition(product.condition);
+      }
+      const cap = Array.isArray(product.capacity) ? product.capacity[0] : product.capacity;
+      if (cap) {
+        setSelectedCapacity(cap);
+      }
+      const col = Array.isArray(product.color) ? product.color[0] : product.color;
+      if (col) {
+        setSelectedColor(col);
+      }
+    }
+  }, [productoBackend?.tipo, productoBackend?.capacidad, productoBackend?.color, product?.condition, product?.capacity, product?.color]);
 
   const showAddedToCart = () => {
     setAddedToCart(true);

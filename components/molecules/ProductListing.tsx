@@ -1,18 +1,7 @@
 "use client";
 
 import ProductGrid from "./ProductGrid";
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  currentPrice: string;
-  originalPrice?: string;
-  discount?: string;
-  installments?: number;
-  monthlyAmount?: string;
-  condition: string;
-}
+import { Product } from "../../utils/productMapper";
 
 interface ProductListingProps {
   products: Product[];

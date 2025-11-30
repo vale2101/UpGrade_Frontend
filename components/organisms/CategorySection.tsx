@@ -1,4 +1,5 @@
 "use client";
+import { useMemo } from "react";
 import FilterSidebar from "./FilterSidebar";
 import ProductListing from "../molecules/ProductListing";
 import EmptyProductsState from "../molecules/EmptyProductsState";
@@ -7,10 +8,28 @@ import { useProductFilter } from "../../hooks/useProductFilter";
 import { useProductSearch } from "../../hooks/useProductSearch";
 import { useProductCategory } from "../../hooks/useProductCategory";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useProducts } from "../../hooks/useProducts";
+import { filterProductsByCategory, mapProductoToProduct, mapSlugToBackendCategory } from "../../utils/productMapper";
 
 export default function CategorySection({ slug }: { slug: string }) {
-  const { categoryName } = useProductCategory(slug);
-  const allProducts: any[] = [];
+  const { selectedCategory: categoryName } = useProductCategory(slug);
+  const { products: productos, loading, error } = useProducts();
+  
+  // Mapear slug a categoría del backend
+  const backendCategory = useMemo(() => {
+    return mapSlugToBackendCategory(slug);
+  }, [slug]);
+  
+  // Mapear productos del backend al formato del frontend
+  const mappedProducts = useMemo(() => {
+    return productos.map(mapProductoToProduct);
+  }, [productos]);
+
+  // Filtrar productos por categoría del backend (si es null, muestra todos)
+  const allProducts = useMemo(() => {
+    return filterProductsByCategory(mappedProducts, backendCategory);
+  }, [mappedProducts, backendCategory]);
+
   const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(allProducts);
   const filteredProducts = useProductFilter(searchResults);
   const { handleAddToCart } = useAddToCart();
@@ -21,6 +40,30 @@ export default function CategorySection({ slug }: { slug: string }) {
       handleAddToCart(product);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-gray-600">Cargando productos...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">

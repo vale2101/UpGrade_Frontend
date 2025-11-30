@@ -1,4 +1,5 @@
 "use client";
+import { useMemo } from "react";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 import ProductNotFound from "../atoms/ProductNotFound";
 import ProductImageGallery from "../molecules/ProductImageGallery";
@@ -7,9 +8,18 @@ import ProductOptionsSelector from "../molecules/ProductOptionsSelector";
 import ProductDetailsInfo from "../molecules/ProductDetailsInfo";
 import { useProductSelection } from "../../hooks/useProductSelection";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useProduct } from "../../hooks/useProduct";
+import { mapProductoToProduct, Product } from "../../utils/productMapper";
 
 export default function ProductDetailSection({ productId }: { productId: string }) {
-  const product = null;
+  const { product: producto, loading, error } = useProduct(productId);
+  
+  // Mapear producto del backend al formato del frontend
+  const product = useMemo(() => {
+    if (!producto) return null;
+    return mapProductoToProduct(producto);
+  }, [producto]);
+
   const {
     selectedImage,
     setSelectedImage,
@@ -23,7 +33,7 @@ export default function ProductDetailSection({ productId }: { productId: string 
     setQuantity,
     addedToCart,
     showAddedToCart
-  } = useProductSelection(product);
+  } = useProductSelection({ product, productId });
   const { handleAddToCart } = useAddToCart();
 
   const onAddToCart = () => {
@@ -38,7 +48,20 @@ export default function ProductDetailSection({ productId }: { productId: string 
     showAddedToCart();
   };
 
-  if (!product) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <BackToHomeButton />
+          <div className="flex justify-center items-center py-12">
+            <p className="text-gray-600">Cargando producto...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4">
@@ -81,7 +104,7 @@ export default function ProductDetailSection({ productId }: { productId: string 
                 setSelectedColor={setSelectedColor}
               />
               
-              <ProductDetailsInfo product={product} />
+              <ProductDetailsInfo product={product} idProducto={producto?.id_producto} />
             </div>
           </div>
         </div>

@@ -13,20 +13,76 @@ export interface ApiResponse<T> {
 export const ProductoService = {
   // 🔹 Obtener todos los productos
   async getProductos(): Promise<ApiResponse<productoInterface[]>> {
-    const response = await axios.get<ApiResponse<productoInterface[]>>(
+    const response = await axios.get<any>(
       `${ENV.API_URL}/productos`,
       { withCredentials: true }
     );
-    return response.data;
+    
+    // Normalizar la respuesta: el backend puede devolver { data: [...] } directamente
+    if (response.data?.data && Array.isArray(response.data.data)) {
+      return {
+        success: true,
+        message: "Productos obtenidos correctamente",
+        data: response.data.data as productoInterface[]
+      };
+    }
+    
+    // Si ya tiene la estructura ApiResponse, devolverla tal cual
+    if (response.data?.success !== undefined) {
+      return response.data as ApiResponse<productoInterface[]>;
+    }
+    
+    // Si viene directamente como array, envolverlo
+    if (Array.isArray(response.data)) {
+      return {
+        success: true,
+        message: "Productos obtenidos correctamente",
+        data: response.data as productoInterface[]
+      };
+    }
+    
+    return {
+      success: false,
+      message: "Formato de respuesta inesperado",
+      data: undefined
+    };
   },
 
   // 🔹 Obtener un producto por ID
   async getProductoById(id: number): Promise<ApiResponse<productoInterface>> {
-    const response = await axios.get<ApiResponse<productoInterface>>(
+    const response = await axios.get<any>(
       `${ENV.API_URL}/productos/${id}`,
       { withCredentials: true }
     );
-    return response.data;
+    
+    // Normalizar la respuesta: el backend puede devolver { data: {...} } directamente
+    if (response.data?.data && !Array.isArray(response.data.data)) {
+      return {
+        success: true,
+        message: "Producto obtenido correctamente",
+        data: response.data.data as productoInterface
+      };
+    }
+    
+    // Si ya tiene la estructura ApiResponse, devolverla tal cual
+    if (response.data?.success !== undefined) {
+      return response.data as ApiResponse<productoInterface>;
+    }
+    
+    // Si viene directamente como objeto producto, envolverlo
+    if (response.data?.id_producto || response.data?.nombre) {
+      return {
+        success: true,
+        message: "Producto obtenido correctamente",
+        data: response.data as productoInterface
+      };
+    }
+    
+    return {
+      success: false,
+      message: "Producto no encontrado",
+      data: undefined
+    };
   },
 
   // 🔹 Crear un nuevo producto

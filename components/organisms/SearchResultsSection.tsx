@@ -1,16 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductListing from "../molecules/ProductListing";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import EmptyProductsState from "../molecules/EmptyProductsState";
 import { useProductSearch } from "../../hooks/useProductSearch";
 import { useProductFilter } from "../../hooks/useProductFilter";
+import { useProducts } from "../../hooks/useProducts";
+import { mapProductoToProduct } from "../../utils/productMapper";
 
 export default function SearchResultsSection() {
   const searchParams = useSearchParams();
-  const allProducts: any[] = [];
+  const { products: productos, loading, error } = useProducts();
+  
+  // Mapear productos del backend al formato del frontend
+  const allProducts = useMemo(() => {
+    return productos.map(mapProductoToProduct);
+  }, [productos]);
 
   const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(allProducts);
   const { filteredProducts } = useProductFilter(searchResults);
@@ -19,6 +26,30 @@ export default function SearchResultsSection() {
     const q = searchParams.get("q") || "";
     setSearchQuery(q);
   }, [searchParams, setSearchQuery]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-gray-600">Cargando productos...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex justify-center items-center py-12">
+            <p className="text-red-600">Error: {error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">

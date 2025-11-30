@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useFilter } from '../contexts/FilterContext';
-
-interface Product {
-  id: string;
-  name: string;
-  currentPrice: string;
-  condition: string;
-  category: string;
-  capacity?: string | string[];
-  color?: string | string[];
-}
+import { Product } from '../utils/productMapper';
 
 export function useProductFilter<T extends Product>(products: T[]) {
   const [loading, setLoading] = useState(false);
@@ -21,48 +12,55 @@ export function useProductFilter<T extends Product>(products: T[]) {
       setLoading(true);
       
       try {
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         
         const results = products.filter(product => {
+          // Filtro de Disponibilidad (basado en stock)
           if (filters.disponibilidad.length > 0) {
-            const availability = product.condition === 'Nuevo' ? 'En stock' : 'Disponible';
+            const stock = product.stock || 0;
+            const isInStock = stock > 0;
+            const availability = isInStock ? 'En stock' : 'Agotado';
             if (!filters.disponibilidad.includes(availability)) return false;
           }
 
+          // Filtro de Tipo (usa condition del backend: "Nuevo", "SemiNuevo", "Reacondicionado")
           if (filters.tipo.length > 0) {
-            const type = getProductType(product.name);
-            if (!filters.tipo.includes(type)) return false;
+            if (!filters.tipo.includes(product.condition)) return false;
           }
 
+          // Filtro de Marca (usa brand del mapper)
           if (filters.marca.length > 0) {
-            const brand = getBrand(product.name);
-            if (!filters.marca.includes(brand)) return false;
+            if (!product.brand || !filters.marca.includes(product.brand)) return false;
           }
 
+          // Filtro de Precio (rangos en miles de pesos colombianos)
           if (filters.precio.length > 0) {
             const price = parseInt(product.currentPrice.replace(/[^0-9]/g, '')) || 0;
+            // Convertir a miles (dividir por 1000)
+            const priceInThousands = price / 1000;
             const inRange = filters.precio.some(range => {
-              if (range === '0-300000') return price >= 0 && price <= 300000;
-              if (range === '300000-500000') return price > 300000 && price <= 500000;
-              if (range === '500000+') return price > 500000;
+              if (range === '0-500') return priceInThousands < 500; // Menos de $500.000
+              if (range === '500-1000') return priceInThousands >= 500 && priceInThousands < 1000;
+              if (range === '1000-2000') return priceInThousands >= 1000 && priceInThousands < 2000;
+              if (range === '2000-3000') return priceInThousands >= 2000 && priceInThousands < 3000;
+              if (range === '3000-5000') return priceInThousands >= 3000 && priceInThousands < 5000;
+              if (range === '5000+') return priceInThousands >= 5000;
               return true;
             });
             if (!inRange) return false;
           }
 
-          if (filters.categoria.length > 0) {
-            if (!filters.categoria.includes(product.condition)) return false;
-          }
-
+          // Filtro de Capacidad (usa capacity del backend)
           if (filters.capacidad.length > 0) {
-            const capacity = product.capacity || getCapacity(product.name);
-            const capacities = Array.isArray(capacity) ? capacity : [capacity];
+            if (!product.capacity) return false;
+            const capacities = Array.isArray(product.capacity) ? product.capacity : [product.capacity];
             if (!capacities.some(cap => filters.capacidad.includes(cap))) return false;
           }
 
+          // Filtro de Color (usa color del backend)
           if (filters.color.length > 0) {
-            const color = product.color || getColor(product.name);
-            const colors = Array.isArray(color) ? color : [color];
+            if (!product.color) return false;
+            const colors = Array.isArray(product.color) ? product.color : [product.color];
             if (!colors.some(col => filters.color.includes(col))) return false;
           }
 
@@ -88,38 +86,4 @@ export function useProductFilter<T extends Product>(products: T[]) {
     hasResults: filteredProducts.length > 0
   };
 }
-
-const getProductType = (name: string) => {
-  const lower = name.toLowerCase();
-  if (lower.includes('ipad')) return 'Tablets';
-  if (lower.includes('watch')) return 'Accesorios';
-  return 'Smartphones';
-};
-
-const getBrand = (name: string) => {
-  const lower = name.toLowerCase();
-  if (lower.includes('samsung') || lower.includes('galaxy')) return 'Samsung';
-  if (lower.includes('iphone') || lower.includes('ipad') || lower.includes('watch')) return 'iPhone';
-  if (lower.includes('vivo')) return 'Vivo';
-  return 'Samsung';
-};
-
-const getCapacity = (name: string) => {
-  const match = name.match(/(\d+)GB/);
-  if (!match) return '128GB';
-  const capacity = parseInt(match[1]);
-  if (capacity <= 32) return '32GB';
-  if (capacity <= 64) return '64GB';
-  if (capacity <= 128) return '128GB';
-  return '256GB+';
-};
-
-const getColor = (name: string) => {
-  const lower = name.toLowerCase();
-  if (lower.includes('negro') || lower.includes('black')) return 'Negro';
-  if (lower.includes('blanco') || lower.includes('white')) return 'Blanco';
-  if (lower.includes('azul') || lower.includes('blue')) return 'Azul';
-  if (lower.includes('dorado') || lower.includes('gold')) return 'Dorado';
-  return 'Negro';
-};
 

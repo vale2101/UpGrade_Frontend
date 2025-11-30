@@ -1,3 +1,6 @@
+"use client";
+import { mapColorToHex, normalizeCondition } from "../../utils/colorMapper";
+
 interface ProductOptionsSelectorProps {
   product: any;
   selectedCondition: string;
@@ -17,23 +20,23 @@ export default function ProductOptionsSelector({
   selectedColor,
   setSelectedColor
 }: ProductOptionsSelectorProps) {
-  const colorMap: any = {
-    'Gray': '#6B7280', 'White': '#FFFFFF', 'Green': '#10B981', 'Beige': '#F3E8FF',
-    'Purple': '#8B5CF6', 'Black': '#000000', 'Blue': '#3B82F6', 'Natural Titanium': '#D1D5DB',
-    'Blue Titanium': '#60A5FA', 'White Titanium': '#F9FAFB', 'Black Titanium': '#374151'
-  };
+  // Normalizar la condición seleccionada para comparación
+  const normalizedCondition = normalizeCondition(selectedCondition);
+  
+  // Las 3 categorías permitidas del backend
+  const allowedConditions: ('Nuevo' | 'SemiNuevo' | 'Reacondicionado')[] = ['Nuevo', 'SemiNuevo', 'Reacondicionado'];
 
   return (
     <div className="space-y-4">
       <div>
-        <label className="text-sm font-medium text-gray-700 mb-2 block">Categoría: {selectedCondition}</label>
+        <label className="text-sm font-medium text-gray-700 mb-2 block">Categoría: {normalizedCondition}</label>
         <div className="flex flex-wrap gap-2">
-          {["Outlet", "Semi Nuevo", "Como Nuevo"].map((condition) => (
+          {allowedConditions.map((condition) => (
             <button
               key={condition}
               onClick={() => setSelectedCondition(condition)}
               className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedCondition === condition ? 'bg-black text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                normalizedCondition === condition ? 'bg-black text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               {condition}
@@ -72,7 +75,8 @@ export default function ProductOptionsSelector({
                 className={`w-8 h-8 rounded-full border-2 transition-colors ${
                   selectedColor === color ? 'border-black' : 'border-gray-300 hover:border-gray-400'
                 }`}
-                style={{ backgroundColor: colorMap[color] || '#6B7280' }}
+                style={{ backgroundColor: mapColorToHex(color) }}
+                title={color}
               />
             ))}
           </div>

@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+"use client";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from './useAuthContext';
 import { useCart } from '../contexts/CartContext';
 
 export function usePayment() {
   const [loading, setLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const { items, getTotalPrice } = useCart();
 
@@ -22,14 +25,13 @@ export function usePayment() {
     setLoading(true);
     
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
       const total = getTotalPrice();
       if (total <= 0) {
         throw new Error('El total debe ser mayor a 0');
       }
       
-      alert(`¡Hola ${user?.name}! Redirigiendo al proceso de pago...`);
+      // Redirigir a la página de checkout
+      router.push('/checkout');
       
     } catch (error) {
       console.error('Error al procesar el pago:', error);
