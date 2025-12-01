@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { fichaInterface } from "../interfaces/ficha.interface";
 
@@ -15,9 +16,10 @@ export type FichaFormData = {
 
 interface UseFichaFormProps {
   onSave: (ficha: fichaInterface) => Promise<number | null>;
+  initialFicha?: fichaInterface | null;
 }
 
-export function useFichaForm({ onSave }: UseFichaFormProps) {
+export function useFichaForm({ onSave, initialFicha }: UseFichaFormProps) {
   const {
     register,
     handleSubmit,
@@ -36,8 +38,24 @@ export function useFichaForm({ onSave }: UseFichaFormProps) {
     },
   });
 
+  // Inicializar el formulario cuando hay una ficha para editar
+  useEffect(() => {
+    if (initialFicha) {
+      reset({
+        pantalla: initialFicha.pantalla || "",
+        procesador: initialFicha.procesador || "",
+        camara: initialFicha.camara || "",
+        memoria: initialFicha.memoria || "",
+        sistemaO: initialFicha.sistemaO || "",
+        garantia: initialFicha.garantia || "",
+        estado: initialFicha.estado || "Activo",
+      });
+    }
+  }, [initialFicha, reset]);
+
   const onSubmit = async (data: FichaFormData) => {
     const fichaData: fichaInterface = {
+      ...(initialFicha?.id_ficha && { id_ficha: initialFicha.id_ficha }),
       pantalla: data.pantalla,
       procesador: data.procesador,
       camara: data.camara,
@@ -49,8 +67,8 @@ export function useFichaForm({ onSave }: UseFichaFormProps) {
 
     const fichaId = await onSave(fichaData);
     
-    if (fichaId) {
-      reset(); // Limpiar el formulario después de guardar exitosamente
+    if (fichaId && !initialFicha) {
+      reset(); // Solo limpiar si es creación nueva
     }
     
     return fichaId;

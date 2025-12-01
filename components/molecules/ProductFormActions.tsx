@@ -1,6 +1,5 @@
 "use client";
-
-import Button from "../atoms/Button";
+import FormActions from "./FormActions";
 
 interface ProductFormActionsProps {
   isSubmitting: boolean;
@@ -14,14 +13,11 @@ export default function ProductFormActions({
   onCancel,
 }: ProductFormActionsProps) {
   return (
-    <div className="flex gap-3 pt-4">
-      <Button type="submit" fullWidth disabled={isSubmitting}>
-        {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Agregar"} Producto
-      </Button>
-      <Button type="button" fullWidth onClick={onCancel}>
-        Cancelar
-      </Button>
-    </div>
+    <FormActions
+      isSubmitting={isSubmitting}
+      submitLabel={`${isEditMode ? "Actualizar" : "Agregar"} Producto`}
+      onCancel={onCancel}
+    />
   );
 }
 

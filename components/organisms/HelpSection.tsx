@@ -114,10 +114,10 @@ export default function HelpSection() {
                 está disponible <span className="font-bold">24/7</span> para resolver problemas críticos. 
                 <br className="hidden sm:block" />
                 <span className="block mt-2">
-                  📞 Llama al <span className="font-semibold">+1 (555) 123-4567</span>
+                  📞 Llama al <span className="font-semibold">606-881-2556</span>
                 </span>
                 <span className="block">
-                  💬 Envía un WhatsApp al <span className="font-semibold">+1 (555) 987-6543</span>
+                  💬 Envía un WhatsApp al <span className="font-semibold">314 800 65 47</span>
                 </span>
               </div>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ProductListing from "../molecules/ProductListing";
 import ProductSearchBar from "../molecules/ProductSearchBar";
 import EmptyProductsState from "../molecules/EmptyProductsState";
@@ -11,6 +11,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { mapProductoToProduct } from "../../utils/productMapper";
 
 export default function SearchResultsSection() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { products: productos, loading, error } = useProducts();
   
@@ -26,6 +27,10 @@ export default function SearchResultsSection() {
     const q = searchParams.get("q") || "";
     setSearchQuery(q);
   }, [searchParams, setSearchQuery]);
+
+  const handleProductClick = (productId: string) => {
+    router.push(`/producto/${productId}`);
+  };
 
   if (loading) {
     return (
@@ -65,7 +70,10 @@ export default function SearchResultsSection() {
 
         <div className="mt-4 sm:mt-6">
           {filteredProducts.length > 0 ? (
-            <ProductListing products={filteredProducts} />
+            <ProductListing 
+              products={filteredProducts}
+              onProductClick={handleProductClick}
+            />
           ) : (
             <EmptyProductsState
               searchTerm={searchQuery}

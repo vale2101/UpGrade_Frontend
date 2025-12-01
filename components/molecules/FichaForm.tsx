@@ -7,11 +7,12 @@ import FichaFormEstadoField from "./FichaFormEstadoField";
 import FichaFormActions from "./FichaFormActions";
 
 interface FichaFormProps {
-  onSave: (ficha: fichaInterface) => Promise<number | null>; // Retorna el ID de la ficha creada
+  onSave: (ficha: fichaInterface) => Promise<number | null>; // Retorna el ID de la ficha creada/actualizada
   onCancel: () => void;
+  initialFicha?: fichaInterface | null; // Ficha inicial para edición
 }
 
-export default function FichaForm({ onSave, onCancel }: FichaFormProps) {
+export default function FichaForm({ onSave, onCancel, initialFicha }: FichaFormProps) {
   const {
     register,
     handleSubmit,
@@ -19,7 +20,9 @@ export default function FichaForm({ onSave, onCancel }: FichaFormProps) {
     isSubmitting,
     control,
     onSubmit,
-  } = useFichaForm({ onSave });
+  } = useFichaForm({ onSave, initialFicha });
+
+  const isEditMode = !!initialFicha?.id_ficha;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -94,7 +97,11 @@ export default function FichaForm({ onSave, onCancel }: FichaFormProps) {
 
       <FichaFormEstadoField control={control} errors={errors} />
 
-      <FichaFormActions isSubmitting={isSubmitting} onCancel={onCancel} />
+      <FichaFormActions 
+        isSubmitting={isSubmitting} 
+        onCancel={onCancel}
+        isEditMode={isEditMode}
+      />
     </form>
   );
 }

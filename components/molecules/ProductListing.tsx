@@ -6,10 +6,11 @@ import { Product } from "../../utils/productMapper";
 interface ProductListingProps {
   products: Product[];
   onAddToCart?: (productId: string) => void;
+  onProductClick?: (productId: string) => void;
   className?: string;
 }
 
-export default function ProductListing({ products, onAddToCart, className = "" }: ProductListingProps) {
+export default function ProductListing({ products, onAddToCart, onProductClick, className = "" }: ProductListingProps) {
   return (
     <div className={`flex-1 ${className}`}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
@@ -30,7 +31,7 @@ export default function ProductListing({ products, onAddToCart, className = "" }
         </div>
       </div>
       
-      <ProductGrid products={products} onAddToCart={onAddToCart} />
+      <ProductGrid products={products} onAddToCart={onAddToCart} onProductClick={onProductClick} />
     </div>
   );
 }

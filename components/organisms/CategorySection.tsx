@@ -1,5 +1,6 @@
 "use client";
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductListing from "../molecules/ProductListing";
 import EmptyProductsState from "../molecules/EmptyProductsState";
@@ -12,6 +13,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { filterProductsByCategory, mapProductoToProduct, mapSlugToBackendCategory } from "../../utils/productMapper";
 
 export default function CategorySection({ slug }: { slug: string }) {
+  const router = useRouter();
   const { selectedCategory: categoryName } = useProductCategory(slug);
   const { products: productos, loading, error } = useProducts();
   
@@ -39,6 +41,10 @@ export default function CategorySection({ slug }: { slug: string }) {
     if (product) {
       handleAddToCart(product);
     }
+  };
+
+  const handleProductClick = (productId: string) => {
+    router.push(`/producto/${productId}`);
   };
 
   if (loading) {
@@ -83,7 +89,11 @@ export default function CategorySection({ slug }: { slug: string }) {
           </div>
           <div className="flex-1">
             {filteredProducts.filteredProducts.length > 0 ? (
-              <ProductListing products={filteredProducts.filteredProducts as any} onAddToCart={onAddToCart} />
+              <ProductListing 
+                products={filteredProducts.filteredProducts as any} 
+                onAddToCart={onAddToCart}
+                onProductClick={handleProductClick}
+              />
             ) : (
               <EmptyProductsState
                 searchTerm={searchQuery}

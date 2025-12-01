@@ -1,5 +1,5 @@
 "use client";
-import { mapColorToHex } from "../../utils/colorMapper";
+import ColorCircle from "../atoms/ColorCircle";
 
 interface CartColorCircleProps {
   color: string;
@@ -8,20 +8,6 @@ interface CartColorCircleProps {
 }
 
 export default function CartColorCircle({ color, size = 20, className = "" }: CartColorCircleProps) {
-  const hexColor = mapColorToHex(color);
-  
-  return (
-    <div 
-      className={`rounded-full border-2 border-gray-300 inline-block ${className}`}
-      style={{ 
-        width: `${size}px`, 
-        height: `${size}px`, 
-        backgroundColor: hexColor,
-        minWidth: `${size}px`,
-        minHeight: `${size}px`
-      }}
-      title={color}
-    />
-  );
+  return <ColorCircle color={color} size={size} className={className} />;
 }
 

@@ -49,43 +49,86 @@ export function useVendedorLogin() {
         const redirect = searchParams.get("redirect") || "/vendedor/dashboard";
         router.push(redirect);
       } else {
-        setError(res.message || "Credenciales incorrectas");
-        Swal.fire({
-          icon: "error",
-          title: "Acceso denegado",
-          text: res.message || "Credenciales incorrectas",
-          confirmButtonText: "Ir al inicio del cliente", 
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("/login"); 
-          }
-        });
+        const message = res.message || "Credenciales incorrectas";
+        
+        // Mostrar SweetAlert si el mensaje es "Usuario no encontrado"
+        if (message.toLowerCase().includes('usuario no encontrado')) {
+          Swal.fire({
+            icon: "error",
+            title: "Usuario no encontrado",
+            text: message,
+            confirmButtonText: "Aceptar",
+          }).then(() => {
+            router.push("/");
+          });
+        }
+        
+        setError(message);
       }
     } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || "Error al iniciar sesión";
+      
+      // Solo mostrar SweetAlert de "Acceso restringido" si el error es específicamente de autorización/rol
+      // No mostrar si es solo un error de credenciales incorrectas
       if (err.response?.status === 401) {
-        Swal.fire({
-          icon: "warning",
-          title: "Acceso restringido",
-          text: "Los clientes no pueden acceder por ese formulario",
-          confirmButtonText: "Ir al inicio del cliente", 
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("/login"); 
+        const isAuthorizationError = errorMessage.toLowerCase().includes('restringido') ||
+                                    errorMessage.toLowerCase().includes('no autorizado') ||
+                                    errorMessage.toLowerCase().includes('rol') ||
+                                    errorMessage.toLowerCase().includes('acceso denegado') ||
+                                    errorMessage.toLowerCase().includes('no puede acceder');
+        
+        if (isAuthorizationError) {
+          Swal.fire({
+            icon: "warning",
+            title: "Acceso restringido",
+            text: "Los clientes no pueden acceder por ese formulario",
+            confirmButtonText: "Ir al inicio del cliente", 
+          }).then((result) => {
+            if (result.isConfirmed) {
+              router.push("/login"); 
+            }
+          });
+        } else {
+          // Verificar si es "Usuario no encontrado"
+          if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+            Swal.fire({
+              icon: "error",
+              title: "Usuario no encontrado",
+              text: errorMessage,
+              confirmButtonText: "Aceptar",
+            }).then(() => {
+              router.push("/");
+            });
           }
-        });
+          // Error de credenciales incorrectas - mostrar en el formulario
+          setError(errorMessage);
+        }
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al iniciar sesión",
-          confirmButtonText: "Ir al inicio del cliente", 
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("/login"); 
-          }
-        });
+        // Verificar si es "Usuario no encontrado" en otros errores
+        if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+          Swal.fire({
+            icon: "error",
+            title: "Usuario no encontrado",
+            text: errorMessage,
+            confirmButtonText: "Aceptar",
+          }).then(() => {
+            router.push("/");
+          });
+        } else {
+          // Otros errores - mostrar SweetAlert
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: errorMessage,
+            confirmButtonText: "Ir al inicio del cliente", 
+          }).then((result) => {
+            if (result.isConfirmed) {
+              router.push("/login"); 
+            }
+          });
+        }
+        setError(errorMessage);
       }
-      setError(err.message || "Error al iniciar sesión");
     }
   };
 

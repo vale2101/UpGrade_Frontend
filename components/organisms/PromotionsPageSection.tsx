@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductListing from "../molecules/ProductListing";
 import CategoryTabs from "../molecules/CategoryTabs";
@@ -14,6 +14,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { filterProductsByCategory, mapProductoToProduct } from "../../utils/productMapper";
 
 export default function PromotionsPageSection() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { selectedCategory, setSelectedCategory } = useProductCategory();
   const { products: productos, loading, error } = useProducts();
@@ -65,6 +66,10 @@ export default function PromotionsPageSection() {
     }
   };
 
+  const handleProductClick = (productId: string) => {
+    router.push(`/producto/${productId}`);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
@@ -109,7 +114,11 @@ export default function PromotionsPageSection() {
           </div>
           <div className="flex-1">
             {filteredProducts.length > 0 ? (
-              <ProductListing products={filteredProducts} onAddToCart={onAddToCart} />
+              <ProductListing 
+                products={filteredProducts} 
+                onAddToCart={onAddToCart}
+                onProductClick={handleProductClick}
+              />
             ) : (
               <EmptyProductsState
                 searchTerm={searchQuery}

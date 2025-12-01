@@ -1,9 +1,9 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { UserService } from "../services/userService";
 import { User as LoginRequest } from "../interfaces/user.interface";
-import Swal from "sweetalert2"; 
-import { useRouter } from "next/navigation"; 
+import Swal from "sweetalert2";
 
 interface User {
   id: string;
@@ -24,7 +24,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const savedUser = localStorage.getItem("upgrade-user");
@@ -59,18 +58,61 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         document.cookie = "upgrade-auth=true; path=/; max-age=2592000";
         return true;
       }
+      
+      // Verificar si el mensaje es "Usuario no encontrado"
+      const errorMessage = res.message || "";
+      if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: errorMessage,
+          confirmButtonText: "Aceptar",
+        }).then(() => {
+          window.location.href = "/";
+        });
+      }
+      
       return false;
     } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || "Error al iniciar sesión";
+      
+      // Solo mostrar SweetAlert de "Acceso restringido" si el error es específicamente de autorización/rol
+      // No mostrar si es solo un error de credenciales incorrectas
       if (error.response?.status === 401) {
+        const isAuthorizationError = errorMessage.toLowerCase().includes('restringido') ||
+                                    errorMessage.toLowerCase().includes('no autorizado') ||
+                                    errorMessage.toLowerCase().includes('rol') ||
+                                    errorMessage.toLowerCase().includes('acceso denegado') ||
+                                    errorMessage.toLowerCase().includes('no puede acceder');
+        
+        if (isAuthorizationError) {
+          Swal.fire({
+            icon: "warning",
+            title: "Acceso restringido",
+            text: "Los vendedores no pueden acceder por ese formulario",
+            confirmButtonText: "Aceptar",
+          });
+        } else if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+          // Mostrar SweetAlert si el mensaje es "Usuario no encontrado"
+          Swal.fire({
+            icon: "error",
+            title: "Usuario no encontrado",
+            text: errorMessage,
+            confirmButtonText: "Aceptar",
+          }).then(() => {
+            window.location.href = "/";
+          });
+        }
+        // Si es solo credenciales incorrectas, no mostrar SweetAlert, solo retornar false
+      } else if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+        // Mostrar SweetAlert si el mensaje es "Usuario no encontrado" (otros códigos de error)
         Swal.fire({
-          icon: "warning",
-          title: "Acceso restringido",
-          text: "Los vendedores no pueden acceder por ese formulario",
-          confirmButtonText: "Ir al inicio del vendedor", 
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("/login"); 
-          }
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: errorMessage,
+          confirmButtonText: "Aceptar",
+        }).then(() => {
+          window.location.href = "/";
         });
       }
       return false;

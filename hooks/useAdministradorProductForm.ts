@@ -33,6 +33,8 @@ export function useAdministradorProductForm({
   // Estado para controlar en qué paso estamos: 'ficha' o 'producto'
   const [currentStep, setCurrentStep] = useState<'ficha' | 'producto'>(!product ? 'ficha' : 'producto');
   const [fichaId, setFichaId] = useState<number | null>(product?.id_ficha || null);
+  const [currentFicha, setCurrentFicha] = useState<fichaInterface | null>(null);
+  const [loadingFicha, setLoadingFicha] = useState(false);
 
   const {
     register,
@@ -55,8 +57,25 @@ export function useAdministradorProductForm({
     },
   });
 
-  // Inicializar el formulario cuando hay un producto para editar
+  // Cargar la ficha técnica cuando hay un producto para editar
   useEffect(() => {
+    const loadFicha = async () => {
+      if (product?.id_ficha) {
+        setLoadingFicha(true);
+        try {
+          const response = await FichaService.getFichaById(product.id_ficha);
+          if (response.success && response.data) {
+            setCurrentFicha(response.data);
+            setFichaId(product.id_ficha);
+          }
+        } catch (error) {
+          // Si hay error, continuar sin la ficha
+        } finally {
+          setLoadingFicha(false);
+        }
+      }
+    };
+
     if (product) {
       reset({
         nombre: product.nombre || "",
@@ -70,6 +89,7 @@ export function useAdministradorProductForm({
         id_ficha: product.id_ficha || 1,
       });
       setFichaId(product.id_ficha || null);
+      loadFicha();
     }
   }, [product, reset]);
 
@@ -113,33 +133,80 @@ export function useAdministradorProductForm({
 
   const handleFichaSave = async (fichaData: fichaInterface): Promise<number | null> => {
     try {
-      const response = await FichaService.createFicha(fichaData);
-      const isSuccess = response.success || isSuccessMessage(response.message || '');
-      const id = extractFichaId(response.data);
-      
-      if (isSuccess && id) {
-        handleSuccess(id, response.message || 'Ficha técnica creada correctamente');
-        return id;
+      // Si hay una ficha existente (edición), actualizar
+      if (currentFicha?.id_ficha || fichaId) {
+        const fichaIdToUpdate = currentFicha?.id_ficha || fichaId;
+        if (!fichaIdToUpdate) return null;
+
+        const response = await FichaService.updateFicha(fichaIdToUpdate, fichaData);
+        const isSuccess = response.success || 
+          response.message?.toLowerCase().includes('actualizado') ||
+          response.message?.toLowerCase().includes('correctamente');
+
+        if (isSuccess) {
+          // Actualizar la ficha actual
+          setCurrentFicha({ ...fichaData, id_ficha: fichaIdToUpdate });
+          await Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: response.message || 'Ficha técnica actualizada correctamente',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          // Si estamos editando un producto, volver al formulario de producto
+          if (product) {
+            setCurrentStep('producto');
+          }
+          return fichaIdToUpdate;
+        } else {
+          throw new Error(response.message || "Error al actualizar la ficha técnica");
+        }
+      } else {
+        // Crear nueva ficha
+        const response = await FichaService.createFicha(fichaData);
+        const isSuccess = response.success || isSuccessMessage(response.message || '');
+        const id = extractFichaId(response.data);
+        
+        if (isSuccess && id) {
+          handleSuccess(id, response.message || 'Ficha técnica creada correctamente');
+          return id;
+        }
+        
+        if (isSuccess) {
+          showWarning('Ficha creada. Si no se asignó el ID, deberás ingresarlo manualmente.');
+          return null;
+        }
+        
+        throw new Error(response.message || "Error al crear la ficha técnica");
       }
-      
-      if (isSuccess) {
-        showWarning('Ficha creada. Si no se asignó el ID, deberás ingresarlo manualmente.');
-        return null;
-      }
-      
-      throw new Error(response.message || "Error al crear la ficha técnica");
     } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err.message || 'Error al crear la ficha técnica';
+      const errorMessage = err?.response?.data?.message || err.message || 
+        (currentFicha?.id_ficha ? 'Error al actualizar la ficha técnica' : 'Error al crear la ficha técnica');
       const isSuccess = isSuccessMessage(errorMessage);
       const id = extractFichaId(err?.response?.data);
 
       if (isSuccess && id) {
-        handleSuccess(id, errorMessage);
+        if (!currentFicha?.id_ficha) {
+          handleSuccess(id, errorMessage);
+        } else {
+          setCurrentFicha({ ...fichaData, id_ficha: id });
+          await Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: errorMessage,
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          // Si estamos editando un producto, volver al formulario de producto
+          if (product) {
+            setCurrentStep('producto');
+          }
+        }
         return id;
       }
       
       if (isSuccess) {
-        showWarning('La ficha se creó, pero no se pudo obtener el ID. Por favor, verifica.');
+        showWarning('La ficha se procesó, pero no se pudo obtener el ID. Por favor, verifica.');
         return null;
       }
       
@@ -149,8 +216,22 @@ export function useAdministradorProductForm({
   };
 
   const handleFichaCancel = () => {
+    if (product) {
+      // Si estamos editando, volver al formulario de producto
+      setCurrentStep('producto');
+    } else {
+      // Si estamos creando, cancelar todo
+      setCurrentStep('producto');
+      onCancel();
+    }
+  };
+
+  const goToFicha = () => {
+    setCurrentStep('ficha');
+  };
+
+  const goToProducto = () => {
     setCurrentStep('producto');
-    onCancel();
   };
 
   const onFormSubmit = async (data: ProductFormData) => {
@@ -172,6 +253,8 @@ export function useAdministradorProductForm({
     // Estado
     currentStep,
     fichaId,
+    currentFicha,
+    loadingFicha,
     
     // Formulario
     register,
@@ -185,6 +268,8 @@ export function useAdministradorProductForm({
     handleFichaSave,
     handleFichaCancel,
     onFormSubmit,
+    goToFicha,
+    goToProducto,
   };
 }
 

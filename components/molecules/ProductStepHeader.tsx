@@ -1,10 +1,12 @@
 "use client";
+import StepHeader from "../atoms/StepHeader";
 
 export default function ProductStepHeader() {
   return (
-    <div className="mb-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">Paso 2: Crear Producto</h3>
-    </div>
+    <StepHeader
+      stepNumber={2}
+      title="Crear Producto"
+    />
   );
 }
 
