@@ -1,9 +1,5 @@
-"use client";
-
 import { Suspense } from "react";
 import VendedorLoginSection from "@/components/organisms/VendedorLoginSection";
-
-
 
 export default function VendedorLoginPage() {
   return (
