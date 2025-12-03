@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AdministradorService } from "../services/administradorService";
 import Swal from "sweetalert2";
@@ -37,13 +37,10 @@ export function useAdministradorLogin() {
 
       if (res.success && res.data) {
         localStorage.removeItem("administrador");
-        
         const administradorData = res.data.administrador;
-        
         localStorage.setItem("administrador", JSON.stringify(administradorData));
-        
         window.dispatchEvent(new Event("administradorStorageChange"));
-        
+
         setTimeout(() => {
           window.dispatchEvent(new Event("administradorStorageChange"));
         }, 100);
@@ -56,12 +53,12 @@ export function useAdministradorLogin() {
           showConfirmButton: false,
         });
 
-        const redirect = searchParams.get("redirect") || "/administrador/dashboard";
+        const redirect =
+          searchParams.get("redirect") || "/administrador/dashboard";
         router.push(redirect);
       } else {
         const message = res.message || "Credenciales incorrectas";
-        
-        if (message.toLowerCase().includes('usuario no encontrado')) {
+        if (message.toLowerCase().includes("usuario no encontrado")) {
           Swal.fire({
             icon: "error",
             title: "Usuario no encontrado",
@@ -71,32 +68,35 @@ export function useAdministradorLogin() {
             router.push("/");
           });
         }
-        
         setError(message);
       }
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || "Error al iniciar sesión";
-      
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "Error al iniciar sesión";
+
       if (err.response?.status === 401) {
-        const isAuthorizationError = errorMessage.toLowerCase().includes('restringido') ||
-                                    errorMessage.toLowerCase().includes('no autorizado') ||
-                                    errorMessage.toLowerCase().includes('rol') ||
-                                    errorMessage.toLowerCase().includes('acceso denegado') ||
-                                    errorMessage.toLowerCase().includes('no puede acceder');
-        
+        const isAuthorizationError =
+          errorMessage.toLowerCase().includes("restringido") ||
+          errorMessage.toLowerCase().includes("no autorizado") ||
+          errorMessage.toLowerCase().includes("rol") ||
+          errorMessage.toLowerCase().includes("acceso denegado") ||
+          errorMessage.toLowerCase().includes("no puede acceder");
+
         if (isAuthorizationError) {
           Swal.fire({
             icon: "warning",
             title: "Acceso restringido",
             text: "Los clientes no pueden acceder por ese formulario",
-            confirmButtonText: "Ir al inicio del cliente", 
+            confirmButtonText: "Ir al inicio del cliente",
           }).then((result) => {
             if (result.isConfirmed) {
-              router.push("/login"); 
+              router.push("/login");
             }
           });
         } else {
-          if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+          if (errorMessage.toLowerCase().includes("usuario no encontrado")) {
             Swal.fire({
               icon: "error",
               title: "Usuario no encontrado",
@@ -109,7 +109,7 @@ export function useAdministradorLogin() {
           setError(errorMessage);
         }
       } else {
-        if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
+        if (errorMessage.toLowerCase().includes("usuario no encontrado")) {
           Swal.fire({
             icon: "error",
             title: "Usuario no encontrado",
@@ -123,10 +123,10 @@ export function useAdministradorLogin() {
             icon: "error",
             title: "Error",
             text: errorMessage,
-            confirmButtonText: "Ir al inicio del cliente", 
+            confirmButtonText: "Ir al inicio del cliente",
           }).then((result) => {
             if (result.isConfirmed) {
-              router.push("/login"); 
+              router.push("/login");
             }
           });
         }
@@ -135,7 +135,8 @@ export function useAdministradorLogin() {
     }
   };
 
-  const register = (name: keyof AdministradorLoginFormData) => {
+  // ✅ Tipado correcto de register
+  const register = (name: keyof AdministradorLoginFormData): UseFormRegisterReturn => {
     if (name === "correo") {
       return registerField("correo", {
         required: "El correo es requerido",
@@ -143,21 +144,24 @@ export function useAdministradorLogin() {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
           message: "Correo electrónico inválido",
         },
-      }) as any;
+      });
     }
     if (name === "contrasena") {
       return registerField("contrasena", {
         required: "La contraseña es requerida",
-        minLength: { value: 6, message: "La contraseña debe tener al menos 6 caracteres" },
-      }) as any;
+        minLength: {
+          value: 6,
+          message: "La contraseña debe tener al menos 6 caracteres",
+        },
+      });
     }
-    return registerField(name) as any;
+    return registerField(name);
   };
 
   return {
     register,
     handleSubmit: handleSubmit(onSubmit),
-    errors,
+    errors: errors as FieldErrors<AdministradorLoginFormData>,
     error,
     loading: isSubmitting,
   };
