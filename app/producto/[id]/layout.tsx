@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export async function generateMetadata(
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
+  await params; 
   return {
     title: "Producto - UpGrade",
     description:
