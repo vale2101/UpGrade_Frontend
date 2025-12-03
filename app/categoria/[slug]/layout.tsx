@@ -11,9 +11,9 @@ const categoryMap: Record<string, string> = {
 };
 
 export async function generateMetadata(
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const categoryName = categoryMap[slug] || "Todos los Productos";
 
   return {
@@ -27,10 +27,8 @@ export async function generateMetadata(
 
 export default function CategoryLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
 }) {
   return <>{children}</>;
 }
