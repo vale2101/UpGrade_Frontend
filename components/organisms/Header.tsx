@@ -6,6 +6,7 @@ import NavMenu from "../molecules/NavMenu";
 import ActionIcons from "../molecules/ActionIcons";
 import MobileMenuButton from "../atoms/MobileMenuButton";
 import MobileMenuOverlay from "../molecules/MobileMenuOverlay";
+import MobileProfileButton from "../molecules/MobileProfileButton";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,10 +24,15 @@ export default function Header() {
         <ActionIcons />
       </div>
 
-      <MobileMenuButton 
-        isOpen={isMobileMenuOpen} 
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-      />
+      <div className="flex items-center gap-2 lg:hidden">
+        <div className="sm:hidden">
+          <MobileProfileButton />
+        </div>
+        <MobileMenuButton 
+          isOpen={isMobileMenuOpen} 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+        />
+      </div>
 
       <MobileMenuOverlay 
         isOpen={isMobileMenuOpen} 
