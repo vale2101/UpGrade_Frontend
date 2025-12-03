@@ -10,31 +10,41 @@ import { useProductSearch } from "../../hooks/useProductSearch";
 import { useProductCategory } from "../../hooks/useProductCategory";
 import { useAddToCart } from "../../hooks/useAddToCart";
 import { useProducts } from "../../hooks/useProducts";
-import { filterProductsByCategory, mapProductoToProduct, mapSlugToBackendCategory } from "../../utils/productMapper";
+import {
+  filterProductsByCategory,
+  mapProductoToProduct,
+  mapSlugToBackendCategory,
+  Product,
+} from "../../utils/productMapper";
 
 export default function CategorySection({ slug }: { slug: string }) {
   const router = useRouter();
   const { selectedCategory: categoryName } = useProductCategory(slug);
   const { products: productos, loading, error } = useProducts();
-  
+
   const backendCategory = useMemo(() => {
     return mapSlugToBackendCategory(slug);
   }, [slug]);
-  
-  const mappedProducts = useMemo(() => {
+
+  const mappedProducts: Product[] = useMemo(() => {
     return productos.map(mapProductoToProduct);
   }, [productos]);
 
-  const allProducts = useMemo(() => {
+  const allProducts: Product[] = useMemo(() => {
     return filterProductsByCategory(mappedProducts, backendCategory);
   }, [mappedProducts, backendCategory]);
 
-  const { searchQuery, setSearchQuery, filteredProducts: searchResults } = useProductSearch(allProducts);
+  const {
+    searchQuery,
+    setSearchQuery,
+    filteredProducts: searchResults,
+  } = useProductSearch(allProducts);
+
   const filteredProducts = useProductFilter(searchResults);
   const { handleAddToCart } = useAddToCart();
 
   const onAddToCart = (productId: string) => {
-    const product = allProducts.find(p => p.id === productId);
+    const product = allProducts.find((p) => p.id === productId);
     if (product) {
       handleAddToCart(product);
     }
@@ -73,9 +83,11 @@ export default function CategorySection({ slug }: { slug: string }) {
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-2xl sm:text-3xl font-bold mb-6">{categoryName}</h1>
 
-        <ProductSearchBar 
+        <ProductSearchBar
           searchTerm={searchQuery}
-          onSearchChange={(e: any) => setSearchQuery(e.target.value)}
+          onSearchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearchQuery(e.target.value)
+          }
           onClear={() => setSearchQuery("")}
           resultsCount={filteredProducts.filteredProducts.length}
         />
@@ -86,8 +98,8 @@ export default function CategorySection({ slug }: { slug: string }) {
           </div>
           <div className="flex-1">
             {filteredProducts.filteredProducts.length > 0 ? (
-              <ProductListing 
-                products={filteredProducts.filteredProducts as any} 
+              <ProductListing
+                products={filteredProducts.filteredProducts}
                 onAddToCart={onAddToCart}
                 onProductClick={handleProductClick}
               />

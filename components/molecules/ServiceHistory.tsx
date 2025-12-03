@@ -22,18 +22,29 @@ const formatPrice = (costo: number): string => {
   }).format(costo);
 };
 
-const mapReparacionToHistoryItem = (reparacion: reparacionInterface & { fecha?: string; fecha_creacion?: string; created_at?: string }): ServiceHistoryItem => {
+type ReparacionConFechas = reparacionInterface & {
+  fecha?: string;
+  fecha_creacion?: string;
+  created_at?: string;
+  fecha_reparacion?: string;
+};
+
+const mapReparacionToHistoryItem = (reparacion: ReparacionConFechas): ServiceHistoryItem => {
   let date = new Date().toISOString();
-  
-  const fechaFields = ['fecha', 'fecha_creacion', 'created_at', 'fecha_reparacion'];
+
+  const fechaFields: (keyof ReparacionConFechas)[] = [
+    "fecha",
+    "fecha_creacion",
+    "created_at",
+    "fecha_reparacion",
+  ];
+
   for (const field of fechaFields) {
-    if ((reparacion as any)[field]) {
+    const fechaValue = reparacion[field];
+    if (fechaValue) {
       try {
-        const fechaValue = (reparacion as any)[field];
-        if (fechaValue) {
-          date = new Date(fechaValue).toISOString();
-          break;
-        }
+        date = new Date(fechaValue).toISOString();
+        break;
       } catch {
       }
     }
@@ -41,7 +52,7 @@ const mapReparacionToHistoryItem = (reparacion: reparacionInterface & { fecha?: 
 
   return {
     id: reparacion.id_reparacion?.toString() || "",
-    date: date,
+    date,
     device: reparacion.dispositivo,
     service: reparacion.observaciones || "Reparación de dispositivo",
     status: reparacion.estado,
@@ -82,22 +93,35 @@ export default function ServiceHistory() {
         Historial de servicios
       </div>
       <ul className="divide-y">
-        {items.map(item => (
-          <li key={item.id} className="px-4 sm:px-6 py-3 sm:py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:gap-6">
+        {items.map((item) => (
+          <li
+            key={item.id}
+            className="px-4 sm:px-6 py-3 sm:py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:gap-6"
+          >
             <div className="text-xs sm:text-sm text-gray-500 w-full sm:w-32 md:w-40 shrink-0">
               {new Date(item.date).toLocaleDateString()}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-sm sm:text-base truncate">{item.device}</div>
-              <div className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">{item.service}</div>
+              <div className="font-medium text-sm sm:text-base truncate">
+                {item.device}
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+                {item.service}
+              </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <div className="text-xs sm:text-sm">
-                <span className={`px-2 py-1 rounded-full whitespace-nowrap ${
-                  /reparado|entregado/i.test(item.status) ? "bg-[#57ad63] text-white" : 
-                  /cancelado/i.test(item.status) ? "bg-gray-500 text-white" : 
-                  "bg-[#fb64b61a] text-[#fb64b6]"
-                }`}>{item.status}</span>
+                <span
+                  className={`px-2 py-1 rounded-full whitespace-nowrap ${
+                    /reparado|entregado/i.test(item.status)
+                      ? "bg-[#57ad63] text-white"
+                      : /cancelado/i.test(item.status)
+                      ? "bg-gray-500 text-white"
+                      : "bg-[#fb64b61a] text-[#fb64b6]"
+                  }`}
+                >
+                  {item.status}
+                </span>
               </div>
               {item.amount && (
                 <div className="text-xs sm:text-sm font-semibold whitespace-nowrap">

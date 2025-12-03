@@ -1,3 +1,7 @@
+"use client";
+
+import Image from "next/image";
+
 interface TestimonialCardProps {
   name: string;
   role: string;
@@ -6,16 +10,15 @@ interface TestimonialCardProps {
   avatar?: string;
 }
 
-export default function TestimonialCard({ 
-  name, 
-  role, 
-  content, 
+export default function TestimonialCard({
+  name,
+  role,
+  content,
   rating,
-  avatar 
+  avatar,
 }: TestimonialCardProps) {
   return (
     <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-      {/* Rating */}
       <div className="flex gap-1 mb-4">
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
@@ -31,13 +34,19 @@ export default function TestimonialCard({
       </div>
 
       <p className="text-gray-700 text-sm sm:text-base mb-6 leading-relaxed italic">
-        "{content}"
+        &quot;{content}&quot;
       </p>
 
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#57ad63] to-[#459a52] flex items-center justify-center text-white font-bold text-lg">
           {avatar ? (
-            <img src={avatar} alt={name} className="w-full h-full rounded-full object-cover" />
+            <Image
+              src={avatar}
+              alt={name}
+              width={48}
+              height={48}
+              className="w-full h-full rounded-full object-cover"
+            />
           ) : (
             name.charAt(0).toUpperCase()
           )}
@@ -50,4 +59,3 @@ export default function TestimonialCard({
     </div>
   );
 }
-

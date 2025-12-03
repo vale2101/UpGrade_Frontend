@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Controller, Control, FieldErrors, useWatch } from "react-hook-form";
+import { Controller, Control, FieldErrors, useWatch, UseFormRegister } from "react-hook-form";
 import { RepairFormData } from "../../hooks/useRepairForm";
 import InputField from "../atoms/InputField";
 import { useUsers } from "../../hooks/useUsers";
@@ -9,7 +9,7 @@ import AddUserButton from "../atoms/AddUserButton";
 import { User } from "../../interfaces/user.interface";
 
 interface RepairFormProps {
-  register: any;
+  register: UseFormRegister<RepairFormData>;
   control: Control<RepairFormData>;
   errors: FieldErrors<RepairFormData>;
   isSubmitting: boolean;
@@ -29,7 +29,6 @@ export default function RepairForm({
 }: RepairFormProps) {
   const { users, loading: loadingUsers, refetch: refetchUsers } = useUsers();
   const [selectedUserId, setSelectedUserId] = useState<number | "">("");
-  const [newlyCreatedUserId, setNewlyCreatedUserId] = useState<number | null>(null);
   const [prevModalState, setPrevModalState] = useState<boolean | undefined>(undefined);
   const nombreFieldRef = React.useRef<{ onChange: (value: string) => void } | null>(null);
   const nombreValue = useWatch({ control, name: "nombre" });
@@ -77,73 +76,73 @@ export default function RepairForm({
         });
       }, 800);
     }
-  }, [newlyCreatedUser?.id_user]);
+  }, [newlyCreatedUser?.id_user, newlyCreatedUser?.nombre, refetchUsers]);
 
   return (
     <div className="space-y-4">
-        <div>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-1">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700">
-              Nombre del Cliente <span className="text-red-500">*</span>
-            </label>
-            <AddUserButton
-              onClick={() => onOpenCreateUserModal?.()}
-              disabled={loadingUsers || isSubmitting}
-              className="self-start sm:self-auto"
-            />
-          </div>
-          <Controller
-            name="nombre"
-            control={control}
-            rules={{ 
-              required: "El nombre del cliente es requerido"
-            }}
-            render={({ field }) => {
-              if (!nombreFieldRef.current || nombreFieldRef.current.onChange !== field.onChange) {
-                nombreFieldRef.current = { onChange: field.onChange };
-              }
+      <div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-1">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700">
+            Nombre del Cliente <span className="text-red-500">*</span>
+          </label>
+          <AddUserButton
+            onClick={() => onOpenCreateUserModal?.()}
+            disabled={loadingUsers || isSubmitting}
+            className="self-start sm:self-auto"
+          />
+        </div>
+        <Controller
+          name="nombre"
+          control={control}
+          rules={{ 
+            required: "El nombre del cliente es requerido"
+          }}
+          render={({ field }) => {
+            if (!nombreFieldRef.current || nombreFieldRef.current.onChange !== field.onChange) {
+              nombreFieldRef.current = { onChange: field.onChange };
+            }
 
-              return (
-                <>
-                  <select
-                    value={selectedUserId}
-                    onChange={(e) => {
-                      const userId = e.target.value === "" ? "" : parseInt(e.target.value);
-                      setSelectedUserId(userId);
-                      
-                      if (userId !== "" && !isNaN(userId as number)) {
-                        const selectedUser = users.find(u => u.id_user === userId);
-                        if (selectedUser) {
-                          field.onChange(selectedUser.nombre);
-                        }
-                      } else {
-                        field.onChange("");
+            return (
+              <>
+                <select
+                  value={selectedUserId}
+                  onChange={(e) => {
+                    const userId = e.target.value === "" ? "" : parseInt(e.target.value);
+                    setSelectedUserId(userId);
+                    
+                    if (userId !== "" && !isNaN(userId as number)) {
+                      const selectedUser = users.find(u => u.id_user === userId);
+                      if (selectedUser) {
+                        field.onChange(selectedUser.nombre);
                       }
-                    }}
-                    onBlur={field.onBlur}
-                    disabled={loadingUsers || isSubmitting}
+                    } else {
+                      field.onChange("");
+                    }
+                  }}
+                  onBlur={field.onBlur}
+                  disabled={loadingUsers || isSubmitting}
                   className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-[#57ad63] outline-none mt-1 ${
                     errors.nombre ? "border-red-500" : "border-gray-300"
                   } ${loadingUsers || isSubmitting ? "bg-gray-100 cursor-not-allowed" : ""}`}
-                  >
-                    <option value="">Selecciona un cliente</option>
-                    {users.map((user) => (
-                      <option 
-                        key={user.id_user} 
-                        value={user.id_user}
-                      >
-                        {user.nombre} {user.apellido} - {user.correo}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.nombre && (
-                    <p className="mt-1 text-sm text-red-600">{errors.nombre.message}</p>
-                  )}
-                </>
-              );
-            }}
-          />
-        </div>
+                >
+                  <option value="">Selecciona un cliente</option>
+                  {users.map((user) => (
+                    <option 
+                      key={user.id_user} 
+                      value={user.id_user}
+                    >
+                      {user.nombre} {user.apellido} - {user.correo}
+                    </option>
+                  ))}
+                </select>
+                {errors.nombre && (
+                  <p className="mt-1 text-sm text-red-600">{errors.nombre.message}</p>
+                )}
+              </>
+            );
+          }}
+        />
+      </div>
 
       <div>
         <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
@@ -204,4 +203,3 @@ export default function RepairForm({
     </div>
   );
 }
-

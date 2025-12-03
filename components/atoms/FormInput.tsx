@@ -1,7 +1,12 @@
-import { FieldErrors, FieldValues, Path } from "react-hook-form";
 import React from "react";
+import {
+  FieldErrors,
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from "react-hook-form";
 
-type RegisterType = any;
+type RegisterType<T extends FieldValues> = UseFormRegister<T> | Record<string, unknown>;
 
 interface FormInputProps<T extends FieldValues> {
   label: string;
@@ -9,32 +14,44 @@ interface FormInputProps<T extends FieldValues> {
   name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  register?: RegisterType; 
+  register?: RegisterType<T>;
   errors?: FieldErrors<T>;
   className?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FormInput<T extends FieldValues>({ 
-  label, 
-  type, 
-  name, 
-  placeholder, 
-  required = false, 
+export default function FormInput<T extends FieldValues>({
+  label,
+  type,
+  name,
+  placeholder,
+  required = false,
   register,
   errors,
   className = "",
   value,
-  onChange
+  onChange,
 }: FormInputProps<T>) {
-  const errorMessage = errors?.[name]?.message as string;
+  const errorMessage = errors?.[name]?.message as string | undefined;
   const hasError = !!errorMessage;
-  const inputProps = register && !onChange ? register : { name, value, onChange, required };
+
+  // Determinar si register es una función o el resultado de llamarla
+  const isRegisterFunction = typeof register === 'function';
+  
+  const inputProps =
+    register && !onChange
+      ? isRegisterFunction
+        ? (register as UseFormRegister<T>)(name, { required })
+        : register as Record<string, unknown>
+      : { name, value, onChange, required };
 
   return (
     <div className={`mb-4 ${className}`}>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <input
@@ -42,13 +59,15 @@ export default function FormInput<T extends FieldValues>({
         id={name}
         placeholder={placeholder}
         className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 text-sm sm:text-base ${
-          hasError 
-            ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
+          hasError
+            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
             : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
         }`}
         {...inputProps}
       />
-      {errorMessage && <p className="mt-1 text-sm text-red-600">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="mt-1 text-sm text-red-600">{errorMessage}</p>
+      )}
     </div>
   );
 }

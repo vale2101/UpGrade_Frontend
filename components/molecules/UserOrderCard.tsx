@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Calendar, Package } from "lucide-react";
-import { PedidoInterface } from "../../interfaces/pedido.interface";
+import { PedidoInterface, PedidoProducto } from "../../interfaces/pedido.interface";
 import UserOrderStatusBadge from "./UserOrderStatusBadge";
 
 interface UserOrderCardProps {
@@ -10,46 +10,52 @@ interface UserOrderCardProps {
 }
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price);
 };
 
 const formatDate = (dateString?: string) => {
-  if (!dateString) return 'Fecha no disponible';
+  if (!dateString) return "Fecha no disponible";
   try {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    return new Date(dateString).toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
   } catch {
     return dateString;
   }
 };
 
-export default function UserOrderCard({ pedido, className = "" }: UserOrderCardProps) {
+export default function UserOrderCard({
+  pedido,
+  className = "",
+}: UserOrderCardProps) {
   const router = useRouter();
-  
-  let productos: any[] = [];
-  
+
+  let productos: PedidoProducto[] = [];
+
   if (Array.isArray(pedido.productos)) {
     productos = pedido.productos;
-  } else if (pedido.productos && typeof pedido.productos === 'string') {
+  } else if (pedido.productos && typeof pedido.productos === "string") {
     try {
       const parsed = JSON.parse(pedido.productos);
-      productos = Array.isArray(parsed) ? parsed : [];
+      productos = Array.isArray(parsed) ? (parsed as PedidoProducto[]) : [];
     } catch {
       productos = [];
     }
-  } else if (pedido.productos && typeof pedido.productos === 'object') {
-    productos = [pedido.productos];
+  } else if (pedido.productos && typeof pedido.productos === "object") {
+    productos = [pedido.productos as PedidoProducto];
   }
-  
-  const totalItems = productos.reduce((sum, producto) => sum + (producto?.cantidad || 0), 0);
+
+  const totalItems = productos.reduce(
+    (sum, producto) => sum + (producto?.cantidad || 0),
+    0
+  );
   const total = pedido.total || 0;
 
   const handleClick = () => {
@@ -59,7 +65,7 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
   };
 
   return (
-    <div 
+    <div
       onClick={handleClick}
       className={`bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow cursor-pointer ${className}`}
     >
@@ -68,7 +74,7 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-semibold text-gray-900 text-lg">
-                Pedido #{pedido.id_pedido || 'N/A'}
+                Pedido #{pedido.id_pedido || "N/A"}
               </h3>
               <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
                 <Calendar size={14} />
@@ -81,7 +87,8 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
             <div className="flex items-center gap-2 text-gray-700">
               <Package size={16} className="text-gray-400" />
               <span className="text-gray-600">
-                <strong className="text-gray-900">{totalItems}</strong> {totalItems === 1 ? 'producto' : 'productos'}
+                <strong className="text-gray-900">{totalItems}</strong>{" "}
+                {totalItems === 1 ? "producto" : "productos"}
               </span>
             </div>
             <span className="text-gray-400">•</span>
@@ -92,12 +99,9 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
         </div>
 
         <div className="flex flex-col items-start lg:items-end gap-3 lg:min-w-[150px]">
-          {pedido.estado && (
-            <UserOrderStatusBadge estado={pedido.estado} />
-          )}
+          {pedido.estado && <UserOrderStatusBadge estado={pedido.estado} />}
         </div>
       </div>
     </div>
   );
 }
-

@@ -10,7 +10,13 @@ interface RepairCardProps {
   onStatusUpdate?: () => void;
 }
 
-const estadosValidos: reparacionInterface["estado"][] = ["Recibido", "Revisión", "Reparación", "Reparado", "Cancelado"];
+const estadosValidos: reparacionInterface["estado"][] = [
+  "Recibido",
+  "Revisión",
+  "Reparación",
+  "Reparado",
+  "Cancelado",
+];
 
 export default function RepairCard({ reparacion, onStatusUpdate }: RepairCardProps) {
   const [currentEstado, setCurrentEstado] = useState<reparacionInterface["estado"]>(
@@ -27,9 +33,9 @@ export default function RepairCard({ reparacion, onStatusUpdate }: RepairCardPro
 
     if (!estadosValidos.includes(newEstado as reparacionInterface["estado"])) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Estado no válido'
+        icon: "error",
+        title: "Error",
+        text: "Estado no válido",
       });
       return;
     }
@@ -43,28 +49,40 @@ export default function RepairCard({ reparacion, onStatusUpdate }: RepairCardPro
         estadoValido
       );
 
-      const isSuccess = response.success ||
-                       response.message?.toLowerCase().includes('actualizado') ||
-                       response.message?.toLowerCase().includes('correctamente');
+      const isSuccess =
+        response.success ||
+        response.message?.toLowerCase().includes("actualizado") ||
+        response.message?.toLowerCase().includes("correctamente");
 
       if (isSuccess) {
         setCurrentEstado(estadoValido);
         await Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: response.message || 'Estado actualizado correctamente',
+          icon: "success",
+          title: "Éxito",
+          text: response.message || "Estado actualizado correctamente",
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
         onStatusUpdate?.();
       } else {
-        throw new Error(response.message || 'Error al actualizar el estado');
+        throw new Error(response.message || "Error al actualizar el estado");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      let errorMessage = "Error al actualizar el estado";
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      if (typeof error === "object" && error !== null && "response" in error) {
+        const errObj = error as { response?: { data?: { message?: string } } };
+        errorMessage = errObj.response?.data?.message || errorMessage;
+      }
+
       await Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.response?.data?.message || error.message || 'Error al actualizar el estado'
+        icon: "error",
+        title: "Error",
+        text: errorMessage,
       });
     } finally {
       setIsUpdating(false);
@@ -82,9 +100,13 @@ export default function RepairCard({ reparacion, onStatusUpdate }: RepairCardPro
   return (
     <div className="bg-white border rounded-lg p-3 sm:p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">{reparacion.dispositivo}</h3>
+        <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">
+          {reparacion.dispositivo}
+        </h3>
         {reparacion.observaciones && (
-          <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">{reparacion.observaciones}</p>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+            {reparacion.observaciones}
+          </p>
         )}
         {reparacion.id_reparacion && (
           <p className="text-xs text-gray-500 mt-1">ID: #{reparacion.id_reparacion}</p>
@@ -114,4 +136,3 @@ export default function RepairCard({ reparacion, onStatusUpdate }: RepairCardPro
     </div>
   );
 }
-
