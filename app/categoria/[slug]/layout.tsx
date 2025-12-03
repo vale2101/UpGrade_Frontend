@@ -11,12 +11,8 @@ const categoryMap: Record<string, string> = {
   saldos: "Saldos",
 };
 
-type Props = {
-  params: { slug: string };
-};
-
 export async function generateMetadata(
-  { params }: Props,
+  { params }: { params: { slug: string } },
   _parent?: ResolvingMetadata
 ): Promise<Metadata> {
   const categoryName = categoryMap[params.slug] || "Todos los Productos";
