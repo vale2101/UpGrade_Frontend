@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import VendedorLoginForm from "../molecules/VendedorLoginForm";
 import BackToHomeButton from "../atoms/BackToHomeButton";
@@ -22,7 +23,9 @@ export default function VendedorLoginSection() {
             </p>
           </div>
 
-          <VendedorLoginForm />
+          <Suspense fallback={<div className="text-gray-600">Cargando formulario...</div>}>
+            <VendedorLoginForm />
+          </Suspense>
         </div>
 
         <div className="mt-6 text-center">
