@@ -62,13 +62,21 @@ export default function AdministradorDashboardSection() {
   };
 
   const handleSaveTrabajador = async (data: CreateTrabajadorRequest | UpdateTrabajadorRequest) => {
-    if (editingTrabajador && editingTrabajador.id_trabajador) {
-      await updateTrabajador(editingTrabajador.id_trabajador, data);
-    } else {
-      await createTrabajador(data as CreateTrabajadorRequest);
+    try {
+      if (editingTrabajador && editingTrabajador.id_trabajador) {
+        await updateTrabajador(editingTrabajador.id_trabajador, data);
+      } else {
+        await createTrabajador(data as CreateTrabajadorRequest);
+      }
+      // Cerrar el formulario y mostrar la tabla después de que el usuario acepte el SweetAlert
+      // El SweetAlert ya recarga la lista cuando el usuario hace clic en "Aceptar"
+      setShowTrabajadorForm(false);
+      setEditingTrabajador(null);
+    } catch (error) {
+      // El error ya se maneja en el hook con SweetAlert
+      // No cerrar el formulario si hay error para que el usuario pueda corregir
+      console.error("Error al guardar trabajador:", error);
     }
-    setShowTrabajadorForm(false);
-    setEditingTrabajador(null);
   };
 
   const handleCancelTrabajador = () => {

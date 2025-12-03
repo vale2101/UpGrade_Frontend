@@ -37,28 +37,58 @@ export function useAdministradorTrabajadores() {
   const createTrabajador = async (data: CreateTrabajadorRequest) => {
     try {
       const response = await TrabajadorService.createTrabajador(data);
-      if (response.success) {
-        await Swal.fire({
+      
+      // Verificar si la respuesta es exitosa
+      const isSuccess = response.success || response.data;
+      
+      if (isSuccess) {
+        const result = await Swal.fire({
           icon: "success",
-          title: "Éxito",
-          text: "Trabajador creado correctamente",
-          timer: 2000,
-          showConfirmButton: false,
+          title: "¡Éxito!",
+          text: response.message || "Trabajador creado correctamente",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#57ad63",
         });
-        await loadTrabajadores();
+        
+        // Recargar la lista después de que el usuario haga clic en Aceptar
+        if (result.isConfirmed) {
+          await loadTrabajadores();
+        }
+        
         return response.data;
       } else {
         throw new Error(response.message || "Error al crear trabajador");
       }
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || "Error al crear trabajador";
-      await Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: errorMessage,
-        confirmButtonText: "Aceptar",
-      });
-      throw err;
+      
+      // Verificar si el mensaje indica éxito (a veces el backend devuelve éxito en el catch)
+      const isSuccessMessage = errorMessage.toLowerCase().includes('creado') || 
+                               errorMessage.toLowerCase().includes('correctamente') ||
+                               errorMessage.toLowerCase().includes('exitoso');
+      
+      if (isSuccessMessage) {
+        const result = await Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: errorMessage,
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#57ad63",
+        });
+        
+        if (result.isConfirmed) {
+          await loadTrabajadores();
+        }
+        return { success: true };
+      } else {
+        await Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: errorMessage,
+          confirmButtonText: "Aceptar",
+        });
+        throw err;
+      }
     }
   };
 

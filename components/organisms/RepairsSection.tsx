@@ -24,6 +24,7 @@ export default function RepairsSection() {
           <SectionDescription className="max-w-3xl mx-auto text-sm sm:text-base mt-4">
             Reparamos todo tipo de dispositivos tecnológicos con la más alta calidad y garantía. 
             Nuestros técnicos especializados utilizan piezas originales y las mejores herramientas.
+            Acercate a nuestro punto fisico para acceder a este servicio. 
           </SectionDescription>
         </div>
 
@@ -38,7 +39,7 @@ export default function RepairsSection() {
             <div className="mt-4 flex justify-center gap-2 flex-wrap">
               <AnimatedBadge variant="success">Garantía 90 días</AnimatedBadge>
               <AnimatedBadge variant="info">Piezas Originales</AnimatedBadge>
-              <AnimatedBadge variant="warning">Presupuesto Gratis</AnimatedBadge>
+              <AnimatedBadge variant="warning">Calidad Garantizada</AnimatedBadge>
             </div>
           </div>
           
