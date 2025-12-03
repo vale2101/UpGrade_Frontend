@@ -11,7 +11,6 @@ export interface ApiResponse<T> {
 }
 
 export const DireccionService = {
-  // 🔹 Obtener todas las direcciones
   async getDirecciones(): Promise<ApiResponse<direccionInterface[]>> {
     const response = await axios.get<ApiResponse<direccionInterface[]>>(
       `${ENV.API_URL}/direcciones`,
@@ -20,7 +19,6 @@ export const DireccionService = {
     return response.data;
   },
 
-  // 🔹 Obtener una dirección por ID
   async getDireccionById(id: number): Promise<ApiResponse<direccionInterface>> {
     try {
       const response = await axios.get<any>(
@@ -28,9 +26,7 @@ export const DireccionService = {
         { withCredentials: true }
       );
 
-      // Normalizar la respuesta del backend - similar a pedidoService
       if (response.data?.data) {
-        // Si viene como { data: { data: direccion } }
         if (response.data.data.data && (response.data.data.data.pais || response.data.data.data.id_direccion)) {
           return {
             success: true,
@@ -38,7 +34,6 @@ export const DireccionService = {
             data: response.data.data.data as direccionInterface
           };
         }
-        // Si viene como { data: direccion }
         if (response.data.data.pais || response.data.data.id_direccion) {
           return {
             success: true,
@@ -48,12 +43,10 @@ export const DireccionService = {
         }
       }
       
-      // Si la respuesta ya tiene success
       if (response.data?.success !== undefined) {
         return response.data as ApiResponse<direccionInterface>;
       }
 
-      // Si la respuesta es la dirección directamente
       if (response.data && (response.data.pais || response.data.id_direccion)) {
         return {
           success: true,
@@ -78,7 +71,6 @@ export const DireccionService = {
     }
   },
 
-  // 🔹 Crear una nueva dirección
   async createDireccion(data: direccionInterface): Promise<ApiResponse<direccionInterface>> {
     const response = await axios.post<ApiResponse<direccionInterface>>(
       `${ENV.API_URL}/direcciones`,
@@ -88,7 +80,6 @@ export const DireccionService = {
     return response.data;
   },
 
-  // 🔹 Actualizar una dirección existente
   async updateDireccion(id: number, data: direccionInterface): Promise<ApiResponse<direccionInterface>> {
     const response = await axios.put<ApiResponse<direccionInterface>>(
       `${ENV.API_URL}/direcciones/${id}`,
@@ -98,7 +89,6 @@ export const DireccionService = {
     return response.data;
   },
 
-  // 🔹 Eliminar una dirección
   async deleteDireccion(id: number): Promise<ApiResponse<null>> {
     const response = await axios.delete<ApiResponse<null>>(
       `${ENV.API_URL}/direcciones/${id}`,

@@ -17,17 +17,14 @@ export default function CategorySection({ slug }: { slug: string }) {
   const { selectedCategory: categoryName } = useProductCategory(slug);
   const { products: productos, loading, error } = useProducts();
   
-  // Mapear slug a categoría del backend
   const backendCategory = useMemo(() => {
     return mapSlugToBackendCategory(slug);
   }, [slug]);
   
-  // Mapear productos del backend al formato del frontend
   const mappedProducts = useMemo(() => {
     return productos.map(mapProductoToProduct);
   }, [productos]);
 
-  // Filtrar productos por categoría del backend (si es null, muestra todos)
   const allProducts = useMemo(() => {
     return filterProductsByCategory(mappedProducts, backendCategory);
   }, [mappedProducts, backendCategory]);

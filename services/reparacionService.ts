@@ -10,7 +10,6 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-// 🔹 Helper para manejar respuestas
 function handleResponse<T>(response: any, successMsg: string, notFoundMsg: string): ApiResponse<T> {
   if (response.data?.data) {
     return { success: true, message: successMsg, data: response.data.data as T };
@@ -22,7 +21,6 @@ function handleResponse<T>(response: any, successMsg: string, notFoundMsg: strin
 }
 
 export const ReparacionService = {
-  // 🔹 Obtener todas las reparaciones
   async getReparaciones(): Promise<ApiResponse<reparacionInterface[]>> {
     try {
       const response = await axios.get<any>(`${ENV.API_URL}/reparaciones`, { withCredentials: true });
@@ -35,7 +33,6 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Obtener una reparación por ID
   async getReparacionById(id: number): Promise<ApiResponse<reparacionInterface>> {
     try {
       const response = await axios.get<any>(`${ENV.API_URL}/reparaciones/${id}`, { withCredentials: true });
@@ -48,8 +45,6 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Crear una nueva reparación
-  // El backend espera: { nombre, dispositivo, observaciones?, costo, id_trabajador }
   async createReparacion(data: { nombre: string; dispositivo: string; observaciones?: string | null; costo: number; id_trabajador: number }): Promise<ApiResponse<reparacionInterface>> {
     try {
       const response = await axios.post<ApiResponse<reparacionInterface>>(`${ENV.API_URL}/reparaciones`, data, { withCredentials: true });
@@ -62,7 +57,6 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Actualizar una reparación existente
   async updateReparacion(id: number, data: reparacionInterface): Promise<ApiResponse<reparacionInterface>> {
     try {
       const response = await axios.put<ApiResponse<reparacionInterface>>(`${ENV.API_URL}/reparaciones/${id}`, data, { withCredentials: true });
@@ -75,7 +69,6 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Eliminar una reparación
   async deleteReparacion(id: number): Promise<ApiResponse<null>> {
     try {
       const response = await axios.delete<ApiResponse<null>>(`${ENV.API_URL}/reparaciones/${id}`, { withCredentials: true });
@@ -88,13 +81,11 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Obtener reparaciones por usuario
   async getReparacionesByUser(id_user: number): Promise<ApiResponse<reparacionInterface[]>> {
     try {
       const response = await axios.get<any>(`${ENV.API_URL}/usuarios/${id_user}/reparaciones`, { withCredentials: true });
       return handleResponse<reparacionInterface[]>(response, "Reparaciones obtenidas correctamente", "No se encontraron reparaciones para este usuario");
     } catch (error: any) {
-      // Si es un 404, significa que el usuario no tiene reparaciones (es normal para usuarios nuevos)
       if (error.response?.status === 404) {
         return {
           success: true,
@@ -109,13 +100,11 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Obtener reparaciones por trabajador
   async getReparacionesByTrabajador(id_trabajador: number): Promise<ApiResponse<reparacionInterface[]>> {
     try {
       const response = await axios.get<any>(`${ENV.API_URL}/trabajadores/${id_trabajador}/reparaciones`, { withCredentials: true });
       return handleResponse<reparacionInterface[]>(response, "Reparaciones obtenidas correctamente", "No se encontraron reparaciones para este trabajador");
     } catch (error: any) {
-      // Si es un 404, significa que el trabajador no tiene reparaciones (es normal para trabajadores nuevos)
       if (error.response?.status === 404) {
         return {
           success: true,
@@ -130,7 +119,6 @@ export const ReparacionService = {
     }
   },
 
-  // 🔹 Cambiar estado de una reparación
   async updateEstadoReparacion(id: number, estado: string): Promise<ApiResponse<reparacionInterface>> {
     try {
       const response = await axios.put<ApiResponse<reparacionInterface>>(

@@ -41,7 +41,6 @@ export function useVendedorAuth() {
           try {
             setVendedor(JSON.parse(e.newValue));
           } catch (error) {
-            // Error parsing, ignore
           }
         } else {
           setVendedor(null);
@@ -67,7 +66,6 @@ export function useVendedorAuth() {
     try {
       await TrabajadorService.logout();
     } catch (error) {
-      // Error en logout, continuar con el proceso
     } finally {
       setVendedor(null);
       localStorage.removeItem("vendedor");

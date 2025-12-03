@@ -17,15 +17,12 @@ export default function FilterSidebar() {
   const { isFilterActive, toggleFilter, clearFilters } = useFilter();
   const { products } = useProducts();
 
-  // Generar opciones dinámicas basadas en los productos del backend
   const filterConfig: FilterConfig[] = useMemo(() => {
-    // Extraer valores únicos de los productos
     const tipos = Array.from(new Set(products.map(p => p.tipo).filter(Boolean))) as string[];
     const marcas = Array.from(new Set(products.map(p => extractBrand(p.nombre)).filter(Boolean))).sort();
     const capacidades = Array.from(new Set(products.map(p => p.capacidad).filter(Boolean))).sort();
     const colores = Array.from(new Set(products.map(p => p.color).filter(Boolean))).sort();
 
-    // Configuración de filtros dinámicos
     const config: FilterConfig[] = [
       {
         key: 'disponibilidad',
@@ -81,7 +78,6 @@ export default function FilterSidebar() {
       }
     ];
 
-    // Filtrar configuraciones que no tienen opciones
     return config.filter(filter => filter.options.length > 0);
   }, [products]);
 

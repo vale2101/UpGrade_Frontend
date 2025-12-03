@@ -74,7 +74,6 @@ export function useAdministradorOrders() {
   const refetch = async () => {
     try {
       setError(null);
-      // No activar loading para que no bloquee la UI durante la actualización
 
       const response = await PedidoService.getPedidos();
 

@@ -64,7 +64,6 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Estadísticas */}
         <div className="mb-6 sm:mb-8 md:mb-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <StatCard
@@ -93,7 +92,6 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Carrusel de características */}
         <div className="mb-6 sm:mb-8 md:mb-12">
           <div className="text-center mb-4 sm:mb-6 md:mb-8">
             <SectionTitle className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
@@ -102,7 +100,6 @@ export default function AboutSection() {
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#57ad63] to-transparent mx-auto mt-3"></div>
           </div>
           
-          {/* Carrusel en móvil, grid en desktop */}
           <div className="block lg:hidden">
             <Carousel
               items={features.map((feature, index) => (

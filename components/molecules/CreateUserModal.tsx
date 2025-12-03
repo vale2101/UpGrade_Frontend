@@ -24,10 +24,7 @@ export default function CreateUserModal({
     reset,
   } = useCreateUserForm({
     onSuccess: (user) => {
-      // Cerrar el modal primero
       onClose();
-      // Luego notificar al componente padre sobre el usuario creado
-      // Usar setTimeout para asegurar que el modal se cierre antes
       setTimeout(() => {
         onSuccess?.(user);
       }, 150);

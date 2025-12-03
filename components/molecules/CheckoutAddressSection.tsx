@@ -33,43 +33,32 @@ export default function CheckoutAddressSection({
     onSave,
   } = useAddressForm();
 
-  // Combinar ambos refreshKeys para asegurar la actualización
   const combinedRefreshKey = refreshKey + localRefreshKey;
   const { direcciones, loading, loadDirecciones } = useAddressList({ refreshKey: combinedRefreshKey });
 
-  // Función para manejar el envío del formulario
   const handleFormSubmit = async (data: direccionInterface) => {
     await onSave(data);
   };
 
-  // Función para recargar la lista de direcciones
   const refreshAddressList = useCallback(async () => {
-    // Incrementar refreshKey local para forzar actualización en el hook
     setLocalRefreshKey(prev => prev + 1);
-    // También llamar directamente a loadDirecciones
     await loadDirecciones();
   }, [loadDirecciones]);
 
-  // Actualizar la lista automáticamente cuando se guarda exitosamente
   useEffect(() => {
     if (saved && !formError) {
-      // Incrementar refreshKey inmediatamente para forzar actualización en el hook
       setLocalRefreshKey(prev => prev + 1);
       
-      // Recargar direcciones inmediatamente
       loadDirecciones();
       
-      // Recargar después de un delay corto para asegurar que el backend procesó
       const updateTimer1 = setTimeout(() => {
         loadDirecciones();
       }, 600);
       
-      // Recargar después de otro delay como respaldo
       const updateTimer2 = setTimeout(() => {
         loadDirecciones();
       }, 1500);
       
-      // Cerrar el formulario después de mostrar el mensaje de éxito
       const closeTimer = setTimeout(() => {
         setShowForm(false);
       }, 2500);
@@ -80,16 +69,12 @@ export default function CheckoutAddressSection({
         clearTimeout(closeTimer);
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saved, formError]);
   
-  // Actualizar cuando cambia el refreshKey del formulario (se incrementa cuando se guarda)
   useEffect(() => {
     if (refreshKey > 0) {
-      // Incrementar refreshKey local también para forzar actualización
       setLocalRefreshKey(prev => prev + 1);
       
-      // Recargar direcciones inmediatamente y después de un delay
       loadDirecciones();
       const timer = setTimeout(() => {
         loadDirecciones();
@@ -97,7 +82,6 @@ export default function CheckoutAddressSection({
       
       return () => clearTimeout(timer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   if (loading) {

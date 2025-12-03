@@ -14,23 +14,17 @@ interface ProductsShowcaseProps {
 export default function ProductsShowcase({ selectedCategory, onAddToCart }: ProductsShowcaseProps) {
   const { products: productos, loading, error } = useProducts();
   
-  // Mapear productos del backend al formato del frontend
   const mappedProducts = useMemo(() => {
     return productos.map(mapProductoToProduct);
   }, [productos]);
 
-  // Filtrar productos por categoría seleccionada
   const filteredProducts = useMemo(() => {
-    // Si selectedCategory es "Todas" o no existe, mostrar todos los productos
     if (selectedCategory === "Todas" || !selectedCategory) {
       return mappedProducts;
     }
     
-    // Filtrar por la categoría seleccionada
     const filtered = filterProductsByCategory(mappedProducts, selectedCategory);
     
-    // Si no hay productos filtrados, mostrar todos los productos (fallback)
-    // Esto puede pasar si la categoría seleccionada no tiene productos o no existe
     return filtered.length > 0 ? filtered : mappedProducts;
   }, [mappedProducts, selectedCategory]);
 

@@ -14,7 +14,6 @@ import { mapProductoToProduct, Product } from "../../utils/productMapper";
 export default function ProductDetailSection({ productId }: { productId: string }) {
   const { product: producto, loading, error } = useProduct(productId);
   
-  // Mapear producto del backend al formato del frontend
   const product = useMemo(() => {
     if (!producto) return null;
     return mapProductoToProduct(producto);

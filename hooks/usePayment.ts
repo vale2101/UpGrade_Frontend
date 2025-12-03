@@ -30,7 +30,6 @@ export function usePayment() {
         throw new Error('El total debe ser mayor a 0');
       }
       
-      // Redirigir a la página de checkout
       router.push('/checkout');
       
     } catch (error) {

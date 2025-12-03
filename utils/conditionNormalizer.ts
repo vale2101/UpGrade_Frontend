@@ -1,7 +1,4 @@
-/**
- * Normaliza el tipo del producto para mostrarlo en el ConditionBadge
- * Mapea los valores del backend a los tipos esperados por el badge
- */
+
 export function normalizeConditionForBadge(condition: string): "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo" {
   const normalized = condition.toLowerCase().trim();
   

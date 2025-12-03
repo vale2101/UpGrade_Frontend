@@ -26,27 +26,22 @@ export default function CheckoutSection() {
     handleCreateOrder
   } = useCheckout();
 
-  // Obtener la lista de direcciones para buscar la dirección seleccionada
   const { direcciones } = useAddressList({});
   
-  // Obtener la dirección completa usando el hook useAddress cuando se necesita para la confirmación
   const { direccion: direccionFromHook, loading: loadingAddress } = useAddress(
     showConfirmation && selectedAddressId && !selectedAddress ? selectedAddressId : null
   );
 
-  // Usar la dirección desde el hook si no está en selectedAddress
   const displayAddress = selectedAddress || direccionFromHook;
 
   const subtotal = getTotalPrice();
-  const total = subtotal; // Por ahora el total es igual al subtotal (envío gratis)
+  const total = subtotal;
 
-  // Función para manejar el clic en "Confirmar Pedido" - busca la dirección y muestra la vista de confirmación
   const handleConfirmClick = () => {
     if (!selectedAddressId) {
       return;
     }
 
-    // Buscar la dirección en la lista
     const address = direcciones.find((dir) => dir.id_direccion === selectedAddressId);
     
     if (address) {
@@ -54,7 +49,6 @@ export default function CheckoutSection() {
     }
   };
 
-  // Si estamos en la vista de confirmación, mostrar OrderConfirmationSection
   if (showConfirmation && displayAddress && selectedPaymentMethod) {
     return (
       <OrderConfirmationSection

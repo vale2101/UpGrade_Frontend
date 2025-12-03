@@ -49,7 +49,6 @@ export function useRepairForm({ id_trabajador, onSuccess }: UseRepairFormProps) 
     setIsSubmitting(true);
 
     try {
-      // Crear el objeto con el formato que espera el backend
       const reparacionData = {
         nombre: data.nombre.trim(),
         dispositivo: data.dispositivo,

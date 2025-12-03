@@ -43,7 +43,6 @@ function RepairProgressBar({ reparacion }: RepairProgressBarProps) {
 
   return (
     <div className="mb-4 sm:mb-6 last:mb-0">
-      {/* Información de la reparación */}
       <div className="mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
           <div className="flex-1">
@@ -63,7 +62,6 @@ function RepairProgressBar({ reparacion }: RepairProgressBarProps) {
         )}
       </div>
 
-      {/* Barra de progreso - Vertical en móvil, horizontal en desktop */}
       <div className="hidden sm:block">
         <ol className="flex items-center justify-between gap-2">
           {REPAIR_STATUSES.map((status, idx) => {
@@ -90,7 +88,6 @@ function RepairProgressBar({ reparacion }: RepairProgressBarProps) {
         </ol>
       </div>
 
-      {/* Barra de progreso vertical para móviles */}
       <div className="sm:hidden space-y-4">
         {REPAIR_STATUSES.map((status, idx) => {
           const isCurrent = idx === currentIndex;

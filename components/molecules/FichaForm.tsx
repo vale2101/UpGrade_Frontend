@@ -7,9 +7,9 @@ import FichaFormEstadoField from "./FichaFormEstadoField";
 import FichaFormActions from "./FichaFormActions";
 
 interface FichaFormProps {
-  onSave: (ficha: fichaInterface) => Promise<number | null>; // Retorna el ID de la ficha creada/actualizada
+  onSave: (ficha: fichaInterface) => Promise<number | null>;
   onCancel: () => void;
-  initialFicha?: fichaInterface | null; // Ficha inicial para edición
+  initialFicha?: fichaInterface | null;
 }
 
 export default function FichaForm({ onSave, onCancel, initialFicha }: FichaFormProps) {

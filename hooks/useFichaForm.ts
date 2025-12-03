@@ -38,7 +38,6 @@ export function useFichaForm({ onSave, initialFicha }: UseFichaFormProps) {
     },
   });
 
-  // Inicializar el formulario cuando hay una ficha para editar
   useEffect(() => {
     if (initialFicha) {
       reset({
@@ -68,7 +67,7 @@ export function useFichaForm({ onSave, initialFicha }: UseFichaFormProps) {
     const fichaId = await onSave(fichaData);
     
     if (fichaId && !initialFicha) {
-      reset(); // Solo limpiar si es creación nueva
+      reset(); 
     }
     
     return fichaId;

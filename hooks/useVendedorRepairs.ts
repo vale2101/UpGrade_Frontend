@@ -24,7 +24,6 @@ export function useVendedorRepairs() {
       const response = await ReparacionService.getReparacionesByTrabajador(vendedor.id_trabajador);
       
       if (response.success) {
-        // Si hay datos, usarlos. Si no hay datos (array vacío), está bien para trabajadores sin reparaciones
         if (response.data) {
           setReparaciones(response.data);
         } else {
@@ -51,7 +50,6 @@ export function useVendedorRepairs() {
         setReparaciones([]);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendedor?.id_trabajador, isLoadingVendedor]);
 
   return {

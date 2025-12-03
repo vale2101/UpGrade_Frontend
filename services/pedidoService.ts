@@ -11,7 +11,6 @@ export interface ApiResponse<T> {
 }
 
 export const PedidoService = {
-  // 🔹 Obtener todos los pedidos
   async getPedidos(): Promise<ApiResponse<PedidoInterface[]>> {
     const response = await axios.get<{ data: PedidoInterface[] }>(
       `${ENV.API_URL}/pedidos`,
@@ -25,7 +24,6 @@ export const PedidoService = {
     };
   },
 
-  // 🔹 Obtener un pedido por ID
   async getPedidoById(id: number): Promise<ApiResponse<PedidoInterface>> {
     const response = await axios.get<{ data: PedidoInterface }>(
       `${ENV.API_URL}/pedidos/${id}`,
@@ -39,7 +37,6 @@ export const PedidoService = {
     };
   },
 
-  // 🔹 Crear un nuevo pedido
   async createPedido(data: PedidoInterface): Promise<ApiResponse<PedidoInterface>> {
     const response = await axios.post<ApiResponse<PedidoInterface>>(
       `${ENV.API_URL}/pedidos`,
@@ -49,7 +46,6 @@ export const PedidoService = {
     return response.data;
   },
 
-  // 🔹 Actualizar un pedido (ej. estado)
   async updatePedido(id: number, data: Partial<PedidoInterface>): Promise<ApiResponse<PedidoInterface>> {
     try {
       const response = await axios.put<ApiResponse<PedidoInterface>>(
@@ -58,7 +54,6 @@ export const PedidoService = {
         { withCredentials: true }
       );
       
-      // Si la respuesta tiene éxito, retornarla directamente
       if (response.data && (response.data.success || response.status === 200)) {
         return {
           success: true,
@@ -69,7 +64,6 @@ export const PedidoService = {
       
       return response.data;
     } catch (error: any) {
-      // Si hay un error pero el backend indica éxito en el mensaje
       if (error?.response?.data?.message?.toLowerCase().includes('actualizado') ||
           error?.response?.data?.message?.toLowerCase().includes('correctamente')) {
         return {
@@ -79,7 +73,6 @@ export const PedidoService = {
         };
       }
       
-      // Si es un error HTTP pero tiene datos, puede ser un 200 con estructura diferente
       if (error?.response?.status === 200 && error?.response?.data) {
         return {
           success: true,
@@ -92,7 +85,6 @@ export const PedidoService = {
     }
   },
 
-  // 🔹 Eliminar un pedido
   async deletePedido(id: number): Promise<ApiResponse<null>> {
     const response = await axios.delete<ApiResponse<null>>(
       `${ENV.API_URL}/pedidos/${id}`,
@@ -101,7 +93,6 @@ export const PedidoService = {
     return response.data;
   },
 
-  // 🔹 Obtener productos de un pedido (descomponiendo JSON)
   async getProductosByPedidoId(id_pedido: number): Promise<ApiResponse<PedidoProducto[]>> {
     try {
       const response = await axios.get<{ data: PedidoProducto[] }>(
@@ -123,7 +114,6 @@ export const PedidoService = {
     }
   },
 
-  // 🔹 Obtener pedidos por usuario
   async getPedidosByUserId(id_user: number): Promise<ApiResponse<PedidoInterface[]>> {
     try {
       const response = await axios.get<{ data: PedidoInterface[] }>(
@@ -137,7 +127,6 @@ export const PedidoService = {
         data: response.data.data
       };
     } catch (error: any) {
-      // Si es un 404, significa que el usuario no tiene pedidos (es normal para usuarios nuevos)
       if (error.response?.status === 404) {
         return {
           success: true,

@@ -18,11 +18,9 @@ export default function CheckoutAddressList({
   onAddressSelect,
   emptyMessage = "No tienes direcciones guardadas.",
   className = ""
-}: CheckoutAddressListProps) {
-  // Crear una key única basada en las direcciones para forzar re-render cuando cambien
+}: CheckoutAddressListProps) {  
   const listKey = useMemo(() => {
     if (direcciones.length === 0) return "empty";
-    // Incluir IDs y la cantidad para detectar cualquier cambio
     const ids = direcciones.map(d => d.id_direccion || "").filter(Boolean).join('-');
     const count = direcciones.length;
     return `${ids}-count:${count}`;

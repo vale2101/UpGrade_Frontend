@@ -41,7 +41,6 @@ export function useAdministradorAuth() {
           try {
             setAdministrador(JSON.parse(e.newValue));
           } catch (error) {
-            // Error parsing, ignore
           }
         } else {
           setAdministrador(null);
@@ -67,7 +66,6 @@ export function useAdministradorAuth() {
     try {
       await AdministradorService.logout();
     } catch (error) {
-      // Error en logout, continuar con el proceso
     } finally {
       setAdministrador(null);
       localStorage.removeItem("administrador");

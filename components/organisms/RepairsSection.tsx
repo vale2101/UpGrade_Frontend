@@ -42,7 +42,6 @@ export default function RepairsSection() {
             </div>
           </div>
           
-          {/* Carrusel en móvil, grid en desktop */}
           <div className="block lg:hidden">
             <Carousel
               items={repairServices.map((service, index) => (
@@ -103,7 +102,6 @@ export default function RepairsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-stretch">
           <div className="group relative bg-gradient-to-br from-green-50 via-green-100/50 to-green-50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-green-200 overflow-hidden h-full flex flex-col">
-            {/* Efecto de brillo animado */}
             <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/10 to-green-400/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             
             <div className="relative z-10 flex flex-col flex-1">

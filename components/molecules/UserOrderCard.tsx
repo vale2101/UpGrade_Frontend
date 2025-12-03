@@ -34,13 +34,11 @@ const formatDate = (dateString?: string) => {
 export default function UserOrderCard({ pedido, className = "" }: UserOrderCardProps) {
   const router = useRouter();
   
-  // Normalizar productos para asegurar que siempre sea un array
   let productos: any[] = [];
   
   if (Array.isArray(pedido.productos)) {
     productos = pedido.productos;
   } else if (pedido.productos && typeof pedido.productos === 'string') {
-    // Si viene como string JSON, intentar parsearlo
     try {
       const parsed = JSON.parse(pedido.productos);
       productos = Array.isArray(parsed) ? parsed : [];
@@ -48,7 +46,6 @@ export default function UserOrderCard({ pedido, className = "" }: UserOrderCardP
       productos = [];
     }
   } else if (pedido.productos && typeof pedido.productos === 'object') {
-    // Si es un objeto único, convertirlo a array
     productos = [pedido.productos];
   }
   

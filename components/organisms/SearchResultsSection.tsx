@@ -14,8 +14,7 @@ export default function SearchResultsSection() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { products: productos, loading, error } = useProducts();
-  
-  // Mapear productos del backend al formato del frontend
+    
   const allProducts = useMemo(() => {
     return productos.map(mapProductoToProduct);
   }, [productos]);

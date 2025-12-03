@@ -42,7 +42,6 @@ export function useVendedorProductsBackend() {
       setError(null);
       const response = await ProductoService.updateProductoStock(id, stock);
       
-      // Verificar si la respuesta indica éxito
       const isSuccess = response.success || 
                        response.message?.toLowerCase().includes('actualizado') ||
                        response.message?.toLowerCase().includes('correctamente');
@@ -55,7 +54,7 @@ export function useVendedorProductsBackend() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true, data: response.data };
       } else {
         throw new Error(response.message || "Error al actualizar el stock");
@@ -73,7 +72,7 @@ export function useVendedorProductsBackend() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true };
       } else {
         await Swal.fire({

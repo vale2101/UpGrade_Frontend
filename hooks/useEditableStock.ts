@@ -37,13 +37,11 @@ export function useEditableStock(): UseEditableStockReturn {
     
     const newStock = editingStock.stock;
     
-    // Si no hay cambios, cancelar edición
     if (newStock === oldStock) {
       setEditingStock(null);
       return;
     }
 
-    // Validar que el stock sea un número válido
     if (isNaN(newStock) || newStock < 0) {
       setEditingStock(null);
       return;
@@ -54,7 +52,6 @@ export function useEditableStock(): UseEditableStockReturn {
       await onUpdate(productId, newStock);
       setEditingStock(null);
     } catch (error) {
-      // Error manejado en el componente padre
     } finally {
       setUpdatingId(null);
     }

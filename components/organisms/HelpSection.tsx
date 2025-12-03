@@ -38,7 +38,6 @@ export default function HelpSection() {
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent mx-auto mt-3"></div>
           </div>
           
-          {/* Carrusel en móvil, grid en desktop */}
           <div className="block lg:hidden">
             <Carousel
               items={helpServices.map((service, index) => (
@@ -99,7 +98,6 @@ export default function HelpSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8 md:mb-12 items-stretch">
           <div className="group relative bg-gradient-to-br from-green-50 via-green-100/50 to-green-50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-green-200 overflow-hidden h-full flex flex-col">
-            {/* Efecto de brillo animado */}
             <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/10 to-green-400/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             
             <div className="relative z-10 flex flex-col flex-1">
@@ -130,7 +128,6 @@ export default function HelpSection() {
           </div>
         </div>
 
-        {/* Testimonios */}
         <div className="mb-6 sm:mb-8 md:mb-12">
           <div className="text-center mb-4 sm:mb-6 md:mb-8">
             <SectionTitle className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">

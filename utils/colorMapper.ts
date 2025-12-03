@@ -1,6 +1,3 @@
-/**
- * Mapea nombres de colores del backend a códigos hexadecimales
- */
 export function mapColorToHex(colorName: string): string {
   const colorMap: { [key: string]: string } = {
     'Negro': '#000000',
@@ -31,16 +28,13 @@ export function mapColorToHex(colorName: string): string {
     'Black Titanium': '#374151',
   };
 
-  // Buscar coincidencia case-insensitive
   const normalizedColor = colorName.trim();
   const lowerColor = normalizedColor.toLowerCase();
   
-  // Buscar coincidencia exacta primero
   if (colorMap[normalizedColor]) {
     return colorMap[normalizedColor];
   }
   
-  // Buscar coincidencia case-insensitive
   const foundKey = Object.keys(colorMap).find(
     key => key.toLowerCase() === lowerColor
   );
@@ -49,13 +43,10 @@ export function mapColorToHex(colorName: string): string {
     return colorMap[foundKey];
   }
   
-  // Si no se encuentra, retornar un gris por defecto
   return '#6B7280';
 }
 
-/**
- * Normaliza el tipo del backend a las categorías permitidas
- */
+
 export function normalizeCondition(tipo: string): 'Nuevo' | 'SemiNuevo' | 'Reacondicionado' {
   const normalized = tipo.toLowerCase().trim();
   
@@ -71,7 +62,6 @@ export function normalizeCondition(tipo: string): 'Nuevo' | 'SemiNuevo' | 'Reaco
     return 'Reacondicionado';
   }
   
-  // Por defecto
   return 'Reacondicionado';
 }
 

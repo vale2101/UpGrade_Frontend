@@ -20,10 +20,8 @@ export default function ProductOptionsSelector({
   selectedColor,
   setSelectedColor
 }: ProductOptionsSelectorProps) {
-  // Normalizar la condición seleccionada para comparación
   const normalizedCondition = normalizeCondition(selectedCondition);
   
-  // Las 3 categorías permitidas del backend
   const allowedConditions: ('Nuevo' | 'SemiNuevo' | 'Reacondicionado')[] = ['Nuevo', 'SemiNuevo', 'Reacondicionado'];
 
   return (

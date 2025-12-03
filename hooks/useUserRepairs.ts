@@ -33,7 +33,6 @@ export function useUserRepairs() {
       const response = await ReparacionService.getReparacionesByUser(userId);
       
       if (response.success) {
-        // Filtrar solo las reparaciones con estado "Reparado" o "Cancelado"
         const reparacionesFiltradas = (response.data || []).filter(
           (reparacion) => reparacion.estado === "Reparado" || reparacion.estado === "Cancelado"
         );
@@ -59,7 +58,6 @@ export function useUserRepairs() {
         setReparaciones([]);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, isLoadingUser]);
 
   return {

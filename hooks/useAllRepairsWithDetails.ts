@@ -33,7 +33,6 @@ export function useAllRepairsWithDetails() {
       setLoading(true);
       setError(null);
 
-      // Cargar todas las reparaciones, usuarios y trabajadores en paralelo
       const [reparacionesResponse, usuariosData, trabajadoresData] = await Promise.all([
         ReparacionService.getReparaciones(),
         UserService.getUsers(),
@@ -63,7 +62,6 @@ export function useAllRepairsWithDetails() {
     loadData();
   }, []);
 
-  // Combinar reparaciones con información de clientes y trabajadores
   const reparacionesWithDetails = useMemo<ReparacionWithDetails[]>(() => {
     return reparaciones.map((reparacion) => {
       const cliente = usuarios.find((u) => u.id_user === reparacion.id_user);

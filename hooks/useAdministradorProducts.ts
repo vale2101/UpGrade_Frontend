@@ -42,7 +42,6 @@ export function useAdministradorProducts() {
       setError(null);
       const response = await ProductoService.createProducto(data);
       
-      // Verificar si la respuesta indica éxito
       const isSuccess = response.success || 
                        response.message?.toLowerCase().includes('creado') ||
                        response.message?.toLowerCase().includes('correctamente');
@@ -55,7 +54,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true, data: response.data };
       } else {
         throw new Error(response.message || "Error al crear el producto");
@@ -73,7 +72,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true };
       } else {
         await Swal.fire({
@@ -91,7 +90,6 @@ export function useAdministradorProducts() {
       setError(null);
       const response = await ProductoService.updateProducto(id, data);
       
-      // Verificar si la respuesta indica éxito
       const isSuccess = response.success || 
                        response.message?.toLowerCase().includes('actualizado') ||
                        response.message?.toLowerCase().includes('correctamente');
@@ -104,7 +102,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true, data: response.data };
       } else {
         throw new Error(response.message || "Error al actualizar el producto");
@@ -122,7 +120,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true };
       } else {
         await Swal.fire({
@@ -155,7 +153,6 @@ export function useAdministradorProducts() {
       setError(null);
       const response = await ProductoService.deleteProducto(id);
       
-      // Verificar si la respuesta indica éxito
       const isSuccess = response.success || 
                        response.message?.toLowerCase().includes('eliminado') ||
                        response.message?.toLowerCase().includes('correctamente');
@@ -168,7 +165,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true };
       } else {
         throw new Error(response.message || "Error al eliminar el producto");
@@ -186,7 +183,7 @@ export function useAdministradorProducts() {
           timer: 2000,
           showConfirmButton: false
         });
-        await loadProducts(false); // Recargar sin mostrar loading
+        await loadProducts(false); 
         return { success: true };
       } else {
         await Swal.fire({
@@ -203,7 +200,7 @@ export function useAdministradorProducts() {
     products,
     loading,
     error,
-    refetch: () => loadProducts(false), // Recargar sin mostrar loading
+    refetch: () => loadProducts(false), 
     createProduct,
     updateProduct,
     deleteProduct

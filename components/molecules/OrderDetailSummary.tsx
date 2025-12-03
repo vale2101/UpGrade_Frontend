@@ -17,7 +17,7 @@ const formatPrice = (price: number) => {
 
 export default function OrderDetailSummary({ pedido, className = "" }: OrderDetailSummaryProps) {
   const subtotal = pedido.total || 0;
-  const shipping = 0; // Envío gratis
+  const shipping = 0;
   const total = subtotal;
 
   return (

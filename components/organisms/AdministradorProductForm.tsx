@@ -40,7 +40,6 @@ export default function AdministradorProductForm({ product, onSave, onCancel }: 
     goToProducto,
   } = useAdministradorProductForm({ product, onSave, onCancel });
 
-  // Mostrar formulario de ficha cuando se navega a él
   if (currentStep === 'ficha') {
     return (
       <div>

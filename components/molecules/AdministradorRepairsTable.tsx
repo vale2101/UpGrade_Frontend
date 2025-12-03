@@ -161,14 +161,12 @@ export default function AdministradorRepairsTable() {
 
   return (
     <>
-      {/* Vista de tarjetas para móviles */}
       <div className="lg:hidden space-y-3">
         {reparaciones.map((reparacion) => (
           <RepairCard key={reparacion.id_reparacion || `rep-${reparacion.dispositivo}`} reparacion={reparacion} />
         ))}
       </div>
 
-      {/* Vista de tabla para desktop */}
       <div className="hidden lg:block overflow-x-auto -mx-4 sm:mx-0">
         <table className="w-full min-w-[800px]">
           <thead className="bg-gray-50 border-b">

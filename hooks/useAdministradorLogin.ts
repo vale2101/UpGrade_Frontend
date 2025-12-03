@@ -36,19 +36,14 @@ export function useAdministradorLogin() {
       });
 
       if (res.success && res.data) {
-        // Limpiar primero cualquier dato antiguo
         localStorage.removeItem("administrador");
         
-        // Asegurarse de sobrescribir cualquier dato antiguo con los datos del backend
         const administradorData = res.data.administrador;
         
-        // Guardar los nuevos datos
         localStorage.setItem("administrador", JSON.stringify(administradorData));
         
-        // Disparar evento personalizado para actualizar otros componentes en la misma pestaña
         window.dispatchEvent(new Event("administradorStorageChange"));
         
-        // Forzar una actualización adicional después de un pequeño delay
         setTimeout(() => {
           window.dispatchEvent(new Event("administradorStorageChange"));
         }, 100);
@@ -66,7 +61,6 @@ export function useAdministradorLogin() {
       } else {
         const message = res.message || "Credenciales incorrectas";
         
-        // Mostrar SweetAlert si el mensaje es "Usuario no encontrado"
         if (message.toLowerCase().includes('usuario no encontrado')) {
           Swal.fire({
             icon: "error",
@@ -83,8 +77,6 @@ export function useAdministradorLogin() {
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || "Error al iniciar sesión";
       
-      // Solo mostrar SweetAlert de "Acceso restringido" si el error es específicamente de autorización/rol
-      // No mostrar si es solo un error de credenciales incorrectas
       if (err.response?.status === 401) {
         const isAuthorizationError = errorMessage.toLowerCase().includes('restringido') ||
                                     errorMessage.toLowerCase().includes('no autorizado') ||
@@ -104,7 +96,6 @@ export function useAdministradorLogin() {
             }
           });
         } else {
-          // Verificar si es "Usuario no encontrado"
           if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
             Swal.fire({
               icon: "error",
@@ -115,11 +106,9 @@ export function useAdministradorLogin() {
               router.push("/");
             });
           }
-          // Error de credenciales incorrectas - mostrar en el formulario
           setError(errorMessage);
         }
       } else {
-        // Verificar si es "Usuario no encontrado" en otros errores
         if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
           Swal.fire({
             icon: "error",
@@ -130,7 +119,6 @@ export function useAdministradorLogin() {
             router.push("/");
           });
         } else {
-          // Otros errores - mostrar SweetAlert
           Swal.fire({
             icon: "error",
             title: "Error",

@@ -11,7 +11,6 @@ export interface ApiResponse<T> {
 }
 
 export const ProductoService = {
-  // 🔹 Obtener todos los productos
   async getProductos(): Promise<ApiResponse<productoInterface[]>> {
     const response = await axios.get<any>(
       `${ENV.API_URL}/productos`,
@@ -45,7 +44,6 @@ export const ProductoService = {
     };
   },
 
-  // 🔹 Obtener un producto por ID
   async getProductoById(id: number): Promise<ApiResponse<productoInterface>> {
     const response = await axios.get<any>(
       `${ENV.API_URL}/productos/${id}`,
@@ -79,7 +77,6 @@ export const ProductoService = {
     };
   },
 
-  // 🔹 Crear un nuevo producto
   async createProducto(data: productoInterface): Promise<ApiResponse<productoInterface>> {
     const response = await axios.post<ApiResponse<productoInterface>>(
       `${ENV.API_URL}/productos`,
@@ -89,7 +86,6 @@ export const ProductoService = {
     return response.data;
   },
 
-  // 🔹 Actualizar un producto existente
   async updateProducto(id: number, data: productoInterface): Promise<ApiResponse<productoInterface>> {
     const response = await axios.put<ApiResponse<productoInterface>>(
       `${ENV.API_URL}/productos/${id}`,
@@ -99,7 +95,6 @@ export const ProductoService = {
     return response.data;
   },
 
-  // 🔹 Actualizar solo el stock de un producto
   async updateProductoStock(id: number, stock: number): Promise<ApiResponse<productoInterface>> {
     const response = await axios.put<ApiResponse<productoInterface>>(
       `${ENV.API_URL}/productos/${id}/stock`,
@@ -109,7 +104,6 @@ export const ProductoService = {
     return response.data;
   },
 
-  // 🔹 Eliminar un producto
   async deleteProducto(id: number): Promise<ApiResponse<null>> {
     const response = await axios.delete<ApiResponse<null>>(
       `${ENV.API_URL}/productos/${id}`,

@@ -85,9 +85,7 @@ export function useCheckout() {
     setError(null);
 
     try {
-      // Convertir items del carrito a productos del pedido
       const productos: PedidoProducto[] = items.map((item) => {
-        // Extraer el precio numérico del string formateado
         const priceString = item.price.replace(/[^0-9]/g, '');
         const precio = parseFloat(priceString) || 0;
 
@@ -110,7 +108,6 @@ export function useCheckout() {
 
       const response = await PedidoService.createPedido(pedidoData);
 
-      // Verificar si la creación fue exitosa (manejar diferentes formatos de respuesta)
       const message = (response.message || "").toLowerCase();
       const isSuccess = response.success || 
                        message.includes('creado') ||
@@ -118,23 +115,18 @@ export function useCheckout() {
                        !!response.data;
 
       if (isSuccess) {
-        // Obtener el ID del pedido creado desde diferentes ubicaciones posibles
         let pedidoId: number | undefined;
         
         if (response.data) {
           pedidoId = (response.data as any)?.id_pedido;
         }
         
-        // Si no está en data, buscar directamente en la respuesta
         if (!pedidoId && (response as any).id_pedido) {
           pedidoId = (response as any).id_pedido;
         }
         
-        // Limpiar el carrito
         clearCart();
         
-        // Mostrar SweetAlert con el mensaje de éxito y el ID del pedido
-        // La redirección se hace en el .then() después de que el usuario cierre la alerta
         await Swal.fire({
           icon: "success",
           title: "¡Pedido creado exitosamente!",
@@ -157,7 +149,6 @@ export function useCheckout() {
           iconColor: "#57ad63",
           width: "400px",
         }).then(() => {
-          // Redirigir al dashboard del usuario después de cerrar el SweetAlert
           router.push('/user');
         });
       } else {
@@ -174,7 +165,6 @@ export function useCheckout() {
       const errorMessage = err.response?.data?.message || err.message || "Error inesperado al crear el pedido";
       setError(errorMessage);
       
-      // Mostrar error en SweetAlert
       await Swal.fire({
         icon: "error",
         title: "Error",

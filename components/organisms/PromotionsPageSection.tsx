@@ -19,12 +19,10 @@ export default function PromotionsPageSection() {
   const { selectedCategory, setSelectedCategory } = useProductCategory();
   const { products: productos, loading, error } = useProducts();
   
-  // Mapear productos del backend al formato del frontend
   const allProducts = useMemo(() => {
     return productos.map(mapProductoToProduct);
   }, [productos]);
 
-  // Filtrar productos por categoría seleccionada
   const categoryProducts = useMemo(() => {
     return filterProductsByCategory(allProducts, selectedCategory);
   }, [allProducts, selectedCategory]);
@@ -33,12 +31,10 @@ export default function PromotionsPageSection() {
   const { filteredProducts } = useProductFilter(searchResults);
   const { handleAddToCart } = useAddToCart();
 
-  // Leer el query parameter de la URL y aplicarlo a la búsqueda
   useEffect(() => {
     const q = searchParams.get("q");
     if (q) {
       setSearchQuery(q);
-      // También actualizar la categoría si el query coincide con alguna
       const queryLower = q.toLowerCase();
       const categoryMap: Record<string, string> = {
         "samsung": "Samsung",

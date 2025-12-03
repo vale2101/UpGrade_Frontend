@@ -16,10 +16,10 @@ export default function StaffUserMenu({
   onLogout, 
   onClose 
 }: StaffUserMenuProps) {
-  // Determinar la ruta del dashboard según el tipo de usuario
+
   const dashboardUrl = isAdministrador 
     ? "/administrador/dashboard" 
-    : isTrabajador 
+    : isTrabajador    
     ? "/vendedor/dashboard" 
     : "/";
 

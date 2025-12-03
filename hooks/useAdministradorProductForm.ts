@@ -30,7 +30,6 @@ export function useAdministradorProductForm({
   onSave,
   onCancel,
 }: UseAdministradorProductFormProps) {
-  // Estado para controlar en qué paso estamos: 'ficha' o 'producto'
   const [currentStep, setCurrentStep] = useState<'ficha' | 'producto'>(!product ? 'ficha' : 'producto');
   const [fichaId, setFichaId] = useState<number | null>(product?.id_ficha || null);
   const [currentFicha, setCurrentFicha] = useState<fichaInterface | null>(null);
@@ -57,7 +56,6 @@ export function useAdministradorProductForm({
     },
   });
 
-  // Cargar la ficha técnica cuando hay un producto para editar
   useEffect(() => {
     const loadFicha = async () => {
       if (product?.id_ficha) {
@@ -69,7 +67,6 @@ export function useAdministradorProductForm({
             setFichaId(product.id_ficha);
           }
         } catch (error) {
-          // Si hay error, continuar sin la ficha
         } finally {
           setLoadingFicha(false);
         }
@@ -93,7 +90,6 @@ export function useAdministradorProductForm({
     }
   }, [product, reset]);
 
-  // Cambiar al paso de producto cuando se crea la ficha y actualizar el formulario
   useEffect(() => {
     if (fichaId && !product && currentStep === 'ficha') {
       setValue("id_ficha", fichaId);
@@ -101,7 +97,6 @@ export function useAdministradorProductForm({
     }
   }, [fichaId, product, currentStep, setValue]);
 
-  // Helper functions
   const extractFichaId = (data: any): number | undefined => 
     data?.id_ficha || data?.data?.id_ficha;
 
@@ -133,7 +128,6 @@ export function useAdministradorProductForm({
 
   const handleFichaSave = async (fichaData: fichaInterface): Promise<number | null> => {
     try {
-      // Si hay una ficha existente (edición), actualizar
       if (currentFicha?.id_ficha || fichaId) {
         const fichaIdToUpdate = currentFicha?.id_ficha || fichaId;
         if (!fichaIdToUpdate) return null;
@@ -144,7 +138,6 @@ export function useAdministradorProductForm({
           response.message?.toLowerCase().includes('correctamente');
 
         if (isSuccess) {
-          // Actualizar la ficha actual
           setCurrentFicha({ ...fichaData, id_ficha: fichaIdToUpdate });
           await Swal.fire({
             icon: 'success',
@@ -153,7 +146,6 @@ export function useAdministradorProductForm({
             timer: 2000,
             showConfirmButton: false,
           });
-          // Si estamos editando un producto, volver al formulario de producto
           if (product) {
             setCurrentStep('producto');
           }
@@ -162,7 +154,6 @@ export function useAdministradorProductForm({
           throw new Error(response.message || "Error al actualizar la ficha técnica");
         }
       } else {
-        // Crear nueva ficha
         const response = await FichaService.createFicha(fichaData);
         const isSuccess = response.success || isSuccessMessage(response.message || '');
         const id = extractFichaId(response.data);
@@ -197,7 +188,6 @@ export function useAdministradorProductForm({
             timer: 2000,
             showConfirmButton: false,
           });
-          // Si estamos editando un producto, volver al formulario de producto
           if (product) {
             setCurrentStep('producto');
           }
@@ -217,10 +207,8 @@ export function useAdministradorProductForm({
 
   const handleFichaCancel = () => {
     if (product) {
-      // Si estamos editando, volver al formulario de producto
       setCurrentStep('producto');
     } else {
-      // Si estamos creando, cancelar todo
       setCurrentStep('producto');
       onCancel();
     }
@@ -249,14 +237,12 @@ export function useAdministradorProductForm({
     });
   };
 
-  return {
-    // Estado
+  return {      
     currentStep,
     fichaId,
     currentFicha,
     loadingFicha,
     
-    // Formulario
     register,
     handleSubmit,
     errors,
@@ -264,7 +250,6 @@ export function useAdministradorProductForm({
     control,
     setValue,
     
-    // Handlers
     handleFichaSave,
     handleFichaCancel,
     onFormSubmit,

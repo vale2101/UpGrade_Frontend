@@ -6,7 +6,6 @@ import { useAuthService } from "../../hooks/useAuthService";
 import ModalHeader from "../atoms/ModalHeader";
 import ErrorAlert from "../atoms/ErrorAlert";
 import AuthForm from "../molecules/AuthForm";
-import DemoCredentials from "../atoms/DemoCredentials";
 
 interface AuthFormData {
   name?: string;
@@ -93,8 +92,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               {isLogin ? "Crear cuenta" : "Iniciar sesión"}
             </button>
           </div>
-
-          <DemoCredentials />
         </div>
       </div>
     </div>

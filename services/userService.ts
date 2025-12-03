@@ -51,7 +51,6 @@ export const UserService = {
       `${ENV.API_URL}/usuarios/${id}/direccion`,
       { withCredentials: true }
     );
-    // Retornar la respuesta completa para que el componente pueda acceder a las direcciones
     return response.data.data || response.data;
   },
 

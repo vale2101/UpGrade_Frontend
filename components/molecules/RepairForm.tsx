@@ -34,14 +34,12 @@ export default function RepairForm({
   const nombreFieldRef = React.useRef<{ onChange: (value: string) => void } | null>(null);
   const nombreValue = useWatch({ control, name: "nombre" });
   
-  // Sincronizar selectedUserId cuando el campo nombre se resetea (se vacía)
   useEffect(() => {
     if (!nombreValue || nombreValue === "") {
       setSelectedUserId("");
     }
   }, [nombreValue]);
 
-  // Sincronizar selectedUserId cuando cambia nombreValue para encontrar el usuario
   useEffect(() => {
     if (nombreValue && nombreValue !== "") {
       const matchingUser = users.find(u => u.nombre === nombreValue);
@@ -51,32 +49,25 @@ export default function RepairForm({
     }
   }, [nombreValue, users, selectedUserId]);
 
-  // Recargar lista cuando el modal de crear usuario se cierra
   useEffect(() => {
-    // Detectar cuando el modal pasa de abierto a cerrado
     if (prevModalState === true && isCreateUserModalOpen === false) {
-      // El modal se cerró, recargar la lista de usuarios
       refetchUsers();
     }
     setPrevModalState(isCreateUserModalOpen);
   }, [isCreateUserModalOpen, prevModalState, refetchUsers]);
 
-  // Cuando se crea un nuevo usuario desde el padre, recargar lista y seleccionarlo
   useEffect(() => {
     if (newlyCreatedUser?.id_user && newlyCreatedUser.nombre) {
       const userId = newlyCreatedUser.id_user;
       const userName = newlyCreatedUser.nombre;
       
-      // Seleccionar el usuario inmediatamente con los datos que tenemos
       setSelectedUserId(userId);
       if (nombreFieldRef.current) {
         nombreFieldRef.current.onChange(userName);
       }
       
-      // Recargar la lista de usuarios para que aparezca en el select
       refetchUsers();
       
-      // Después de un delay, asegurar que la selección se mantenga y recargar de nuevo
       setTimeout(() => {
         refetchUsers().then(() => {
           setSelectedUserId(userId);
@@ -86,7 +77,6 @@ export default function RepairForm({
         });
       }, 800);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newlyCreatedUser?.id_user]);
 
   return (
@@ -109,7 +99,6 @@ export default function RepairForm({
               required: "El nombre del cliente es requerido"
             }}
             render={({ field }) => {
-              // Guardar la referencia al campo para usarla cuando se cree un usuario
               if (!nombreFieldRef.current || nombreFieldRef.current.onChange !== field.onChange) {
                 nombreFieldRef.current = { onChange: field.onChange };
               }
@@ -125,7 +114,6 @@ export default function RepairForm({
                       if (userId !== "" && !isNaN(userId as number)) {
                         const selectedUser = users.find(u => u.id_user === userId);
                         if (selectedUser) {
-                          // Guardar solo el nombre en el campo del formulario
                           field.onChange(selectedUser.nombre);
                         }
                       } else {

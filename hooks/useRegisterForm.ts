@@ -26,7 +26,6 @@ export function useRegisterForm() {
   const { login, isAuthenticated, isLoading: authLoading } = useAuth();
   const router = useRouter();
 
-  // Redirigir si ya está autenticado
   useEffect(() => {
     if (authLoading) return;
     if (isAuthenticated) {
@@ -50,12 +49,10 @@ export function useRegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     setError("");
     try {
-      // Dividir nombre completo en nombre y apellido
       const nameParts = data.fullName.trim().split(" ");
       const nombre = nameParts[0] || "";
       const apellido = nameParts.slice(1).join(" ") || "";
 
-      // Llamar directamente al servicio de usuario
       const res = await UserService.createUser({
         nombre: nombre,
         apellido: apellido,
@@ -64,9 +61,7 @@ export function useRegisterForm() {
         telefono: data.phone,
       } as CreateUserRequest);
 
-      // Verificar si el registro fue exitoso (success: true o mensaje de éxito)
       if (res && (res.success || res.message?.toLowerCase().includes("creado"))) {
-        // Si la respuesta tiene los datos del usuario, guardarlos y hacer login
         if (res.data && res.data.id_user) {
           const userData: User = {
             id: res.data.id_user?.toString() || "",
@@ -74,12 +69,9 @@ export function useRegisterForm() {
             email: res.data.correo,
           };
 
-          // Guardar en localStorage temporalmente
           localStorage.setItem("upgrade-user", JSON.stringify(userData));
-          // Cookie sin expiración hasta logout explícito
           document.cookie = "upgrade-auth=true; path=/";
           
-          // Hacer login para sincronizar el contexto
           const loginSuccess = await login(data.email, data.password);
           
           if (loginSuccess) {
@@ -95,8 +87,6 @@ export function useRegisterForm() {
           }
         }
 
-        // Si el registro fue exitoso pero no hay datos del usuario en la respuesta
-        // Intentar hacer login automático con las credenciales recién usadas
         const loginSuccess = await login(data.email, data.password);
         
         if (loginSuccess) {
@@ -111,7 +101,6 @@ export function useRegisterForm() {
           return;
         }
 
-        // Si el login automático falla, aún considerar el registro como exitoso
         await Swal.fire({
           icon: "success",
           title: "¡Registro exitoso!",
@@ -130,9 +119,7 @@ export function useRegisterForm() {
         text: "No se pudo crear tu cuenta. Por favor, intenta de nuevo.",
       });
     } catch (err: any) {
-      // Si hay un error pero la respuesta indica que el usuario se creó
       if (err?.response?.data?.message?.toLowerCase().includes("creado")) {
-        // Intentar hacer login automático
         const loginSuccess = await login(data.email, data.password);
         if (loginSuccess) {
           await Swal.fire({
@@ -147,7 +134,6 @@ export function useRegisterForm() {
         }
       }
       
-      // Si hay un error pero la respuesta tiene datos del usuario creado
       if (err?.response?.data?.data && err.response.data.data.id_user) {
         const userData = err.response.data.data;
         const formattedUser: User = {
@@ -156,12 +142,9 @@ export function useRegisterForm() {
           email: userData.correo,
         };
 
-        // Guardar en localStorage temporalmente
         localStorage.setItem("upgrade-user", JSON.stringify(formattedUser));
-        // Cookie sin expiración hasta logout explícito
         document.cookie = "upgrade-auth=true; path=/";
         
-        // Hacer login para sincronizar el contexto
         const loginSuccess = await login(data.email, data.password);
         if (loginSuccess) {
           await Swal.fire({

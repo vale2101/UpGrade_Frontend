@@ -12,12 +12,9 @@ interface CartItemCardProps {
 }
 
 export default function CartItemCard({ item, updateQuantity, removeFromCart }: CartItemCardProps) {
-  // Obtener el producto desde el backend usando el id_producto
   const { product: producto, loading: productLoading } = useProduct(item.id);
   
-  // Obtener todos los datos del producto del backend o usar los del item como fallback
   const productData = useMemo(() => {
-    // Priorizar datos del backend si están disponibles
     if (producto) {
       const mappedProduct = mapProductoToProduct(producto);
       return {
@@ -30,7 +27,6 @@ export default function CartItemCard({ item, updateQuantity, removeFromCart }: C
         color: producto.color || item.color || "Negro",
       };
     }
-    // Fallback a datos del item del carrito
     return {
       name: item.name,
       image: item.image,

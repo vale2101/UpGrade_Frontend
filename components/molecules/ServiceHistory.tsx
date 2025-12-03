@@ -22,12 +22,9 @@ const formatPrice = (costo: number): string => {
   }).format(costo);
 };
 
-// Función para mapear reparaciones a items del historial
 const mapReparacionToHistoryItem = (reparacion: reparacionInterface & { fecha?: string; fecha_creacion?: string; created_at?: string }): ServiceHistoryItem => {
-  // Intentar extraer fecha del objeto (puede venir en diferentes campos)
   let date = new Date().toISOString();
   
-  // Buscar cualquier campo que pueda contener una fecha
   const fechaFields = ['fecha', 'fecha_creacion', 'created_at', 'fecha_reparacion'];
   for (const field of fechaFields) {
     if ((reparacion as any)[field]) {
@@ -38,7 +35,6 @@ const mapReparacionToHistoryItem = (reparacion: reparacionInterface & { fecha?: 
           break;
         }
       } catch {
-        // Si no se puede parsear, usar fecha actual
       }
     }
   }
@@ -56,7 +52,6 @@ const mapReparacionToHistoryItem = (reparacion: reparacionInterface & { fecha?: 
 export default function ServiceHistory() {
   const { reparaciones, loading, error } = useUserRepairs();
 
-  // Mapear reparaciones a items del historial
   const items = useMemo(() => {
     return reparaciones.map(mapReparacionToHistoryItem);
   }, [reparaciones]);

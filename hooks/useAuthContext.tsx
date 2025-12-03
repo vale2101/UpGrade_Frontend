@@ -30,7 +30,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-        // Cookie sin expiración hasta logout explícito
         document.cookie = "upgrade-auth=true; path=/"; 
       } catch (error) {
         localStorage.removeItem("upgrade-user");
@@ -56,12 +55,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         setUser(userData);
         localStorage.setItem("upgrade-user", JSON.stringify(userData));
-        // Cookie sin expiración hasta logout explícito
         document.cookie = "upgrade-auth=true; path=/";
         return true;
       }
       
-      // Verificar si el mensaje es "Usuario no encontrado"
       const errorMessage = res.message || "";
       if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
         Swal.fire({
@@ -78,8 +75,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || error.message || "Error al iniciar sesión";
       
-      // Solo mostrar SweetAlert de "Acceso restringido" si el error es específicamente de autorización/rol
-      // No mostrar si es solo un error de credenciales incorrectas
       if (error.response?.status === 401) {
         const isAuthorizationError = errorMessage.toLowerCase().includes('restringido') ||
                                     errorMessage.toLowerCase().includes('no autorizado') ||
@@ -95,7 +90,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             confirmButtonText: "Aceptar",
           });
         } else if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
-          // Mostrar SweetAlert si el mensaje es "Usuario no encontrado"
           Swal.fire({
             icon: "error",
             title: "Usuario no encontrado",
@@ -105,9 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             window.location.href = "/";
           });
         }
-        // Si es solo credenciales incorrectas, no mostrar SweetAlert, solo retornar false
       } else if (errorMessage.toLowerCase().includes('usuario no encontrado')) {
-        // Mostrar SweetAlert si el mensaje es "Usuario no encontrado" (otros códigos de error)
         Swal.fire({
           icon: "error",
           title: "Usuario no encontrado",
@@ -125,7 +117,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await UserService.logout();
     } catch (error) {
-      // Error en logout, continuar con el proceso
     } finally {
       setUser(null);
       localStorage.removeItem("upgrade-user");

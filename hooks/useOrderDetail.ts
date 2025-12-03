@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { PedidoService } from "../services/pedidoService";
 import { PedidoInterface, PedidoProducto } from "../interfaces/pedido.interface";
 
-/**
- * Normaliza el campo productos de un pedido
- */
 function normalizeProductos(productos: any): PedidoProducto[] {
   if (!productos) {
     return [];
@@ -61,7 +58,6 @@ export function useOrderDetail(orderId: number | string | null) {
         const response = await PedidoService.getPedidoById(id);
 
         if (response.success && response.data) {
-          // Normalizar el pedido para asegurar que productos sea un array
           const normalizedPedido = {
             ...response.data,
             productos: normalizeProductos(response.data.productos)

@@ -11,10 +11,8 @@ interface AdministradorDashboardHeaderProps {
 export default function AdministradorDashboardHeader({ onLogout }: AdministradorDashboardHeaderProps) {
   const { administrador, refreshAdministrador } = useAdministradorAuth();
   
-  // Refrescar datos al montar el componente para asegurar que tenemos los más recientes
   useEffect(() => {
     refreshAdministrador();
-    // Forzar refresco adicional después de un breve delay para asegurar que los datos estén actualizados
     const timer = setTimeout(() => {
       refreshAdministrador();
     }, 200);

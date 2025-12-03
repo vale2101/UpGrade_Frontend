@@ -34,7 +34,6 @@ export default function PaymentMethodsSection() {
             <AnimatedBadge variant="primary">Sin Comisiones</AnimatedBadge>
           </div>
           
-          {/* Carrusel en móvil, grid en desktop */}
           <div className="block lg:hidden">
             <Carousel
               items={paymentMethods.map((method, index) => (
@@ -70,10 +69,8 @@ export default function PaymentMethodsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-stretch">
           <div className="group relative bg-gradient-to-br from-green-50 via-green-100/50 to-green-50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-green-200 overflow-hidden h-full flex flex-col">
-            {/* Efecto de brillo animado */}
             <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/10 to-green-400/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             
-            {/* Icono de seguridad flotante */}
             <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity">
               <svg className="w-16 h-16 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />

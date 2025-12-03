@@ -40,7 +40,6 @@ function OrderConfirmationProductItem({ item }: { item: OrderDetailItem }) {
         color: item.color,
       };
 
-  // Calcular subtotal del item
   const priceString = item.price.replace(/[^0-9]/g, '');
   const price = parseFloat(priceString) || 0;
   const subtotal = price * item.quantity;

@@ -14,12 +14,9 @@ interface UseProductSelectionProps {
 }
 
 export function useProductSelection({ product, productId }: UseProductSelectionProps = {}) {
-  // Obtener producto del backend si se proporciona productId
   const { product: productoBackend } = useProduct(productId || null);
   
-  // Determinar los valores iniciales desde el backend o el producto proporcionado
   const initialValues = useMemo(() => {
-    // Priorizar datos del backend si están disponibles
     if (productoBackend) {
       return {
         condition: productoBackend.tipo || product?.condition || "Reacondicionado",
@@ -31,7 +28,6 @@ export function useProductSelection({ product, productId }: UseProductSelectionP
           "Negro",
       };
     }
-    // Fallback a datos del producto proporcionado
     if (product) {
       return {
         condition: product.condition || "Reacondicionado",
@@ -43,7 +39,6 @@ export function useProductSelection({ product, productId }: UseProductSelectionP
           : product.color || "Negro",
       };
     }
-    // Valores por defecto
     return {
       condition: "Reacondicionado",
       capacity: "128GB",
@@ -58,9 +53,7 @@ export function useProductSelection({ product, productId }: UseProductSelectionP
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  // Actualizar estados cuando cambien los valores iniciales (producto del backend)
   useEffect(() => {
-    // Priorizar datos del backend
     if (productoBackend) {
       if (productoBackend.tipo) {
         setSelectedCondition(productoBackend.tipo);
@@ -72,7 +65,6 @@ export function useProductSelection({ product, productId }: UseProductSelectionP
         setSelectedColor(productoBackend.color);
       }
     } else if (product) {
-      // Fallback a datos del producto proporcionado
       if (product.condition) {
         setSelectedCondition(product.condition);
       }

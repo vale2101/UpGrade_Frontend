@@ -42,13 +42,10 @@ export default function RepairModal({
 
   const handleUserCreated = async (newUser: User) => {
     if (newUser && newUser.id_user) {
-      // Cerrar el modal de crear usuario si aún está abierto
       setIsCreateUserModalOpen(false);
       
-      // Establecer el usuario creado para que se seleccione automáticamente
       setNewlyCreatedUser(newUser);
       
-      // Mostrar mensaje de éxito después de un pequeño delay con botón OK
       setTimeout(() => {
         Swal.fire({
           icon: "success",
@@ -59,12 +56,9 @@ export default function RepairModal({
           confirmButtonColor: "#57ad63",
           iconColor: "#57ad63",
         }).then(() => {
-          // Cuando se hace clic en OK, el modal ya está cerrado y el usuario ya está en el formulario
-          // No es necesario hacer nada adicional, el formulario de reparaciones ya está visible
         });
       }, 300);
       
-      // Resetear el estado después de un tiempo para que no se vuelva a ejecutar
       setTimeout(() => {
         setNewlyCreatedUser(null);
       }, 3000);
@@ -110,7 +104,6 @@ export default function RepairModal({
         </div>
       </div>
 
-      {/* Modal de crear usuario renderizado fuera del formulario para evitar anidación de forms */}
       <CreateUserModal
         isOpen={isCreateUserModalOpen}
         onClose={handleCloseCreateUserModal}

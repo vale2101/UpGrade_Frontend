@@ -27,8 +27,7 @@ export function useFicha(idProducto: number | string | null) {
           setLoading(false);
           return;
         }
-
-        // Verificar que el método existe antes de llamarlo
+        
         if (!FichaService.getFichaByProductoId || typeof FichaService.getFichaByProductoId !== 'function') {
           throw new Error('El método getFichaByProductoId no está disponible en FichaService');
         }
