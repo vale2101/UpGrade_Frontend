@@ -1,31 +1,39 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
+import type { ResolvingMetadata } from "next";
 
-// Mapeo de slugs a nombres de categorías (debe coincidir con los valores de categoria del backend)
-const categoryMap: { [key: string]: string } = {
-  "samsung": "Samsung",
-  "iphone": "iPhone", 
+const categoryMap: Record<string, string> = {
+  samsung: "Samsung",
+  iphone: "iPhone",
   "apple-watch": "Apple Watch",
-  "ipad": "iPad",
+  ipad: "iPad",
   "otras-marcas": "Otras Marcas",
   "sin-iva": "Sin IVA",
-  "saldos": "Saldos"
+  saldos: "Saldos",
 };
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  _parent?: ResolvingMetadata
+): Promise<Metadata> {
   const categoryName = categoryMap[params.slug] || "Todos los Productos";
-  
+
   return {
     title: `${categoryName} - UpGrade`,
-    description: categoryName === "Todos los Productos" 
-      ? "Explora todos los productos tecnológicos reacondicionados en UpGrade. Calidad garantizada, precios increíbles y envío gratis en Colombia."
-      : `Explora los mejores productos ${categoryName.toLowerCase()} reacondicionados en UpGrade. Calidad garantizada, precios increíbles y envío gratis en Colombia.`,
-  }
+    description:
+      categoryName === "Todos los Productos"
+        ? "Explora todos los productos tecnológicos reacondicionados en UpGrade. Calidad garantizada, precios increíbles y envío gratis en Colombia."
+        : `Explora los mejores productos ${categoryName.toLowerCase()} reacondicionados en UpGrade. Calidad garantizada, precios increíbles y envío gratis en Colombia.`,
+  };
 }
 
 export default function CategoryLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return <>{children}</>
+  return <>{children}</>;
 }
