@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, RegisterOptions } from "react-hook-form";
 import { TrabajadorFormData } from "./AdministradorTrabajadorForm";
 import FormInput from "../atoms/FormInput";
 
@@ -12,11 +12,7 @@ interface TrabajadorFormTextFieldProps {
   register: UseFormRegister<TrabajadorFormData>;
   errors: FieldErrors<TrabajadorFormData>;
   required?: boolean;
-  validationRules?: {
-    required?: string | boolean;
-    minLength?: { value: number; message: string };
-    pattern?: { value: RegExp; message: string };
-  };
+  validationRules?: RegisterOptions<TrabajadorFormData, keyof TrabajadorFormData>;
 }
 
 export default function TrabajadorFormTextField({
@@ -36,9 +32,8 @@ export default function TrabajadorFormTextField({
       name={name}
       placeholder={placeholder}
       required={required}
-      register={register(name, validationRules as any)}
+      register={register(name, validationRules)}
       errors={errors}
     />
   );
 }
-
