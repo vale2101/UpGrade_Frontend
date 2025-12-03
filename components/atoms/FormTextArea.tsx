@@ -6,12 +6,14 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 
+type RegisterType<T extends FieldValues> = UseFormRegister<T> | Record<string, unknown>;
+
 interface FormTextAreaProps<T extends FieldValues> {
   label: string;
   name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  register?: UseFormRegister<T>;
+  register?: RegisterType<T>;
   errors?: FieldErrors<T>;
   rows?: number;
   className?: string;
@@ -34,10 +36,14 @@ export default function FormTextArea<T extends FieldValues>({
   const errorMessage = errors?.[name]?.message as string | undefined;
   const hasError = !!errorMessage;
 
-
+  // Determinar si register es una función o el resultado de llamarla
+  const isRegisterFunction = typeof register === 'function';
+  
   const textareaProps =
     register && !onChange
-      ? register(name, { required })
+      ? isRegisterFunction
+        ? (register as UseFormRegister<T>)(name, { required })
+        : register as Record<string, unknown>
       : { name, value, onChange, required };
 
   return (
