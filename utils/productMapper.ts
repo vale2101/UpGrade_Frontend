@@ -78,7 +78,7 @@ export function mapSlugToBackendCategory(slug: string): string | null {
     "otras-marcas": "Otras Marcas",
     "sin-iva": "Sin IVA",
     "saldos": "Saldos",
-    "todas": null,
+    "todas": "null",
   };
   
   return slugMap[slug.toLowerCase()] ?? null;

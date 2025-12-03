@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useAuth } from "../../hooks/useAuthContext";
 import InputField from "../atoms/InputField";
 import Button from "../atoms/Button";
@@ -103,9 +104,9 @@ export default function LoginForm() {
         </a>
         <p className="text-xs sm:text-sm text-gray-600">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="text-green-600 hover:text-green-800 font-medium">
+          <Link href="/register" className="text-green-600 hover:text-green-800 font-medium">
             Regístrate aquí
-          </a>
+          </Link>
         </p>
       </div>
     </div>

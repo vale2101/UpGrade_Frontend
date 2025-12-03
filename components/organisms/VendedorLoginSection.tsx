@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import VendedorLoginForm from "../molecules/VendedorLoginForm";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 import { Store } from "lucide-react";
@@ -27,9 +28,9 @@ export default function VendedorLoginSection() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             ¿Eres cliente?{" "}
-            <a href="/login" className="text-[#57ad63] hover:text-[#459a52] font-medium">
+            <Link href="/login" className="text-[#57ad63] hover:text-[#459a52] font-medium">
               Inicia sesión aquí
-            </a>
+            </Link>
           </p>
         </div>
       </div>

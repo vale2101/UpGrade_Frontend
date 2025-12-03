@@ -105,5 +105,3 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: AuthFormProps
     </form>
   );
 }
-
-

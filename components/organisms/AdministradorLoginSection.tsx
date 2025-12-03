@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import AdministradorLoginForm from "../molecules/AdministradorLoginForm";
 import BackToHomeButton from "../atoms/BackToHomeButton";
 import { Shield } from "lucide-react";
@@ -27,9 +28,9 @@ export default function AdministradorLoginSection() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             ¿Eres cliente?{" "}
-            <a href="/login" className="text-[#57ad63] hover:text-[#459a52] font-medium">
+            <Link href="/login" className="text-[#57ad63] hover:text-[#459a52] font-medium">
               Inicia sesión aquí
-            </a>
+            </Link>
           </p>
         </div>
       </div>
