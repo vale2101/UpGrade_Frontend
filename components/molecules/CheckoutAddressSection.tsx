@@ -40,11 +40,6 @@ export default function CheckoutAddressSection({
     await onSave(data);
   };
 
-  const refreshAddressList = useCallback(async () => {
-    setLocalRefreshKey(prev => prev + 1);
-    await loadDirecciones();
-  }, [loadDirecciones]);
-
   useEffect(() => {
     if (saved && !formError) {
       setLocalRefreshKey(prev => prev + 1);
@@ -69,7 +64,7 @@ export default function CheckoutAddressSection({
         clearTimeout(closeTimer);
       };
     }
-  }, [saved, formError]);
+  }, [saved, formError, loadDirecciones]);
   
   useEffect(() => {
     if (refreshKey > 0) {
@@ -82,7 +77,7 @@ export default function CheckoutAddressSection({
       
       return () => clearTimeout(timer);
     }
-  }, [refreshKey]);
+  }, [refreshKey, loadDirecciones]);
 
   if (loading) {
     return (

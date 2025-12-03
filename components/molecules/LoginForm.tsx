@@ -41,7 +41,7 @@ export default function LoginForm() {
       } else {
         setError("Credenciales incorrectas");
       }
-    } catch (err) {
+    } catch {
       setError("Error al iniciar sesión");
     }
   };

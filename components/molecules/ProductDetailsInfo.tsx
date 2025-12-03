@@ -1,8 +1,9 @@
 "use client";
 import { useFicha } from "../../hooks/useFicha";
+import { productoInterface } from "../../interfaces/producto.interface";
 
 interface ProductDetailsInfoProps {
-  product: any;
+  product: productoInterface | { description?: string; features?: string[] };
   idProducto?: number | string;
 }
 
@@ -73,14 +74,14 @@ export default function ProductDetailsInfo({ product, idProducto }: ProductDetai
         </div>
       )}
 
-      {product.description && (
+      {"description" in product && product.description && (
         <div className="pt-3 sm:pt-4 border-t border-gray-200">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Descripción</h3>
           <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{product.description}</p>
         </div>
       )}
 
-      {product.features && product.features.length > 0 && (
+      {"features" in product && product.features && product.features.length > 0 && (
         <div className="mt-3 sm:mt-4">
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Características principales</h3>
           <ul className="space-y-1 sm:space-y-2">

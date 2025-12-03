@@ -28,7 +28,7 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (_data: ContactFormData) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
@@ -85,7 +85,7 @@ export default function ContactForm() {
             register={register("nombre", {
               required: "El nombre es requerido",
               minLength: { value: 2, message: "El nombre debe tener al menos 2 caracteres" },
-            }) as any}
+            })}
             errors={errors}
           />
           
@@ -98,7 +98,7 @@ export default function ContactForm() {
             register={register("contacto", {
               required: "El teléfono es requerido",
               minLength: { value: 10, message: "El teléfono debe tener al menos 10 caracteres" },
-            }) as any}
+            })}
             errors={errors}
           />
         </div>
@@ -115,7 +115,7 @@ export default function ContactForm() {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "Correo electrónico inválido",
             },
-          }) as any}
+          })}
           errors={errors}
         />
         
@@ -128,7 +128,7 @@ export default function ContactForm() {
           register={register("duda", {
             required: "La consulta es requerida",
             minLength: { value: 10, message: "La consulta debe tener al menos 10 caracteres" },
-          }) as any}
+          })}
           errors={errors}
         />
         

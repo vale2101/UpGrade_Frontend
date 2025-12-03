@@ -1,12 +1,14 @@
 import { FieldErrors, FieldValues, Path } from "react-hook-form";
 import React from "react";
 
+type RegisterType = any;
+
 interface FormTextAreaProps<T extends FieldValues> {
   label: string;
   name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  register?: any; 
+  register?: RegisterType; 
   errors?: FieldErrors<T>;
   rows?: number;
   className?: string;

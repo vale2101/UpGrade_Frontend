@@ -3,11 +3,12 @@
 import ModalHeader from "../atoms/ModalHeader";
 import CreateUserForm from "./CreateUserForm";
 import { useCreateUserForm } from "../../hooks/useCreateUserForm";
+import { User } from "../../interfaces/user.interface";
 
 interface CreateUserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: (user: any) => void;
+  onSuccess?: (user: User) => void;
 }
 
 export default function CreateUserModal({

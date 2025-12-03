@@ -5,8 +5,20 @@ import { useProduct } from "../../hooks/useProduct";
 import CartProductDetails from "./CartProductDetails";
 import { mapProductoToProduct } from "../../utils/productMapper";
 
+interface CartItem {
+  id: string;
+  name: string;
+  image: string;
+  price: string;
+  originalPrice?: string;
+  quantity: number;
+  condition?: string;
+  capacity?: string;
+  color?: string;
+}
+
 interface CartItemCardProps {
-  item: any;
+  item: CartItem;
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, useCallback, ReactNode } from "react";
 import CarouselButton from "../atoms/CarouselButton";
 import CarouselIndicator from "../atoms/CarouselIndicator";
 
@@ -44,7 +44,7 @@ export default function Carousel({
 
       return () => clearInterval(interval);
     }
-  }, [autoPlay, isPaused, autoPlayInterval, items.length]);
+  }, [autoPlay, isPaused, autoPlayInterval, items.length, goToNext]);
 
   if (items.length === 0) return null;
 

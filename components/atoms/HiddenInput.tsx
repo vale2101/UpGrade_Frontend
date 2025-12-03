@@ -17,7 +17,7 @@ export default function HiddenInput<TFieldValues extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      defaultValue={value as any}
+      defaultValue={value as TFieldValues[typeof name]}
       rules={{ required: true }}
       render={({ field }) => {
         if (value && field.value !== value) {

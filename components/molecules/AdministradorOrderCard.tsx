@@ -45,7 +45,14 @@ export default function AdministradorOrderCard({
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentEstado, setCurrentEstado] = useState<EstadoPedido>(pedido.estado || 'Pendiente');
 
-  let productos: any[] = [];
+  interface ProductoPedido {
+    id_producto?: number;
+    cantidad?: number;
+    precio?: number;
+    nombre?: string;
+  }
+  
+  let productos: ProductoPedido[] = [];
   if (Array.isArray(pedido.productos)) {
     productos = pedido.productos;
   } else if (pedido.productos && typeof pedido.productos === 'string') {
@@ -101,8 +108,9 @@ export default function AdministradorOrderCard({
       } else {
         throw new Error(response.message || 'Error al actualizar el estado');
       }
-    } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || error.message || 'No se pudo actualizar el estado del pedido';
+    } catch (error: unknown) {
+      const errorObj = error as { response?: { data?: { message?: string } }; message?: string };
+      const errorMessage = errorObj?.response?.data?.message || errorObj.message || 'No se pudo actualizar el estado del pedido';
       const isSuccessMessage = errorMessage.toLowerCase().includes('actualizado') || 
                                errorMessage.toLowerCase().includes('correctamente');
 

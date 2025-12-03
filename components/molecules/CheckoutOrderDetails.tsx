@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useProduct } from "../../hooks/useProduct";
-import { mapProductoToProduct } from "../../utils/productMapper";
 import CartProductDetails from "./CartProductDetails";
 
 interface OrderDetailItem {
