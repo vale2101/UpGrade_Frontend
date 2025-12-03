@@ -12,10 +12,11 @@ const categoryMap: Record<string, string> = {
 };
 
 export async function generateMetadata(
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
   _parent?: ResolvingMetadata
 ): Promise<Metadata> {
-  const categoryName = categoryMap[params.slug] || "Todos los Productos";
+  const { slug } = await params;
+  const categoryName = categoryMap[slug] || "Todos los Productos";
 
   return {
     title: `${categoryName} - UpGrade`,
