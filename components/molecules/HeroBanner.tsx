@@ -12,8 +12,8 @@ export default function HeroBanner() {
   
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full px-4 sm:px-8 lg:px-12 gap-6 sm:gap-8 lg:gap-16">
         <div className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl max-w-xs sm:max-w-lg lg:max-w-sm leading-tight text-center lg:text-left">
-          PARA STALKEAR <br />
-          <span className="text-yellow-400">SIN MIEDO NECESITAS EL</span>
+          CAMBIA DE EQUIPO <br />
+          <span className="text-yellow-400">NO DE PRESUPUESTO</span>
         </div>
 
       </div>
