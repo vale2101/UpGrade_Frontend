@@ -2,23 +2,30 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Package, Wrench, Plus, ShoppingBag } from "lucide-react";
+import { Package, Wrench, Plus, ShoppingBag, Users } from "lucide-react";
 import { useAdministradorAuth } from "../../hooks/useAdministradorAuth";
 import { useAdministradorProducts } from "../../hooks/useAdministradorProducts";
+import { useAdministradorTrabajadores } from "../../hooks/useAdministradorTrabajadores";
 import { productoInterface } from "../../interfaces/producto.interface";
+import { Trabajador, CreateTrabajadorRequest, UpdateTrabajadorRequest } from "../../interfaces/trabajador.interface";
 import Tabs from "../molecules/UserTabs";
 import AdministradorDashboardHeader from "../molecules/AdministradorDashboardHeader";
 import AdministradorProductsTable from "../molecules/AdministradorProductsTable";
 import AdministradorProductForm from "./AdministradorProductForm";
 import AdministradorRepairsTable from "../molecules/AdministradorRepairsTable";
 import AdministradorOrdersList from "../molecules/AdministradorOrdersList";
+import AdministradorTrabajadoresTable from "../molecules/AdministradorTrabajadoresTable";
+import AdministradorTrabajadorForm from "../molecules/AdministradorTrabajadorForm";
 
 export default function AdministradorDashboardSection() {
   const { administrador, logout } = useAdministradorAuth();
   const router = useRouter();
   const { products, loading, createProduct, updateProduct, deleteProduct } = useAdministradorProducts();
+  const { trabajadores, loading: trabajadoresLoading, createTrabajador, updateTrabajador, deleteTrabajador } = useAdministradorTrabajadores();
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<productoInterface | null>(null);
+  const [showTrabajadorForm, setShowTrabajadorForm] = useState(false);
+  const [editingTrabajador, setEditingTrabajador] = useState<Trabajador | null>(null);
 
   const handleLogout = () => {
     logout();
@@ -47,6 +54,30 @@ export default function AdministradorDashboardSection() {
 
   const handleDelete = async (id: number) => {
     await deleteProduct(id);
+  };
+
+  const handleEditTrabajador = (trabajador: Trabajador) => {
+    setEditingTrabajador(trabajador);
+    setShowTrabajadorForm(true);
+  };
+
+  const handleSaveTrabajador = async (data: CreateTrabajadorRequest | UpdateTrabajadorRequest) => {
+    if (editingTrabajador && editingTrabajador.id_trabajador) {
+      await updateTrabajador(editingTrabajador.id_trabajador, data);
+    } else {
+      await createTrabajador(data as CreateTrabajadorRequest);
+    }
+    setShowTrabajadorForm(false);
+    setEditingTrabajador(null);
+  };
+
+  const handleCancelTrabajador = () => {
+    setShowTrabajadorForm(false);
+    setEditingTrabajador(null);
+  };
+
+  const handleDeleteTrabajador = async (id: number) => {
+    await deleteTrabajador(id);
   };
 
   return (
@@ -114,6 +145,42 @@ export default function AdministradorDashboardSection() {
                 <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Pedidos</h2>
                   <AdministradorOrdersList />
+                </div>
+              )
+            },
+            {
+              key: "trabajadores",
+              label: "Trabajadores",
+              icon: <Users size={16} />,
+              content: (
+                <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <h2 className="text-lg sm:text-xl font-semibold">Gestión de Trabajadores</h2>
+                    {!showTrabajadorForm && (
+                      <button
+                        onClick={() => setShowTrabajadorForm(true)}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#57ad63] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#459a52] text-sm sm:text-base transition-colors"
+                      >
+                        <Plus size={16} />
+                        Nuevo Trabajador
+                      </button>
+                    )}
+                  </div>
+
+                  {showTrabajadorForm ? (
+                    <AdministradorTrabajadorForm
+                      trabajador={editingTrabajador}
+                      onSave={handleSaveTrabajador}
+                      onCancel={handleCancelTrabajador}
+                    />
+                  ) : (
+                    <AdministradorTrabajadoresTable
+                      trabajadores={trabajadores}
+                      loading={trabajadoresLoading}
+                      onEdit={handleEditTrabajador}
+                      onDelete={handleDeleteTrabajador}
+                    />
+                  )}
                 </div>
               )
             }
