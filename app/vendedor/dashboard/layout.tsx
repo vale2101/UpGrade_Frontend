@@ -6,4 +6,8 @@ export default function VendedorDashboardLayout({
   return <>{children}</>;
 }
 
+export const metadata = {
+  title: "Dashboard Vendedor - UpGrade",
+  description: "Panel de administración para vendedores",
+};
 
