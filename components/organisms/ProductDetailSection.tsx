@@ -103,7 +103,9 @@ export default function ProductDetailSection({ productId }: { productId: string 
                 setSelectedColor={setSelectedColor}
               />
               
-              <ProductDetailsInfo product={product} idProducto={producto?.id_producto} />
+              {producto && (
+                <ProductDetailsInfo product={producto} idProducto={producto.id_producto} />
+              )}
             </div>
           </div>
         </div>

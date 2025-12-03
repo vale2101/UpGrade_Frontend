@@ -21,11 +21,11 @@ interface FormTextAreaProps<T extends FieldValues> {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function FormTextArea<T extends FieldValues>({
-  label,
-  name,
-  placeholder,
-  required = false,
+export default function FormTextArea<T extends FieldValues>({ 
+  label, 
+  name, 
+  placeholder, 
+  required = false, 
   register,
   errors,
   rows = 4,
@@ -59,8 +59,8 @@ export default function FormTextArea<T extends FieldValues>({
         placeholder={placeholder}
         rows={rows}
         className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 resize-vertical text-sm sm:text-base ${
-          hasError
-            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+          hasError 
+            ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
             : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
         }`}
         {...textareaProps}

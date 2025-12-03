@@ -1,19 +1,18 @@
 "use client";
 
 import { useIsStaff } from "../../hooks/useIsStaff";
+import { Product } from "../../utils/productMapper";
 
-interface Product {
-  brand: string;
-  name: string;
-  discount: string | number;
+interface ProductInfoCardProduct extends Pick<Product, 'brand' | 'name'> {
+  discount?: string | number;
   currentPrice: string | number;
-  originalPrice: string | number;
-  installments: string | number;
-  monthlyAmount: string | number;
+  originalPrice?: string | number;
+  installments?: string | number;
+  monthlyAmount?: string | number;
 }
 
 interface ProductInfoCardProps {
-  product: Product;
+  product: ProductInfoCardProduct;
   quantity: number;
   setQuantity: (q: number) => void;
   addedToCart: boolean;
@@ -33,28 +32,34 @@ export default function ProductInfoCard({
     <div className="space-y-4 sm:space-y-6">
       <div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 mb-2">
-          <span className="text-sm font-semibold text-gray-600">{product.brand}</span>
+          <span className="text-sm font-semibold text-gray-600">{product.brand || "Producto"}</span>
           <span className="text-sm text-green-600 font-medium">Disponible</span>
         </div>
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">{product.name}</h1>
 
         <div className="space-y-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">
-              Descuento {product.discount} IVA incluido
-            </span>
-          </div>
+          {product.discount && (
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-600">
+                Descuento {product.discount} IVA incluido
+              </span>
+            </div>
+          )}
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
             <span className="text-2xl sm:text-3xl font-bold text-gray-900">
               {product.currentPrice}
             </span>
-            <span className="text-lg text-gray-500 line-through">
-              {product.originalPrice}
-            </span>
+            {product.originalPrice && (
+              <span className="text-lg text-gray-500 line-through">
+                {product.originalPrice}
+              </span>
+            )}
           </div>
-          <div className="text-sm text-gray-600">
-            {product.installments} cuotas 0% interés {product.monthlyAmount}*
-          </div>
+          {product.installments && product.monthlyAmount && (
+            <div className="text-sm text-gray-600">
+              {product.installments} cuotas 0% interés {product.monthlyAmount}*
+            </div>
+          )}
         </div>
 
         <div className="mt-4 p-3 bg-yellow-100 border border-red-300 rounded-lg">

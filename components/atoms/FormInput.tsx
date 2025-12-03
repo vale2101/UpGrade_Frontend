@@ -21,12 +21,12 @@ interface FormInputProps<T extends FieldValues> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FormInput<T extends FieldValues>({
-  label,
-  type,
-  name,
-  placeholder,
-  required = false,
+export default function FormInput<T extends FieldValues>({ 
+  label, 
+  type, 
+  name, 
+  placeholder, 
+  required = false, 
   register,
   errors,
   className = "",
@@ -59,8 +59,8 @@ export default function FormInput<T extends FieldValues>({
         id={name}
         placeholder={placeholder}
         className={`w-full px-3 py-2 sm:py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 text-sm sm:text-base ${
-          hasError
-            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+          hasError 
+            ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
             : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
         }`}
         {...inputProps}
