@@ -90,26 +90,28 @@ export function useAddressList({ refreshKey }: UseAddressListProps = {}) {
       setLoading(true);
       setError(null);
 
-      const userData = await UserService.getUserWithDireccion(userId);
-      let direccionesData = extractDirecciones(userData);
-
-      if (direccionesData.length === 0 || direccionesData.length === 1) {
-        try {
-          const allDireccionesRes = await DireccionService.getDirecciones();
-          if (allDireccionesRes.success && allDireccionesRes.data) {
-            const userIdNum = parseInt(userId, 10);
-            const userDirecciones = allDireccionesRes.data.filter(
-              (dir: direccionInterface) => dir.id_user === userIdNum
-            );
-            if (userDirecciones.length > direccionesData.length) {
-              direccionesData = userDirecciones;
-            }
+      const userIdNum = parseInt(userId, 10);
+      
+      // Siempre intentar obtener todas las direcciones del usuario directamente
+      try {
+        const allDireccionesRes = await DireccionService.getDirecciones();
+        if (allDireccionesRes.success && allDireccionesRes.data) {
+          const userDirecciones = allDireccionesRes.data.filter(
+            (dir: direccionInterface) => dir.id_user === userIdNum
+          );
+          if (userDirecciones.length > 0) {
+            setDirecciones(userDirecciones);
+            setLoading(false);
+            return;
           }
-        } catch (err) {
-          console.warn("No se pudieron obtener todas las direcciones:", err);
         }
+      } catch (err) {
+        console.warn("No se pudieron obtener todas las direcciones:", err);
       }
 
+      // Si no se pudieron obtener todas las direcciones, intentar con los datos del usuario
+      const userData = await UserService.getUserWithDireccion(userId);
+      let direccionesData = extractDirecciones(userData);
       setDirecciones(direccionesData);
     } catch (err: any) {
       setError(err.message || "Error inesperado al cargar direcciones");
@@ -120,6 +122,7 @@ export function useAddressList({ refreshKey }: UseAddressListProps = {}) {
 
   useEffect(() => {
     loadDirecciones();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey, user?.id]);
 
   const handleDelete = async (id: number) => {

@@ -10,7 +10,7 @@ import Tabs from "../molecules/UserTabs";
 import AdministradorDashboardHeader from "../molecules/AdministradorDashboardHeader";
 import AdministradorProductsTable from "../molecules/AdministradorProductsTable";
 import AdministradorProductForm from "./AdministradorProductForm";
-import VendedorRepairsList from "../molecules/VendedorRepairsList";
+import AdministradorRepairsTable from "../molecules/AdministradorRepairsTable";
 import AdministradorOrdersList from "../molecules/AdministradorOrdersList";
 
 export default function AdministradorDashboardSection() {
@@ -102,7 +102,7 @@ export default function AdministradorDashboardSection() {
               content: (
                 <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Gestión de Reparaciones</h2>
-                  <VendedorRepairsList />
+                  <AdministradorRepairsTable />
                 </div>
               )
             },

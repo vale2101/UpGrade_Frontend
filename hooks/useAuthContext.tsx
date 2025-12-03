@@ -30,7 +30,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-        document.cookie = "upgrade-auth=true; path=/; max-age=2592000"; 
+        // Cookie sin expiración hasta logout explícito
+        document.cookie = "upgrade-auth=true; path=/"; 
       } catch (error) {
         localStorage.removeItem("upgrade-user");
         document.cookie = "upgrade-auth=; path=/; max-age=0";
@@ -55,7 +56,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         setUser(userData);
         localStorage.setItem("upgrade-user", JSON.stringify(userData));
-        document.cookie = "upgrade-auth=true; path=/; max-age=2592000";
+        // Cookie sin expiración hasta logout explícito
+        document.cookie = "upgrade-auth=true; path=/";
         return true;
       }
       

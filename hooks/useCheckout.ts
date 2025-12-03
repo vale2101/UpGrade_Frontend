@@ -5,6 +5,8 @@ import { useCart } from "../contexts/CartContext";
 import { useAuth } from "./useAuthContext";
 import { PedidoService } from "../services/pedidoService";
 import { PedidoInterface, PedidoProducto } from "../interfaces/pedido.interface";
+import { direccionInterface } from "../interfaces/direccion.interface";
+import Swal from "sweetalert2";
 
 export function useCheckout() {
   const router = useRouter();
@@ -12,6 +14,8 @@ export function useCheckout() {
   const { user } = useAuth();
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<direccionInterface | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,6 +26,37 @@ export function useCheckout() {
 
   const handlePaymentMethodSelect = (methodId: string) => {
     setSelectedPaymentMethod(methodId);
+    setError(null);
+  };
+
+  const handleReviewOrder = (address: direccionInterface) => {
+    if (!user?.id) {
+      setError("Debes estar autenticado para realizar un pedido");
+      return;
+    }
+
+    if (!selectedAddressId) {
+      setError("Debes seleccionar una dirección de entrega");
+      return;
+    }
+
+    if (!selectedPaymentMethod) {
+      setError("Debes seleccionar un método de pago");
+      return;
+    }
+
+    if (items.length === 0) {
+      setError("Tu carrito está vacío");
+      return;
+    }
+
+    setError(null);
+    setSelectedAddress(address);
+    setShowConfirmation(true);
+  };
+
+  const handleBackToCheckout = () => {
+    setShowConfirmation(false);
     setError(null);
   };
 
@@ -75,18 +110,77 @@ export function useCheckout() {
 
       const response = await PedidoService.createPedido(pedidoData);
 
-      if (response.success && response.data) {
+      // Verificar si la creación fue exitosa (manejar diferentes formatos de respuesta)
+      const message = (response.message || "").toLowerCase();
+      const isSuccess = response.success || 
+                       message.includes('creado') ||
+                       message.includes('correctamente') ||
+                       !!response.data;
+
+      if (isSuccess) {
+        // Obtener el ID del pedido creado desde diferentes ubicaciones posibles
+        let pedidoId: number | undefined;
+        
+        if (response.data) {
+          pedidoId = (response.data as any)?.id_pedido;
+        }
+        
+        // Si no está en data, buscar directamente en la respuesta
+        if (!pedidoId && (response as any).id_pedido) {
+          pedidoId = (response as any).id_pedido;
+        }
+        
         // Limpiar el carrito
         clearCart();
         
-        // Redirigir a la página principal con mensaje de éxito
-        router.push('/?pedido=exitoso');
+        // Mostrar SweetAlert con el mensaje de éxito y el ID del pedido
+        // La redirección se hace en el .then() después de que el usuario cierre la alerta
+        await Swal.fire({
+          icon: "success",
+          title: "¡Pedido creado exitosamente!",
+          html: `
+            <div style="text-align: left; padding: 10px 0;">
+              <p style="color: #374151; margin-bottom: 12px; font-size: 16px;">
+                Tu pedido ha sido creado correctamente.
+              </p>
+              ${pedidoId ? `
+                <div style="background-color: #f3f4f6; padding: 12px; border-radius: 8px; margin-top: 12px;">
+                  <p style="color: #6b7280; font-size: 14px; margin: 0 0 4px 0;">ID del pedido:</p>
+                  <p style="color: #111827; font-size: 18px; font-weight: bold; margin: 0;">#${pedidoId}</p>
+                </div>
+              ` : ''}
+            </div>
+          `,
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#57ad63",
+          iconColor: "#57ad63",
+          width: "400px",
+        }).then(() => {
+          // Redirigir al dashboard del usuario después de cerrar el SweetAlert
+          router.push('/user');
+        });
       } else {
-        setError(response.message || "Error al crear el pedido");
+        const errorMessage = response.message || "Error al crear el pedido";
+        setError(errorMessage);
+        await Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: errorMessage,
+          confirmButtonColor: "#dc2626",
+        });
       }
     } catch (err: any) {
-      console.error("Error al crear el pedido:", err);
-      setError(err.response?.data?.message || "Error inesperado al crear el pedido");
+      const errorMessage = err.response?.data?.message || err.message || "Error inesperado al crear el pedido";
+      setError(errorMessage);
+      
+      // Mostrar error en SweetAlert
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: errorMessage,
+        confirmButtonColor: "#dc2626",
+      });
     } finally {
       setLoading(false);
     }
@@ -95,10 +189,14 @@ export function useCheckout() {
   return {
     selectedAddressId,
     selectedPaymentMethod,
+    selectedAddress,
+    showConfirmation,
     loading,
     error,
     handleAddressSelect,
     handlePaymentMethodSelect,
+    handleReviewOrder,
+    handleBackToCheckout,
     handleCreateOrder
   };
 }

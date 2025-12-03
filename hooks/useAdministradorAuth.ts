@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Administrador } from "../interfaces/administrador.interface";
+import { AdministradorService } from "../services/administradorService";
 
 const loadAdministradorFromStorage = (): Administrador | null => {
   if (typeof window === 'undefined') return null;
@@ -62,10 +63,16 @@ export function useAdministradorAuth() {
     };
   }, [refreshAdministrador]);
 
-  const logout = () => {
-    setAdministrador(null);
-    localStorage.removeItem("administrador");
-    window.dispatchEvent(new Event("administradorStorageChange"));
+  const logout = async () => {
+    try {
+      await AdministradorService.logout();
+    } catch (error) {
+      // Error en logout, continuar con el proceso
+    } finally {
+      setAdministrador(null);
+      localStorage.removeItem("administrador");
+      window.dispatchEvent(new Event("administradorStorageChange"));
+    }
   };
 
   return {

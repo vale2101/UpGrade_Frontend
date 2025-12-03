@@ -24,10 +24,10 @@ export function useAddressForm() {
     },
   });
 
-  const onSave = async (data: direccionInterface) => {
+  const onSave = async (data: direccionInterface): Promise<boolean> => {
     if (!user?.id) {
       setError("Debes estar autenticado para agregar una dirección");
-      return;
+      return false;
     }
 
     try {
@@ -43,12 +43,16 @@ export function useAddressForm() {
         setSaved(true);
         reset(); 
         setTimeout(() => setSaved(false), 3000);
+        // Incrementar refreshKey para notificar que se debe actualizar la lista
         setRefreshKey(prev => prev + 1);
+        return true;
       } else {
         setError(res.message || "Error al guardar la dirección");
+        return false;
       }
     } catch (err: any) {
       setError(err.message || "Error inesperado");
+      return false;
     }
   };
 

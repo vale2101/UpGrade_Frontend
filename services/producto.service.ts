@@ -18,7 +18,6 @@ export const ProductoService = {
       { withCredentials: true }
     );
     
-    // Normalizar la respuesta: el backend puede devolver { data: [...] } directamente
     if (response.data?.data && Array.isArray(response.data.data)) {
       return {
         success: true,
@@ -27,12 +26,10 @@ export const ProductoService = {
       };
     }
     
-    // Si ya tiene la estructura ApiResponse, devolverla tal cual
     if (response.data?.success !== undefined) {
       return response.data as ApiResponse<productoInterface[]>;
     }
     
-    // Si viene directamente como array, envolverlo
     if (Array.isArray(response.data)) {
       return {
         success: true,
@@ -55,7 +52,6 @@ export const ProductoService = {
       { withCredentials: true }
     );
     
-    // Normalizar la respuesta: el backend puede devolver { data: {...} } directamente
     if (response.data?.data && !Array.isArray(response.data.data)) {
       return {
         success: true,
@@ -64,12 +60,10 @@ export const ProductoService = {
       };
     }
     
-    // Si ya tiene la estructura ApiResponse, devolverla tal cual
     if (response.data?.success !== undefined) {
       return response.data as ApiResponse<productoInterface>;
     }
     
-    // Si viene directamente como objeto producto, envolverlo
     if (response.data?.id_producto || response.data?.nombre) {
       return {
         success: true,
@@ -100,6 +94,16 @@ export const ProductoService = {
     const response = await axios.put<ApiResponse<productoInterface>>(
       `${ENV.API_URL}/productos/${id}`,
       data,
+      { withCredentials: true }
+    );
+    return response.data;
+  },
+
+  // 🔹 Actualizar solo el stock de un producto
+  async updateProductoStock(id: number, stock: number): Promise<ApiResponse<productoInterface>> {
+    const response = await axios.put<ApiResponse<productoInterface>>(
+      `${ENV.API_URL}/productos/${id}/stock`,
+      { stock },
       { withCredentials: true }
     );
     return response.data;

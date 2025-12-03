@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "co.tiendasishop.com",
       },
+      {
+        protocol: "https",
+        hostname: "p.turbosquid.com",
+      },
+      {
+        protocol: "https",
+        hostname: "exitocol.vtexassets.com",
+      },
+      {
+        protocol: "https",
+        hostname: "exitocol.vteximg.com.br",
+      },
     ],
   },
 };

@@ -1,52 +1,26 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Package, Wrench, Plus } from "lucide-react";
+import { Package, Wrench } from "lucide-react";
 import { useAuth } from "../../hooks/useAuthContext";
-import { useVendedorProducts, VendedorProduct } from "../../hooks/useVendedorProducts";
+import { useVendedorProductsBackend } from "../../hooks/useVendedorProductsBackend";
 import Tabs from "../molecules/UserTabs";
 import DashboardHeader from "../molecules/DashboardHeader";
-import VendedorProductsTable from "../molecules/VendedorProductsTable";
-import VendedorProductForm from "./VendedorProductForm";
+import VendedorProductsStockTable from "../molecules/VendedorProductsStockTable";
 import VendedorRepairsList from "../molecules/VendedorRepairsList";
 
 export default function VendedorDashboardSection() {
   const { user, logout } = useAuth();
   const router = useRouter();
-  const { products, addProduct, updateProduct, deleteProduct } = useVendedorProducts();
-  const [showForm, setShowForm] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<VendedorProduct | null>(null);
+  const { products, loading, updateStock } = useVendedorProductsBackend();
 
   const handleLogout = () => {
     logout();
     router.push("/");
   };
 
-  const handleEdit = (product: VendedorProduct) => {
-    setEditingProduct(product);
-    setShowForm(true);
-  };
-
-  const handleSave = (productData: Omit<VendedorProduct, "id">) => {
-    if (editingProduct) {
-      updateProduct(editingProduct.id, productData);
-    } else {
-      addProduct(productData);
-    }
-    setShowForm(false);
-    setEditingProduct(null);
-  };
-
-  const handleCancel = () => {
-    setShowForm(false);
-    setEditingProduct(null);
-  };
-
-  const handleDelete = (id: string) => {
-    if (confirm("¿Estás seguro de eliminar este producto?")) {
-      deleteProduct(id);
-    }
+  const handleStockUpdate = async (id: number, stock: number) => {
+    return await updateStock(id, stock);
   };
 
   return (
@@ -63,32 +37,16 @@ export default function VendedorDashboardSection() {
               icon: <Package size={16} />,
               content: (
                 <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="mb-4 sm:mb-6">
                     <h2 className="text-lg sm:text-xl font-semibold">Gestión de Productos</h2>
-                    {!showForm && (
-                      <button
-                        onClick={() => setShowForm(true)}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#57ad63] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#459a52] text-sm sm:text-base transition-colors"
-                      >
-                        <Plus size={16} />
-                        Nuevo Producto
-                      </button>
-                    )}
+                    <p className="text-sm text-gray-600 mt-1">Edita el stock de los productos haciendo clic en el campo de stock</p>
                   </div>
 
-                  {showForm ? (
-                    <VendedorProductForm
-                      product={editingProduct}
-                      onSave={handleSave}
-                      onCancel={handleCancel}
-                    />
-                  ) : (
-                    <VendedorProductsTable
-                      products={products}
-                      onEdit={handleEdit}
-                      onDelete={handleDelete}
-                    />
-                  )}
+                  <VendedorProductsStockTable
+                    products={products}
+                    onStockUpdate={handleStockUpdate}
+                    loading={loading}
+                  />
                 </div>
               )
             },

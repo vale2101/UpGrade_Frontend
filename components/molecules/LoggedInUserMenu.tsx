@@ -1,20 +1,31 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { User, ShoppingBag, Wrench, History, LogOut, Store, Shield } from "lucide-react";
+import { useAuth } from "../../hooks/useAuthContext";
 import DropdownMenuItem from "../atoms/DropdownMenuItem";
 import UserInfo from "../atoms/UserInfo";
 
 interface LoggedInUserMenuProps {
   userName: string;
   userEmail: string;
-  onLogout: () => void;
   onClose: () => void;
 }
 
 export default function LoggedInUserMenu({ 
   userName, 
   userEmail, 
-  onLogout, 
   onClose 
 }: LoggedInUserMenuProps) {
+  const router = useRouter();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    onClose();
+    router.push("/");
+  };
+
   return (
     <>
       <UserInfo name={userName} email={userEmail} />
@@ -66,7 +77,7 @@ export default function LoggedInUserMenu({
       <DropdownMenuItem 
         icon={<LogOut size={16} />} 
         label="Cerrar Sesión" 
-        onClick={onLogout}
+        onClick={handleLogout}
         variant="danger"
       />
     </>

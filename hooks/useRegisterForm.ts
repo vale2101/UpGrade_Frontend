@@ -76,7 +76,8 @@ export function useRegisterForm() {
 
           // Guardar en localStorage temporalmente
           localStorage.setItem("upgrade-user", JSON.stringify(userData));
-          document.cookie = "upgrade-auth=true; path=/; max-age=2592000";
+          // Cookie sin expiración hasta logout explícito
+          document.cookie = "upgrade-auth=true; path=/";
           
           // Hacer login para sincronizar el contexto
           const loginSuccess = await login(data.email, data.password);
@@ -157,7 +158,8 @@ export function useRegisterForm() {
 
         // Guardar en localStorage temporalmente
         localStorage.setItem("upgrade-user", JSON.stringify(formattedUser));
-        document.cookie = "upgrade-auth=true; path=/; max-age=2592000";
+        // Cookie sin expiración hasta logout explícito
+        document.cookie = "upgrade-auth=true; path=/";
         
         // Hacer login para sincronizar el contexto
         const loginSuccess = await login(data.email, data.password);

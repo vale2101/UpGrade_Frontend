@@ -1,3 +1,7 @@
+"use client";
+
+import { useIsStaff } from "../../hooks/useIsStaff";
+
 interface ProductInfoCardProps {
   product: any;
   quantity: number;
@@ -7,6 +11,7 @@ interface ProductInfoCardProps {
 }
 
 export default function ProductInfoCard({ product, quantity, setQuantity, addedToCart, onAddToCart }: ProductInfoCardProps) {
+  const { isStaff } = useIsStaff();
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
@@ -40,36 +45,40 @@ export default function ProductInfoCard({ product, quantity, setQuantity, addedT
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Cantidad:</label>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-          >-</button>
-          <span className="text-lg font-medium w-8 text-center">{quantity}</span>
-          <button
-            onClick={() => setQuantity(quantity + 1)}
-            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-          >+</button>
-        </div>
-      </div>
+      {!isStaff && (
+        <>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Cantidad:</label>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              >-</button>
+              <span className="text-lg font-medium w-8 text-center">{quantity}</span>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              >+</button>
+            </div>
+          </div>
 
-      <button
-        onClick={onAddToCart}
-        className={`w-full font-bold py-4 px-6 rounded-lg transition-colors ${
-          addedToCart ? 'bg-green-500 text-white' : 'bg-yellow-400 hover:bg-yellow-500 text-black'
-        }`}
-      >
-        {addedToCart ? '✓ AGREGADO AL CARRITO' : 'AÑADIR AL CARRITO'}
-      </button>
-      
-      {addedToCart && (
-        <div className="mt-2 text-center">
-          <p className="text-green-600 text-sm font-medium">
-            ¡Producto agregado al carrito! ({quantity} unidad{quantity !== 1 ? 'es' : ''})
-          </p>
-        </div>
+          <button
+            onClick={onAddToCart}
+            className={`w-full font-bold py-4 px-6 rounded-lg transition-colors ${
+              addedToCart ? 'bg-green-500 text-white' : 'bg-yellow-400 hover:bg-yellow-500 text-black'
+            }`}
+          >
+            {addedToCart ? '✓ AGREGADO AL CARRITO' : 'AÑADIR AL CARRITO'}
+          </button>
+          
+          {addedToCart && (
+            <div className="mt-2 text-center">
+              <p className="text-green-600 text-sm font-medium">
+                ¡Producto agregado al carrito! ({quantity} unidad{quantity !== 1 ? 'es' : ''})
+              </p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

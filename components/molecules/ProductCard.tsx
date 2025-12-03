@@ -6,6 +6,7 @@ import ProductPrice from "../atoms/ProductPrice";
 import InstallmentPlan from "../atoms/InstallmentPlan";
 import ConditionBadge from "../atoms/ConditionBadge";
 import AddToCartButton from "../atoms/AddToCartButton";
+import { useIsStaff } from "../../hooks/useIsStaff";
 
 function normalizeConditionForBadge(condition: string): "Nuevo" | "Como Nuevo" | "Outlet" | "Semi Nuevo" {
   const normalized = condition.toLowerCase().trim();
@@ -49,6 +50,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onAddToCart, onProductClick, className = "" }: ProductCardProps) {
+  const { isStaff } = useIsStaff();
+
   const handleCardClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('[data-add-to-cart]')) {
       return;
@@ -61,7 +64,7 @@ export default function ProductCard({ product, onAddToCart, onProductClick, clas
       className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-3 sm:p-4 relative cursor-pointer ${className}`}
       onClick={handleCardClick}
     >
-      <AddToCartButton onClick={() => onAddToCart?.(product.id)} />
+      {!isStaff && <AddToCartButton onClick={() => onAddToCart?.(product.id)} />}
       
       <ProductImage 
         src={product.image} 

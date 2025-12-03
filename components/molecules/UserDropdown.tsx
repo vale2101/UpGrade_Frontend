@@ -2,14 +2,25 @@
 
 import { useState, useRef, useEffect } from "react";
 import { User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../hooks/useAuthContext";
+import { useIsStaff } from "../../hooks/useIsStaff";
+import { useAdministradorAuth } from "../../hooks/useAdministradorAuth";
+import { useVendedorAuth } from "../../hooks/useVendedorAuth";
 import LoggedInUserMenu from "./LoggedInUserMenu";
 import GuestUserMenu from "./GuestUserMenu";
+import StaffUserMenu from "./StaffUserMenu";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { user, logout: userLogout, isLoading: authLoading } = useAuth();
+  const { isStaff, isAdministrador, isTrabajador, isLoading: staffLoading } = useIsStaff();
+  const { logout: administradorLogout } = useAdministradorAuth();
+  const { logout: vendedorLogout } = useVendedorAuth();
+  
+  const isAuthenticatedUser = !authLoading && !staffLoading && user && user.id && !isStaff;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -24,9 +35,16 @@ export default function UserDropdown() {
     };
   }, []);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    if (isAdministrador) {
+      await administradorLogout();
+    } else if (isTrabajador) {
+      await vendedorLogout();
+    } else {
+      userLogout();
+    }
     setIsOpen(false);
+    router.push("/");
   };
 
   const handleClose = () => {
@@ -45,15 +63,25 @@ export default function UserDropdown() {
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-          {user ? (
-            <LoggedInUserMenu 
-              userName={user.name} 
-              userEmail={user.email} 
-              onLogout={handleLogout}
-              onClose={handleClose}
-            />
-          ) : (
-            <GuestUserMenu onClose={handleClose} />
+          {!staffLoading && !authLoading && (
+            <>
+              {isAuthenticatedUser && user ? (
+                <LoggedInUserMenu 
+                  userName={user.name} 
+                  userEmail={user.email} 
+                  onClose={handleClose}
+                />
+              ) : isStaff ? (
+                <StaffUserMenu 
+                  isAdministrador={isAdministrador}
+                  isTrabajador={isTrabajador}
+                  onLogout={handleLogout}
+                  onClose={handleClose}
+                />
+              ) : (
+                <GuestUserMenu onClose={handleClose} />
+              )}
+            </>
           )}
         </div>
       )}
