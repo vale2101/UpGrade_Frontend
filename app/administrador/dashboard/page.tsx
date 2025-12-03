@@ -1,16 +1,12 @@
-import AdministradorDashboardSection from "@/components/organisms/AdministradorDashboardSection";
-import MainLayout from "@/components/organisms/MainLayout";
+"use client";
 
-export const metadata = {
-  title: "Dashboard Administrador - UpGrade",
-  description: "Panel de administración para administradores"
-};
+import { Suspense } from "react";
+import AdministradorDashboardSection from "@/components/organisms/AdministradorDashboardSection";
 
 export default function AdministradorDashboardPage() {
   return (
-    <MainLayout>
+    <Suspense fallback={<div className="text-gray-600">Cargando panel...</div>}>
       <AdministradorDashboardSection />
-    </MainLayout>
+    </Suspense>
   );
 }
-
