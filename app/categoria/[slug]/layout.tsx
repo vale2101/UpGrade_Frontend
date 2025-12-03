@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ResolvingMetadata } from "next";
 
 const categoryMap: Record<string, string> = {
   samsung: "Samsung",
@@ -12,10 +11,9 @@ const categoryMap: Record<string, string> = {
 };
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> },
-  _parent?: ResolvingMetadata
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const categoryName = categoryMap[slug] || "Todos los Productos";
 
   return {
