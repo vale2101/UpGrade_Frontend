@@ -1,20 +1,19 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
 export async function generateMetadata(
-  _props: { params: { id: string } }
+  { params }: { params: { id: string } }
 ): Promise<Metadata> {
   return {
     title: "Producto - UpGrade",
-    description: "Producto reacondicionado en UpGrade. Calidad garantizada y envío gratis en Colombia.",
-  }
+    description:
+      "Producto reacondicionado en UpGrade. Calidad garantizada y envío gratis en Colombia.",
+  };
 }
 
 export default function ProductLayout({
   children,
-  params,
 }: {
-  children: React.ReactNode
-  params: { id: string }
+  children: React.ReactNode;
 }) {
-  return <>{children}</>
+  return <>{children}</>;
 }
